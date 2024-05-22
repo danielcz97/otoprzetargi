@@ -141,7 +141,7 @@ $(function () {
     var itemsSlider = new Swiper(".items-slider", {
         slidesPerView: 4,
         spaceBetween: 20,
-        loop: true,
+        loop: false,
         roundLengths: true,
         breakpoints: {
             1200: {
