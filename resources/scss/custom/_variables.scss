@@ -270,7 +270,13 @@ $enable-validation-icons: true !default;
 $enable-negative-margins: true !default;
 $enable-deprecation-messages: true !default;
 $enable-important-utilities: true !default;
-
+@function negativify-map($map) {
+  $new-map: ();
+  @each $key, $value in $map {
+    $new-map: map-merge($new-map, ($key: -$value));
+  }
+  @return $new-map;
+}
 $primary-100: theme-color-level('primary', -12);
 $primary-200: theme-color-level('primary', -11);
 

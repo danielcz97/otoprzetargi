@@ -7,8 +7,11 @@
 // All the imports happen here
 
 // functions.scss - Bootstrap functions
+
 @import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/_variables";
+@import "../node_modules/bootstrap/scss/bootstrap";
+
 @import "../node_modules/bootstrap/scss/mixins";
 
 // your variables + overrides of Bootstrap variables 
@@ -20,13 +23,12 @@
 @import "custom/utilities";
 
 // bootstrap main
-@import "../node_modules/bootstrap/scss/bootstrap";
 
 // 3rd party plugin variables
 @import "custom/variables-3rd-party.scss";
 
 // theme components
-@import "custom/theme";
+// @import "custom/theme";
 
 // your components
 @import "user/user"; 
