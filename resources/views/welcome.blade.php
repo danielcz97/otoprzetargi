@@ -32,11 +32,10 @@
         <div class="search-bar search-bar-with-tabs p-3 p-lg-4">
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="buy" role="tabpanel">
-
                     <form action="{{ route('search.nieruchomosci') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-4 d-flex align-items-center form-group no-divider">
-                                <input id="address-input" class="form-control" name="address" type="text"
+                                <input id="address-input-buy" class="form-control" name="address" type="text"
                                     placeholder="Wprowadź adres" autocomplete="off">
                             </div>
                             <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
@@ -85,128 +84,79 @@
                                     <option value="75">+75 km</option>
                                 </select>
                             </div>
-                            <input type="hidden" id="city" name="city">
-                            <input type="hidden" id="latitude" name="latitude">
-                            <input type="hidden" id="longitude" name="longitude">
+                            <input type="hidden" id="city-buy" name="city">
+                            <input type="hidden" id="latitude-buy" name="latitude">
+                            <input type="hidden" id="longitude-buy" name="longitude">
                             <div class="col-lg-2 d-grid form-group mb-0">
                                 <button class="btn btn-primary h-100" type="submit">Szukaj</button>
                             </div>
                         </div>
                     </form>
-
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk&libraries=places">
-                    </script>
-                    <script>
-                        function initAutocomplete() {
-                            var input = document.getElementById('address-input');
-                            var autocomplete = new google.maps.places.Autocomplete(input);
-
-                            autocomplete.addListener('place_changed', function() {
-                                var place = autocomplete.getPlace();
-                                if (place.geometry) {
-                                    var latitude = place.geometry.location.lat();
-                                    var longitude = place.geometry.location.lng();
-
-                                    document.getElementById('latitude').value = latitude;
-                                    document.getElementById('longitude').value = longitude;
-
-                                    // Geocode the latitude and longitude to get the city name
-                                    var geocoder = new google.maps.Geocoder();
-                                    geocoder.geocode({
-                                        'location': {
-                                            lat: latitude,
-                                            lng: longitude
-                                        }
-                                    }, function(results, status) {
-                                        if (status === 'OK' && results[0]) {
-                                            var addressComponents = results[0].address_components;
-                                            for (var i = 0; i < addressComponents.length; i++) {
-                                                if (addressComponents[i].types.includes('locality')) {
-                                                    var city = addressComponents[i].long_name;
-                                                    document.getElementById('city').value = city;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                        google.maps.event.addDomListener(window, 'load', initAutocomplete);
-                    </script>
-
-
                 </div>
                 <div class="tab-pane fade" id="rent" role="tabpanel">
-                    <form action="#">
+                    <form action="{{ route('search.ruchomosci') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-4 d-flex align-items-center form-group no-divider">
-                                <select class="selectpicker form-control" title="Location"
-                                    data-style="btn-form-control" multiple data-selected-text-format="count &gt; 2">
-                                    <option value="city_0">San Francisco</option>
-                                    <option value="city_1">Los Angeles</option>
-                                    <option value="city_2">Santa Monica</option>
-                                    <option value="city_3">San Diego</option>
-                                    <option value="city_4">Fresno</option>
+                                <input id="address-input-rent" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
+                            </div>
+                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                                <select name="radius" class="form-control">
+                                    <option value="0">0 km</option>
+                                    <option value="25">+25 km</option>
+                                    <option value="50">+50 km</option>
+                                    <option value="75">+75 km</option>
                                 </select>
                             </div>
                             <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <select class="selectpicker" title="Type" data-style="btn-form-control" multiple
-                                    data-selected-text-format="count &gt; 2">
-                                    <option value="type_0">Duplex</option>
-                                    <option value="type_1">Appartment</option>
-                                    <option value="type_2">House</option>
-                                    <option value="type_3">Land</option>
-                                    <option value="type_4">Other</option>
+                                <select name="subject" class="form-control">
+                                    <option value="">Rodzaj transakcji</option>
+                                    <option value="32">samochody osobowe</option>
+                                    <option value="33">samochody ciężarowe</option>
+                                    <option value="34">pojazdy specjalistyczne</option>
+                                    <option value="35">maszyny, urządzenia</option>
+                                    <option value="47">łodzie</option>
+                                    <option value="48">maszyny przemysłowe</option>
+                                    <option value="49">maszyny rolnicze</option>
+                                    <option value="50">przyczepy/naczepy</option>
+                                    <option value="51">motocykle/skutery</option>
                                 </select>
                             </div>
                             <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <select class="selectpicker" title="Max price" data-style="btn-form-control">
-                                    <option value="price_0">$5,000</option>
-                                    <option value="price_1">$10,000</option>
-                                    <option value="price_2">$25,000</option>
-                                    <option value="price_3">$50,000</option>
-                                </select>
+                                <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
                             </div>
+                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                                <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
+                            </div>
+                            <input type="hidden" id="city-rent" name="city">
+                            <input type="hidden" id="latitude-rent" name="latitude">
+                            <input type="hidden" id="longitude-rent" name="longitude">
                             <div class="col-lg-2 d-grid form-group mb-0">
-                                <button class="btn btn-primary h-100" type="submit">Search </button>
+                                <button class="btn btn-primary h-100" type="submit">Szukaj</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="sell" role="tabpanel">
-                    <form action="#">
+                    <form action="{{ route('search.komunikaty') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-4 d-flex align-items-center form-group no-divider">
-                                <select class="selectpicker form-control" title="Location"
-                                    data-style="btn-form-control" multiple data-selected-text-format="count &gt; 2">
-                                    <option value="city_0">San Francisco</option>
-                                    <option value="city_1">Los Angeles</option>
-                                    <option value="city_2">Santa Monica</option>
-                                    <option value="city_3">San Diego</option>
-                                    <option value="city_4">Fresno</option>
-                                </select>
+                                <input id="address-input-sell" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
                             </div>
                             <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <select class="selectpicker" title="Type" data-style="btn-form-control" multiple
-                                    data-selected-text-format="count &gt; 2">
-                                    <option value="type_0">Duplex</option>
-                                    <option value="type_1">Appartment</option>
-                                    <option value="type_2">House</option>
-                                    <option value="type_3">Land</option>
-                                    <option value="type_4">Other</option>
+                                <select name="radius" class="form-control">
+                                    <option value="0">0 km</option>
+                                    <option value="25">+25 km</option>
+                                    <option value="50">+50 km</option>
+                                    <option value="75">+75 km</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <select class="selectpicker" title="Max price" data-style="btn-form-control">
-                                    <option value="price_0">$5,000</option>
-                                    <option value="price_1">$10,000</option>
-                                    <option value="price_2">$25,000</option>
-                                    <option value="price_3">$50,000</option>
-                                </select>
-                            </div>
+                            <input type="hidden" id="city-sell" name="city">
+                            <input type="hidden" id="latitude-sell" name="latitude">
+                            <input type="hidden" id="longitude-sell" name="longitude">
                             <div class="col-lg-2 d-grid form-group mb-0">
-                                <button class="btn btn-primary h-100" type="submit">Search </button>
+                                <button class="btn btn-primary h-100" type="submit">Szukaj</button>
                             </div>
                         </div>
                     </form>
@@ -264,8 +214,6 @@
                             </div>
                         </div>
                     @endforeach
-
-
                 </div>
 
                 <!-- If we need pagination-->
@@ -327,8 +275,6 @@
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
-
-
         </div>
     </section>
 
@@ -372,11 +318,56 @@
         </div>
     </section>
 
-
     @include('footer')
 
     </div>
     @include('scripts')
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk&libraries=places">
+    </script>
+    <script>
+        function initAutocomplete() {
+            const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell'];
+            const autocompleteObjects = {};
+
+            inputIds.forEach(id => {
+                const input = document.getElementById(id);
+                const autocomplete = new google.maps.places.Autocomplete(input);
+                autocompleteObjects[id] = autocomplete;
+
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        const latitude = place.geometry.location.lat();
+                        const longitude = place.geometry.location.lng();
+                        document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
+                        document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
+
+                        const geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({
+                            'location': {
+                                lat: latitude,
+                                lng: longitude
+                            }
+                        }, function(results, status) {
+                            if (status === 'OK' && results[0]) {
+                                const addressComponents = results[0].address_components;
+                                for (let i = 0; i < addressComponents.length; i++) {
+                                    if (addressComponents[i].types.includes('locality')) {
+                                        const city = addressComponents[i].long_name;
+                                        document.getElementById(`city-${id.split('-')[2]}`).value =
+                                            city;
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+    </script>
 
 </body>
 

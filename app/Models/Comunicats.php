@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MovableProperty extends Model
+class Comunicats extends Model
 {
-    protected $table = 'ruchomosci';
+    protected $table = 'komunikaty';
     public $timestamps = false;
 
     protected $fillable = [
@@ -18,10 +18,7 @@ class MovableProperty extends Model
         'pierwotna waga przed zmianą na standard', 'portal'
     ];
 
-    const CREATED_AT = 'created';
-    const UPDATED_AT = 'updated';
-
-    public static function getTypes()
+        public static function getTypes()
     {
         return self::query()->select('type')->distinct()->pluck('type');
     }

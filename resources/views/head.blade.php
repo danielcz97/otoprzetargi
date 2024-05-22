@@ -5,7 +5,8 @@
 <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Directory Theme by Bootstrapious</title>
+<link href="https://otoprzetargi.pl/favicon.ico" type="image/x-icon" rel="icon">
+<title>Otoprzetargi</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">

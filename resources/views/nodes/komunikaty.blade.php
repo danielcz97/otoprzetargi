@@ -12,32 +12,19 @@
     <div class="container-fluid py-5 px-lg-5">
         <div class="row border-bottom mb-4">
             <div class="col-12">
-                <h1 class="display-4 fw-bold text-serif mb-4">Ruchomości</h1>
+                <h1 class="display-4 fw-bold text-serif mb-4">Komunikaty</h1>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3 pt-3">
-                <form class="pe-xl-3" action="{{ route('search.ruchomosci') }}" method="GET">
+                <form class="pe-xl-3" action="{{ route('search.komunikaty') }}" method="GET">
+
                     <div class="mb-4">
                         <label class="form-label" for="address-input">Adres</label>
                         <input id="address-input" class="form-control" name="address" type="text"
                             placeholder="Wprowadź adres" autocomplete="off">
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label" for="subject">Rodzaj transakcji</label>
-                        <select name="subject" class="form-control">
-                            <option value="">Rodzaj transakcji</option>
-                            <option value="32">samochody osobowe</option>
-                            <option value="33">samochody ciężarowe</option>
-                            <option value="34">pojazdy specjalistyczne</option>
-                            <option value="35">maszyny, urządzenia</option>
-                            <option value="47">łodzie</option>
-                            <option value="48">maszyny przemysłowe</option>
-                            <option value="49">maszyny rolnicze</option>
-                            <option value="50">przyczepy/naczepy</option>
-                            <option value="51">motocykle/skutery</option>
-                        </select>
-                    </div>
+
                     <div class="mb-4">
                         <label class="form-label" for="radius">Radius</label>
                         <select name="radius" class="form-control">
@@ -48,14 +35,6 @@
                         </select>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label" for="cena_od">Cena od</label>
-                        <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label" for="cena_do">Cena do</label>
-                        <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
-                    </div>
                     <input type="hidden" id="city" name="city">
                     <input type="hidden" id="latitude" name="latitude">
                     <input type="hidden" id="longitude" name="longitude">
@@ -63,7 +42,6 @@
                         <button class="btn btn-primary" type="submit"><i class="fas fa-filter me-1"></i>Szukaj</button>
                     </div>
                 </form>
-
             </div>
 
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk&libraries=places">
@@ -115,7 +93,7 @@
                 <div class="row">
                     @foreach ($properties as $property)
                         <div class="col-sm-6 col-xl-4 mb-5 hover-animate">
-                            <a href="{{ route('movable.index', ['slug' => $property->slug]) }}">
+                            <a href="{{ route('comunicats.index', ['slug' => $property->slug]) }}">
 
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden  bg-cover"
@@ -125,20 +103,17 @@
                                         </div>
                                         <div
                                             class="card-img-overlay-top d-flex justify-content-between align-items-center">
-                                            @php
-                                                $terms = $property->terms;
-                                                $termsArray = json_decode($terms, true); // Dekoduj JSON do tablicy asocjacyjnej.
-                                                $lastTerm = end($termsArray);
-                                            @endphp
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $lastTerm }}</div>
+
 
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}
                                         </h2>
-
+                                        <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
+                                            {{ $property->powierzchnia }} </p>
+                                        <p class="text-sm text-muted text-uppercase mb-1">Cena: {{ $property->cena }}
+                                        </p>
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:
                                             {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }} </p>
                                     </div>

@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 // dla otoprzetargi
 Route::get('/nieruchomosci/{slug}', [App\Http\Controllers\PropertiesController::class, 'index'])->name('properties.index');
-Route::get('/komunikaty/{slug}', [App\Http\Controllers\PropertiesController::class, 'open'])->name('properties.open');
-Route::get('/ruchomosci/{slug}', [App\Http\Controllers\PropertiesController::class, 'open'])->name('properties.open');
+Route::get('/komunikaty/{slug}', [App\Http\Controllers\ComunicatsController::class, 'index'])->name('comunicats.index');
+Route::get('/ruchomosci/{slug}', [App\Http\Controllers\MovablePropertyController::class, 'index'])->name('movable.index');
 Route::get('/print/{slug}', [App\Http\Controllers\PropertiesController::class, 'printPage'])->name('properties.printPage');
 
 Route::get('/komunikaty', [App\Http\Controllers\SearchController::class, 'komunikaty'])->name('search.komunikaty');
