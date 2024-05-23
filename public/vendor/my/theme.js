@@ -163,10 +163,36 @@ $(function () {
         },
     });
 
+        var itemsSliderCustom = new Swiper(".items-slider-custom", {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: false,
+        roundLengths: true,
+        breakpoints: {
+            1200: {
+                slidesPerView: 1,
+            },
+            991: {
+                slidesPerView: 1,
+            },
+            565: {
+                slidesPerView: 1,
+            },
+        },
+
+        // If we need pagination
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+            dynamicBullets: true,
+        },
+    });
+
+
     var itemsSliderFull = new Swiper(".items-slider-full", {
         slidesPerView: 6,
         spaceBetween: 20,
-        loop: true,
+        loop: false,
         roundLengths: true,
         breakpoints: {
             1600: {

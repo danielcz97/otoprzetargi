@@ -4,6 +4,7 @@
 <head>
     @include('head')
 </head>
+@include('hero')
 
 <body style="padding-top: 72px;">
 

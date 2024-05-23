@@ -17,21 +17,29 @@
 <body style="padding-top: 72px;">
 
     @include('header')
-    <section class="pt-7 pb-5 d-flex align-items-end dark-overlay "
-        style="background-image: url('{{ $property->getFirstImage() }}');">
+    <section class="pt-4 pb-2 d-flex align-items-end bg-gray-700">
         <div class="container overlay-content">
-            <div class="d-flex justify-content-between align-items-start flex-column flex-lg-row align-items-lg-end">
-                <div class="text-white mb-4 mb-lg-0">
-                    <div class="badge badge-pill badge-transparent px-3 py-2 mb-4">Ruchomości</div>
-                    @if ($property->cena)
-                        <div class="badge badge-pill badge-transparent px-3 py-2 mb-4">Cena: {{ $property->cena }}</div>
-                    @endif
-                    @if ($property->powierzchnia)
-                        <div class="badge badge-pill badge-transparent px-3 py-2 mb-4">Powierzchnia:
-                            {{ $property->powierzchnia }}</div>
-                    @endif
-                    <h1 class="text-shadow verified">{{ $property->title }}</h1>
-                    <p> Wydanie nr <strong>10/05/2024</strong> z dnia 10 maja 2024 roku, ISSN 2392-215X </p>
+            <div class="row">
+                <div class="col-9 flex align-items-center">
+                    <div
+                        class="d-flex justify-content-between align-items-start flex-column flex-lg-row align-items-lg-end">
+                        <div class="text-white mb-4 mb-lg-0">
+                            <div class="badge badge-pill badge-transparent px-3 py-2 mb-4">Ruchomości</div>
+                            @if ($property->cena)
+                                <div class="badge badge-pill badge-transparent px-3 py-2 mb-4">Cena:
+                                    {{ $property->cena }}
+                                </div>
+                            @endif
+
+                            <h1 class="text-shadow verified">{{ $property->title }}</h1>
+                            <p> Wydanie nr <strong>{{ $formattedDateNumeric }}</strong> z dnia {{ $formattedDateText }}
+                                roku,
+                                ISSN 2392-215X </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <img src="{{ $property->getFirstImage() }}">
                 </div>
             </div>
         </div>
@@ -185,6 +193,93 @@
                                 </ul>
                                 <div class="d-grid text-center"><a class="btn btn-outline-primary" href="#"> <i
                                             class="far fa-paper-plane me-2"></i>Send a Message</a></div>
+                            </div>
+                        </div>
+                        <h5 class="pb-2 text-primary">Polecane Ruchomości</h5>
+
+                        <div class="swiper-container swiper-container-mx-negative items-slider-custom">
+                            <!-- Additional required wrapper-->
+                            <div class="swiper-wrapper pb-5">
+                                <!-- Slides-->
+
+                                @foreach ($properties as $property)
+                                    <div class="swiper-slide h-auto px-2">
+                                        <!-- venue item-->
+                                        <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
+                                            <div class="card h-100 border-0 shadow">
+                                                <div class="card-img-top overflow-hidden bg-cover"
+                                                    style="background-image: url('{{ $property->getFirstImage() }}'); min-height: 200px;">
+                                                    <a class="tile-link"
+                                                        href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
+                                                    <div class="card-img-overlay-bottom z-index-20">
+                                                        <!-- Card Title -->
+                                                    </div>
+                                                    <div
+                                                        class="card-img-overlay-top d-flex justify-content-between align-items-center">
+                                                        @php
+                                                            $terms = $property->terms;
+                                                            $termsArray = json_decode($terms, true); // Dekoduj JSON do tablicy asocjacyjnej.
+                                                            $lastTerm = end($termsArray);
+                                                        @endphp
+                                                        <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                            {{ $lastTerm }}</div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h2 class="text-sm text-muted mb-3">
+                                                        {{ Str::limit($property->title, 100) }}
+                                                    </h2>
+                                                    <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
+                                                        {{ $property->powierzchnia }}</p>
+                                                    <p class="text-sm text-muted text-uppercase mb-1">Cena:
+                                                        {{ $property->cena }}
+                                                    </p>
+                                                    <p class="text-sm text-muted text-uppercase mb-1">Data:
+                                                        {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <h5 class="pb-2 text-primary">Informacje z rynku</h5>
+
+                        <div class="swiper-container swiper-container-mx-negative items-slider-custom">
+                            <!-- Additional required wrapper-->
+                            <div class="swiper-wrapper pb-5">
+                                <!-- Slides-->
+
+                                @foreach ($comunicats as $property)
+                                    <div class="swiper-slide h-auto px-2">
+                                        <!-- venue item-->
+                                        <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
+                                            <div class="card h-100 border-0 shadow">
+                                                <div class="card-img-top overflow-hidden bg-cover"
+                                                    style="background-image: url('{{ $property->getFirstImage() }}'); min-height: 200px;">
+                                                    <a class="tile-link"
+                                                        href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
+                                                    <div class="card-img-overlay-bottom z-index-20">
+                                                        <!-- Card Title -->
+                                                    </div>
+
+                                                </div>
+                                                <div class="card-body">
+                                                    <h2 class="text-sm text-muted mb-3">
+                                                        {{ Str::limit($property->title, 100) }}
+                                                    </h2>
+
+                                                    <p class="text-sm text-muted text-uppercase mb-1">Data:
+                                                        {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
 

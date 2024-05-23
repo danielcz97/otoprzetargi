@@ -16,18 +16,18 @@
                 <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
                     <h6 class="text-uppercase text-dark mb-3">Strony</h6>
                     <ul class="list-unstyled">
-                        <li><a class="text-muted" href="index.html">Nieruchomości</a></li>
-                        <li><a class="text-muted" href="category-rooms.html">Ruchomości</a></li>
-                        <li><a class="text-muted" href="category-3-rooms.html">Komunikaty</a></li>
+                        <li><a class="text-muted" href="/nieruchomosci">Nieruchomości</a></li>
+                        <li><a class="text-muted" href="/ruchomosci">Ruchomości</a></li>
+                        <li><a class="text-muted" href="/komunikaty">Komunikaty</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
                     <h6 class="text-uppercase text-dark mb-3">Strony</h6>
 
                     <ul class="list-unstyled">
-                        <li><a class="text-muted" href="category-2-rooms.html">Informacje z rynku</a></li>
-                        <li><a class="text-muted" href="index.html">Regulamin</a></li>
-                        <li><a class="text-muted" href="category-rooms.html">Kontakt</a></li>
+                        <li><a class="text-muted" href="/news">Informacje z rynku</a></li>
+                        <li><a class="text-muted" href="/">Regulamin</a></li>
+                        <li><a class="text-muted" href="/">Kontakt</a></li>
                     </ul>
 
                 </div>

@@ -8,6 +8,7 @@
 <body style="padding-top: 72px;">
 
     @include('header')
+    @include('hero')
 
     <div class="container-fluid py-5 px-lg-5">
         <div class="row border-bottom mb-4">

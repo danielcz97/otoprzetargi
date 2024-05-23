@@ -1,0 +1,8 @@
+{
+    "dejavu sans": {
+        "bold": "\/var\/www\/html\/vendor\/dompdf\/dompdf\/lib\/fonts\/DejaVuSans-Bold",
+        "bold_italic": "\/var\/www\/html\/vendor\/dompdf\/dompdf\/lib\/fonts\/DejaVuSans-BoldOblique",
+        "italic": "\/var\/www\/html\/vendor\/dompdf\/dompdf\/lib\/fonts\/DejaVuSans-Oblique",
+        "normal": "dejavu_sans_normal_3d9d41ff7d3fb3d10e200b025060c7a8"
+    }
+}
