@@ -6,11 +6,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/nieruchomosci/{slug}', [App\Http\Controllers\PropertiesController::class, 'index'])->name('properties.index');
 Route::get('/komunikaty/{slug}', [App\Http\Controllers\ComunicatsController::class, 'index'])->name('comunicats.index');
 Route::get('/ruchomosci/{slug}', [App\Http\Controllers\MovablePropertyController::class, 'index'])->name('movable.index');
+Route::get('/wierzytelnosci/{slug}', [App\Http\Controllers\ClaimController::class, 'index'])->name('wierzytelnosci.index');
+
 Route::get('/print/{slug}', [App\Http\Controllers\PropertiesController::class, 'printPage'])->name('properties.printPage');
 
 Route::get('/komunikaty', [App\Http\Controllers\SearchController::class, 'komunikaty'])->name('search.komunikaty');
 Route::get('/nieruchomosci', [App\Http\Controllers\SearchController::class, 'propertiesList'])->name('search.nieruchomosci');
 Route::get('/ruchomosci', [App\Http\Controllers\SearchController::class, 'ruchomosci'])->name('search.ruchomosci');
+Route::get('/wierzytelnosci', [App\Http\Controllers\SearchController::class, 'wierzytelnosci'])->name('search.wierzytelnosci');
 
 // NEWS
 Route::get('/news/{slug}', [App\Http\Controllers\NewsController::class, 'view'])->name('news.view');
@@ -46,7 +49,7 @@ Route::prefix('canvas-ui')->group(function () {
     Route::prefix('api')->group(function () {
         Route::get('posts', [\App\Http\Controllers\CanvasUiController::class, 'getPosts']);
         Route::get('posts/{slug}', [\App\Http\Controllers\CanvasUiController::class, 'showPost'])
-             ->middleware('Canvas\Http\Middleware\Session');
+            ->middleware('Canvas\Http\Middleware\Session');
 
         Route::get('tags', [\App\Http\Controllers\CanvasUiController::class, 'getTags']);
         Route::get('tags/{slug}', [\App\Http\Controllers\CanvasUiController::class, 'showTag']);
@@ -61,6 +64,6 @@ Route::prefix('canvas-ui')->group(function () {
     });
 
     Route::get('/{view?}', [\App\Http\Controllers\CanvasUiController::class, 'index'])
-         ->where('view', '(.*)')
-         ->name('canvas-ui');
+        ->where('view', '(.*)')
+        ->name('canvas-ui');
 });

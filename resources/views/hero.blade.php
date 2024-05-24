@@ -15,7 +15,11 @@
                     role="tab">Nieruchomości</a></li>
             <li class="nav-item me-2"><a class="nav-link" href="#rent" data-bs-toggle="tab"
                     role="tab">Ruchomości</a></li>
-            <li class="nav-item"><a class="nav-link" href="#sell" data-bs-toggle="tab" role="tab">Komunikaty</a>
+            <li class="nav-item me-2"><a class="nav-link" href="#sell" data-bs-toggle="tab"
+                    role="tab">Komunikaty</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#wierz" data-bs-toggle="tab"
+                    role="tab">Wierzytelności</a>
             </li>
         </ul>
         <div class="search-bar search-bar-with-tabs p-3 p-lg-4">
@@ -23,11 +27,8 @@
                 <div class="tab-pane fade show active" id="buy" role="tabpanel">
                     <form action="{{ route('search.nieruchomosci') }}" method="GET">
                         <div class="row">
-                            <div class="col-lg-4 d-flex align-items-center form-group no-divider">
-                                <input id="address-input-buy" class="form-control" name="address" type="text"
-                                    placeholder="Wprowadź adres" autocomplete="off">
-                            </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+
+                            <div class="col-md-3 col-lg-3 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="transaction_type" class="form-control">
                                     <option value="">Typ transakcji</option>
                                     <option value="10">Sprzedaż</option>
@@ -37,7 +38,7 @@
                                     <option value="5">Inne</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                            <div class="col-md-3 col-lg-3 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="subject" class="form-control">
                                     <option value="">Rodzaj transakcji</option>
                                     <option value="22">Biuro/Obiekt biurowy</option>
@@ -51,32 +52,40 @@
                                     <option value="31">Obiekt użytkowy</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <input type="number" name="powierzchnia_od" class="form-control"
-                                    placeholder="Powierzchnia od">
+
+                            <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
+                                <input id="address-input-buy" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <input type="number" name="powierzchnia_do" class="form-control"
-                                    placeholder="Powierzchnia do">
-                            </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
-                            </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
-                                <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
-                            </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+
+                            <div class="col-md-2 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="radius" class="form-control">
-                                    <option value="0">0 km</option>
                                     <option value="25">+25 km</option>
+                                    <option value="0">0 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>
                             </div>
+
+                            <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
+                                <input type="number" name="powierzchnia_od" class="form-control"
+                                    placeholder="Powierzchnia od">
+                            </div>
+                            <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
+                                <input type="number" name="powierzchnia_do" class="form-control"
+                                    placeholder="Powierzchnia do">
+                            </div>
+                            <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
+                                <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
+                            </div>
+                            <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
+                                <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
+                            </div>
+
                             <input type="hidden" id="city-buy" name="city">
                             <input type="hidden" id="latitude-buy" name="latitude">
                             <input type="hidden" id="longitude-buy" name="longitude">
-                            <div class="col-lg-2 d-grid form-group mb-0">
+                            <div class="col-lg-4 d-grid form-group mb-0">
                                 <button class="btn btn-primary h-100" type="submit">Szukaj</button>
                             </div>
                         </div>
@@ -85,19 +94,19 @@
                 <div class="tab-pane fade" id="rent" role="tabpanel">
                     <form action="{{ route('search.ruchomosci') }}" method="GET">
                         <div class="row">
-                            <div class="col-lg-4 d-flex align-items-center form-group no-divider">
+                            <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
                                 <input id="address-input-rent" class="form-control" name="address" type="text"
                                     placeholder="Wprowadź adres" autocomplete="off">
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                            <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no- pb-2">
                                 <select name="radius" class="form-control">
-                                    <option value="0">0 km</option>
                                     <option value="25">+25 km</option>
+                                    <option value="0">0 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                            <div class="col-md-6 col-lg-6 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="subject" class="form-control">
                                     <option value="">Rodzaj transakcji</option>
                                     <option value="32">samochody osobowe</option>
@@ -111,16 +120,16 @@
                                     <option value="51">motocykle/skutery</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                            <div class="col-md-6 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                            <div class="col-md-6 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
                             </div>
                             <input type="hidden" id="city-rent" name="city">
                             <input type="hidden" id="latitude-rent" name="latitude">
                             <input type="hidden" id="longitude-rent" name="longitude">
-                            <div class="col-lg-2 d-grid form-group mb-0">
+                            <div class="col-lg-4 d-grid form-group mb-0">
                                 <button class="btn btn-primary h-100" type="submit">Szukaj</button>
                             </div>
                         </div>
@@ -129,11 +138,11 @@
                 <div class="tab-pane fade" id="sell" role="tabpanel">
                     <form action="{{ route('search.komunikaty') }}" method="GET">
                         <div class="row">
-                            <div class="col-lg-4 d-flex align-items-center form-group no-divider">
+                            <div class="col-lg-6 d-flex align-items-center form-group no-divider">
                                 <input id="address-input-sell" class="form-control" name="address" type="text"
                                     placeholder="Wprowadź adres" autocomplete="off">
                             </div>
-                            <div class="col-md-6 col-lg-3 d-flex align-items-center form-group no-divider">
+                            <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <select name="radius" class="form-control">
                                     <option value="0">0 km</option>
                                     <option value="25">+25 km</option>
@@ -144,6 +153,30 @@
                             <input type="hidden" id="city-sell" name="city">
                             <input type="hidden" id="latitude-sell" name="latitude">
                             <input type="hidden" id="longitude-sell" name="longitude">
+                            <div class="col-lg-2 d-grid form-group mb-0">
+                                <button class="btn btn-primary h-100" type="submit">Szukaj</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="wierz" role="tabpanel">
+                    <form action="{{ route('search.wierzytelnosci') }}" method="GET">
+                        <div class="row">
+                            <div class="col-lg-6 d-flex align-items-center form-group no-divider">
+                                <input id="address-input-wierz" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
+                            </div>
+                            <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
+                                <select name="radius" class="form-control">
+                                    <option value="0">0 km</option>
+                                    <option value="25">+25 km</option>
+                                    <option value="50">+50 km</option>
+                                    <option value="75">+75 km</option>
+                                </select>
+                            </div>
+                            <input type="hidden" id="city-wierz" name="city">
+                            <input type="hidden" id="latitude-wierz" name="latitude">
+                            <input type="hidden" id="longitude-wierz" name="longitude">
                             <div class="col-lg-2 d-grid form-group mb-0">
                                 <button class="btn btn-primary h-100" type="submit">Szukaj</button>
                             </div>

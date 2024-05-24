@@ -24,9 +24,9 @@
                         Zobacz wszystkie<i class="fas fa-angle-double-right ms-2"></i></a></div>
             </div>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <!-- Slider main container-->
-            <div class="swiper-container swiper-container-mx-negative items-slider-full px-lg-5 pt-3">
+            <div class="swiper-container swiper-container-mx-negative items-slider px-lg-5 pt-3">
                 <!-- Additional required wrapper-->
                 <div class="swiper-wrapper pb-5">
                     <!-- Iteruj przez promowane ogłoszenia -->
@@ -81,9 +81,9 @@
                         Zobacz wszystkie<i class="fas fa-angle-double-right ms-2"></i></a></div>
             </div>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <!-- Slider main container-->
-            <div class="swiper-container swiper-container-mx-negative items-slider-full px-lg-5 pt-3">
+            <div class="swiper-container swiper-container-mx-negative items-slider px-lg-5 pt-3">
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper pb-5">
                     <!-- Iteruj przez promowane ogłoszenia -->

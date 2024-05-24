@@ -66,11 +66,23 @@ class Property extends Model
             if (!empty($file->filename) && !empty($file->folder)) {
                 $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
 
-                return $filePath;
+                // Sprawdź, czy URL zwraca błąd 404
+                if ($this->urlExists($filePath)) {
+                    return $filePath;
+                }
             }
         }
 
         return null;
+    }
+
+    private function urlExists($url)
+    {
+        $headers = @get_headers($url);
+        if (!$headers || strpos($headers[0], '404') !== false) {
+            return false;
+        }
+        return true;
     }
 
     public function teryt()
