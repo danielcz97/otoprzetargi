@@ -32,7 +32,7 @@
 
                 </div>
                 <div class="col-lg-4">
-                    <h6 class="text-uppercase text-dark mb-3">Newsletter</h6>
+                    {{-- <h6 class="text-uppercase text-dark mb-3">Newsletter</h6>
                     <p class="mb-3"> Zapisz się, aby być na bieżąco.
                     </p>
                     <form action="#" id="newsletter-form">
@@ -42,7 +42,7 @@
                             <button class="btn btn-outline-dark border-start-0" type="submit"> <i
                                     class="fa fa-paper-plane text-lg"></i></button>
                         </div>
-                    </form>
+                    </form> --}}
                 </div>
             </div>
         </div>
