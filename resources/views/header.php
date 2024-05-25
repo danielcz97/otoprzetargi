@@ -1,19 +1,39 @@
+<style>
+  .menu-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  @media (max-width: 767.98px) {
+    .menu-links {
+      display: none;
+      flex-direction: column;
+    }
+
+    .menu-links.show {
+      display: flex;
+    }
+  }
+</style>
 <header class="header">
-  <nav class="navbar navbar-expand-lg fixed-top shadow navbar-light bg-white">
+  <nav class="navbar navbar-expand-md navbar-white bg-white" aria-label="Fourth navbar example">
     <div class="container">
-      <div class="d-flex align-items-center"><a class="navbar-brand py-1" href="/">
-          <img width="250px" src="https://otoprzetargi.pl/otoprzetargi_theme/img/logo.png" alt="Oto Przetargi logo"></a>
+      <a class="navbar-brand" href="/">
+        <img style="width:250px" src="https://otoprzetargi.pl/otoprzetargi_theme/img/logo.png" class="img-responsive"
+          alt="Logotyp otoprzetargi">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04"
+        aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse" id="navbarsExample04">
+        <div class="menu-links">
+          <a class="navbar-brand text-dark" href="/">Home</a>
+          <a class="navbar-brand" href="#">Informacje z rynku</a>
+          <a class="navbar-brand" href="#">Regulamin</a>
+          <a class="navbar-brand" href="#">Kontakt</a>
+        </div>
       </div>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/">Strona główna</a>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="/news">Informacje z rynku</a>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="/">Regulamin</a>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="/">Kontakt</a>
-        </li>
-      </ul>
     </div>
   </nav>
 </header>

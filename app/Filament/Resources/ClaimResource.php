@@ -2,36 +2,30 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PropertyResource\Pages;
-use App\Models\Premium;
-use App\Models\Property;
+use App\Filament\Resources\ClaimResource\Pages;
+use App\Filament\Resources\ClaimResource\RelationManagers;
+use App\Models\Claim;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Models\Premium;
+use App\Models\Property;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DatePicker;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-class PropertyResource extends Resource
+class ClaimResource extends Resource
 {
-    protected static ?string $model = Property::class;
+    protected static ?string $model = Claim::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function getRelations(): array
-    {
-        return [];
-    }
-    public static function query(): Builder
-    {
-        return parent::query()->orderBy('id', 'desc');
-    }
 
     public static function form(Form $form): Form
     {
@@ -221,17 +215,20 @@ class PropertyResource extends Resource
             ]);
     }
 
-    public static function getPages(): array
+
+    public static function getRelations(): array
     {
         return [
-            'index' => Pages\ListProperties::route('/'),
-            'create' => Pages\CreateProperty::route('/create'),
-            'edit' => Pages\EditProperty::route('/{record}/edit'),
+            //
         ];
     }
 
-    public static function getNavigationLabel(): string
+    public static function getPages(): array
     {
-        return 'Nieruchomości';
+        return [
+            'index' => Pages\ListClaims::route('/'),
+            'create' => Pages\CreateClaim::route('/create'),
+            'edit' => Pages\EditClaim::route('/{record}/edit'),
+        ];
     }
 }

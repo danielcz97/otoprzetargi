@@ -18,4 +18,9 @@ class Premiums extends Model
     {
         return $this->belongsTo(Property::class, 'node_id', 'id');
     }
+
+    public function premiumDetails()
+    {
+        return $this->belongsTo(Premium::class, 'premium_id', 'id');
+    }
 }

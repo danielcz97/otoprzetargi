@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\NoticeResource\Pages;
+namespace App\Filament\Resources\ClaimResource\Pages;
 
-use App\Filament\Resources\NoticeResource;
+use App\Filament\Resources\ClaimResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditNotice extends EditRecord
+class EditClaim extends EditRecord
 {
-    protected static string $resource = NoticeResource::class;
+    protected static string $resource = ClaimResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -16,6 +16,4 @@ class EditNotice extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
-
-    
 }
