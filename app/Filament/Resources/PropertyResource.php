@@ -38,7 +38,7 @@ class PropertyResource extends Resource
         return $form
             ->schema([
                 Select::make('transaction_type')
-                    ->label('Rodzaj transakcji')
+                    ->label('Przedmiot ogłoszenia')
                     ->options([
                         '10' => 'Sprzedaż',
                         '11' => 'Kupno',
@@ -96,11 +96,10 @@ class PropertyResource extends Resource
                 Forms\Components\TextInput::make('powierzchnia')
                     ->label('Powierzchnia')
                     ->numeric(),
-                // Forms\Components\TextInput::make('referencje')
-                //     ->label('Referencje'),
-                // Forms\Components\TextInput::make('promote')
-                //     ->label('Promote')
-                //     ->numeric(),
+                Select::make('contact_id')
+                    ->label('Kontakt')
+                    ->relationship('contact', 'nazwa')
+                    ->searchable(),
                 Forms\Components\RichEditor::make('body')
                     ->label('Body')
                     ->required()

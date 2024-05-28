@@ -59,7 +59,7 @@
     </table>
     <h1>{{ $property->title }}</h1>
     <h4 style="color:blue;"> <u>{{ $fullLocation }}</u></h4>
-    <div>Rodzaj transakcji: {{ $transactionDetails['transaction_type'] }}</div>
+    <div>Przedmiot ogłoszenia: {{ $transactionDetails['transaction_type'] }}</div>
     <div>Typ transakcji: {{ $transactionDetails['property_type'] }}</div>
 
     <div class="property-details">

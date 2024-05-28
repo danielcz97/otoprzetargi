@@ -8,7 +8,7 @@
 
 @include('hero')
 
-<body style="padding-top: 72px;">
+<body>
 
 
     <div class="container-fluid py-5 px-lg-5">
@@ -38,9 +38,9 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="form-label" for="subject">Rodzaj transakcji</label>
+                        <label class="form-label" for="subject">Przedmiot ogłoszenia</label>
                         <select name="subject" class="form-control">
-                            <option value="">Rodzaj transakcji</option>
+                            <option value="">Przedmiot ogłoszenia</option>
                             <option value="22">Biuro/Obiekt biurowy</option>
                             <option value="23">Dom</option>
                             <option value="25">Dworek/Pałac</option>
@@ -55,8 +55,9 @@
                     <div class="mb-4">
                         <label class="form-label" for="radius">Radius</label>
                         <select name="radius" class="form-control">
-                            <option value="0">0 km</option>
                             <option value="25">+25 km</option>
+                            <option value="15">+15 km</option>
+                            <option value="0">0 km</option>
                             <option value="50">+50 km</option>
                             <option value="75">+75 km</option>
                         </select>
@@ -134,26 +135,28 @@
                 </div>
                 <div class="row">
                     @foreach ($properties as $property)
-                        <div class="col-sm-6 col-xl-4 mb-5 hover-animate">
+                        <div class="col-sm-6 col-xl-4 mb-5">
                             <a href="{{ route('properties.index', ['slug' => $property->slug]) }}">
 
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden  bg-cover"
-                                        style="background-image: url('{{ $property->getFirstImage() }}'); min-height: 200px;">
+                                        style="background-image: url('{{ $property->getFirstImage() }}'); min-height: 200px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;">
+                                        @php
+                                            $transactionDetails = $property->getTransactionDetails() ?? [];
+                                        @endphp
+                                        @if ($transactionDetails)
+                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                {{ $transactionDetails['transaction_type'] }}</div>
+                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                {{ $transactionDetails['property_type'] }}</div>
+                                        @endif
                                         <div class="card-img-overlay-bottom z-index-20">
 
                                         </div>
-                                        <div
-                                            class="card-img-overlay-top d-flex justify-content-between align-items-center">
-                                            @php
-                                                $terms = $property->terms;
-                                                $termsArray = json_decode($terms, true); // Dekoduj JSON do tablicy asocjacyjnej.
-                                                $lastTerm = end($termsArray);
-                                            @endphp
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $lastTerm }}</div>
 
-                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}
@@ -173,9 +176,7 @@
                 </div>
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination pagination-template d-flex justify-content-center">
-                        {{ $properties->links() }}
-                    </ul>
+                    {{ $properties->links('vendor.pagination.bootstrap-5') }}
                 </nav>
             </div>
         </div>

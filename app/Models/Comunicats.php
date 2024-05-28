@@ -10,15 +10,38 @@ class Comunicats extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id', 'title', 'slug', 'body', 'excerpt', 'status', 
-        'mime_type', 'comment_status', 'comment_count', 'promote', 
-        'path', 'terms', 'sticky', 'lft', 'rght', 'visibility_roles', 
-        'type', 'updated', 'created', 'cena', 'powierzchnia', 
-        'referencje', 'stats', 'old_id', 'hits', 'weight', 'weightold', 
-        'pierwotna waga przed zmianą na standard', 'portal'
+        'user_id',
+        'title',
+        'slug',
+        'body',
+        'excerpt',
+        'status',
+        'mime_type',
+        'comment_status',
+        'comment_count',
+        'promote',
+        'path',
+        'terms',
+        'sticky',
+        'lft',
+        'rght',
+        'visibility_roles',
+        'type',
+        'updated',
+        'created',
+        'cena',
+        'powierzchnia',
+        'referencje',
+        'stats',
+        'old_id',
+        'hits',
+        'weight',
+        'weightold',
+        'pierwotna waga przed zmianą na standard',
+        'portal'
     ];
 
-        public static function getTypes()
+    public static function getTypes()
     {
         return self::query()->select('type')->distinct()->pluck('type');
     }
@@ -27,19 +50,22 @@ class Comunicats extends Model
     {
         return $this->hasMany(NodeFile::class, 'node_id', 'id');
     }
-
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class, 'contact_id');
+    }
     public function getFirstImage()
     {
         $files = $this->nodeFiles()->get();
-    
+
         foreach ($files as $file) {
             if (!empty($file->filename) && !empty($file->folder)) {
                 $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
-    
+
                 return $filePath;
             }
         }
-    
+
         return null;
     }
 
@@ -55,16 +81,16 @@ class Comunicats extends Model
 
     public function getAllImages()
     {
-    $files = $this->nodeFiles()->get();
-    $imagePaths = [];
-    
-    foreach ($files as $file) {
-        if (!empty($file->filename) && !empty($file->folder)) {
-            $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
-            $imagePaths[] = $filePath;
+        $files = $this->nodeFiles()->get();
+        $imagePaths = [];
+
+        foreach ($files as $file) {
+            if (!empty($file->filename) && !empty($file->folder)) {
+                $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
+                $imagePaths[] = $filePath;
+            }
         }
-    }
-    
-    return $imagePaths;
+
+        return $imagePaths;
     }
 }

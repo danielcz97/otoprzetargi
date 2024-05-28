@@ -36,6 +36,11 @@ class EditProperty extends EditRecord
         ]);
     }
 
+    protected function afterSave()
+    {
+        $this->notify('success', 'Nieruchomość została zaktualizowana. <a href="' . route('properties.index', $this->record->slug) . '">Zobacz podgląd</a>');
+    }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['terms'] = json_encode([

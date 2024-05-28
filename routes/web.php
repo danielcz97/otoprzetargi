@@ -9,6 +9,7 @@ Route::get('/ruchomosci/{slug}', [App\Http\Controllers\MovablePropertyController
 Route::get('/wierzytelnosci/{slug}', [App\Http\Controllers\ClaimController::class, 'index'])->name('wierzytelnosci.index');
 
 Route::get('/print/{slug}', [App\Http\Controllers\PropertiesController::class, 'printPage'])->name('properties.printPage');
+Route::get('/print-movable/{slug}', [App\Http\Controllers\MovablePropertyController::class, 'printPage'])->name('movable.printPage');
 
 Route::get('/komunikaty', [App\Http\Controllers\SearchController::class, 'komunikaty'])->name('search.komunikaty');
 Route::get('/nieruchomosci', [App\Http\Controllers\SearchController::class, 'propertiesList'])->name('search.nieruchomosci');

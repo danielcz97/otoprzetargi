@@ -22,7 +22,7 @@ class PropertiesController extends Controller
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');
 
-        return view('nodes.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
+        return view('node.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
     }
 
     public function printPage($slug)

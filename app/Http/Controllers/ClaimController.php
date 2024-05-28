@@ -20,6 +20,6 @@ class ClaimController extends Controller
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');
 
-        return view('nodes.claim', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
+        return view('node.claim', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
     }
 }

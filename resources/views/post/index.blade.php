@@ -5,7 +5,7 @@
     @include('head')
 </head>
 
-<body style="padding-top: 72px;">
+<body>
 
     @include('header')
 

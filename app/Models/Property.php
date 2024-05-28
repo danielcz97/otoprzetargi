@@ -57,7 +57,10 @@ class Property extends Model
     {
         return $this->hasMany(NodeFile::class, 'node_id', 'id');
     }
-
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class, 'contact_id');
+    }
     public function getFirstImage()
     {
         $files = $this->nodeFiles()->get();
@@ -141,8 +144,34 @@ class Property extends Model
         return 'Lokalizacja nieznana';
     }
 
+    public function getFullLocationFront()
+    {
+        if ($this->teryt) {
+            $latitude = $this->teryt->latitude;
+            $longitude = $this->teryt->longitude;
+        } else {
+            $latitude = 52.2297; // domyślna szerokość geograficzna
+            $longitude = 21.0122; // domyślna długość geograficzna
+        }
+
+        $apiKey = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk';
+        $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
+            'latlng' => "$latitude,$longitude",
+            'key' => $apiKey
+        ]);
+
+        if ($response->successful() && $response['status'] === 'OK') {
+            return $response['results'][0]['formatted_address'];
+        }
+
+        return 'Lokalizacja nieznana';
+    }
+
     public function getTransactionDetails()
     {
+        if (!$this->terms) {
+            return [];
+        }
         $terms = json_decode($this->terms, true);
         $values = array_values($terms);
 

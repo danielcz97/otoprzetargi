@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MovableProperty;
 use App\Models\Post;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 /**
@@ -20,8 +21,24 @@ class MovablePropertyController extends Controller
         $comunicats = Post::orderBy('created', 'desc')->paginate(5);
         $createdDate = Carbon::parse($property->created);
         $formattedDateNumeric = $createdDate->format('d/m/Y');
-        $formattedDateText = $createdDate->translatedFormat('j F Y'); 
+        $formattedDateText = $createdDate->translatedFormat('j F Y');
 
-        return view('nodes.movable', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
+        return view('node.movable', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
+    }
+
+    public function printPage($slug)
+    {
+        $property = MovableProperty::where('slug', $slug)->firstOrFail();
+        $createdDate = Carbon::parse($property->created);
+        $formattedDateNumeric = $createdDate->format('d/m/Y');
+        $formattedDateText = $createdDate->translatedFormat('j F Y');
+        $fullLocation = $property->getFullLocation();
+        $transactionDetails = $property->getTransactionDetails();
+
+        PDF::setOptions(['defaultFont' => 'DejaVu Sans']);
+
+        $pdf = PDF::loadView('print', compact('property', 'formattedDateNumeric', 'formattedDateText', 'fullLocation', 'transactionDetails'));
+
+        return $pdf->stream('property.pdf');
     }
 }

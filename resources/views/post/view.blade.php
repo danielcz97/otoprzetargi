@@ -5,7 +5,7 @@
     @include('head')
 </head>
 
-<body style="padding-top: 72px;">
+<body>
 
     @include('header')
     <section class="hero-home dark-overlay mb-5"><img class="bg-image" src="{{ $post->getFirstImage() }}" alt="">

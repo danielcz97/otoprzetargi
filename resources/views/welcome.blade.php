@@ -24,17 +24,26 @@
             </div>
         </div>
         <div class="container">
-            <!-- Slider main container-->
             <div class="swiper-container swiper-container-mx-negative items-slider px-lg-5 pt-3">
-                <!-- Additional required wrapper-->
                 <div class="swiper-wrapper pb-5">
-                    <!-- Iteruj przez promowane ogłoszenia -->
                     @foreach ($promotedNodes as $node)
                         <div class="swiper-slide h-auto px-2">
                             <div class="w-100 h-100 hover-animate" data-marker-id="{{ $node->id }}">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden gradient-overlay"
-                                        style="background-image: url('{{ $node->getFirstImage() }}'); min-height: 200px;">
+                                        style="background-image: url('{{ $node->getFirstImage() }}'); min-height: 200px;    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;">
+                                        @php
+                                            $transactionDetails = $node->getTransactionDetails() ?? [];
+                                        @endphp
+                                        @if ($transactionDetails)
+                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                {{ $transactionDetails['transaction_type'] }}</div>
+                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                {{ $transactionDetails['property_type'] }}</div>
+                                        @endif
                                         <a class="tile-link"
                                             href="{{ route('properties.index', ['slug' => $node->slug]) }}"></a>
 
@@ -46,14 +55,19 @@
                                             </h6>
 
                                             <p class="text-sm text-muted text-uppercase">{{ $node->type }}</p>
-                                            <p class="card-text d-flex justify-content-between text-gray-800 text-sm">
-                                                <span class="me-1"><i
-                                                        class="fa fa-ruler-combined text-primary opacity-4 text-xs me-1"></i>{{ $node->powierzchnia }}
-                                                    m<sup>2</sup></span>
-
+                                            @if ($node->powierzchnia)
+                                                <p
+                                                    class="card-text d-flex justify-content-between text-gray-800 text-sm">
+                                                    <span class="me-1"><i
+                                                            class="fa fa-ruler-combined text-primary opacity-4 text-xs me-1"></i>
+                                                        {{ $node->powierzchnia }}
+                                                        m<sup>2</sup></span>
+                                            @endif
+                                            @if ($node->cena)
                                                 <span><i
                                                         class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($node->cena) }}zł</span>
-                                            </p>
+                                                </p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -86,12 +100,21 @@
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper pb-5">
                     <!-- Iteruj przez promowane ogłoszenia -->
-                    @foreach ($promotedNodes as $node)
+                    @foreach ($latestNodes as $node)
                         <div class="swiper-slide h-auto px-2">
                             <div class="w-100 h-100 hover-animate" data-marker-id="{{ $node->id }}">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden gradient-overlay"
-                                        style="background-image: url('{{ $node->getFirstImage() }}'); min-height: 200px;">
+                                        style="background-image: url('{{ $node->getFirstImage() }}'); min-height: 200px;    background-attachment: fixed;background-repeat: no-repeat;background-size: contain; background-position: center;">
+                                        @php
+                                            $transactionDetails = $node->getTransactionDetails() ?? [];
+                                        @endphp
+                                        @if ($transactionDetails)
+                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                {{ $transactionDetails['transaction_type'] }}</div>
+                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                {{ $transactionDetails['property_type'] }}</div>
+                                        @endif
                                         <a class="tile-link"
                                             href="{{ route('properties.index', ['slug' => $node->slug]) }}"></a>
 
@@ -103,14 +126,20 @@
                                             </h6>
 
                                             <p class="text-sm text-muted text-uppercase">{{ $node->type }}</p>
-                                            <p class="card-text d-flex justify-content-between text-gray-800 text-sm">
-                                                <span class="me-1"><i
-                                                        class="fa fa-ruler-combined text-primary opacity-4 text-xs me-1"></i>{{ $node->powierzchnia }}
-                                                    m<sup>2</sup></span>
-
+                                            @if ($node->powierzchnia)
+                                                <p
+                                                    class="card-text d-flex justify-content-between text-gray-800 text-sm">
+                                                    <span class="me-1"><i
+                                                            class="fa fa-ruler-combined text-primary opacity-4 text-xs me-1"></i>
+                                                        {{ $node->powierzchnia }}
+                                                        m<sup>2</sup></span>
+                                            @endif
+                                            @if ($node->cena)
                                                 <span><i
                                                         class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($node->cena) }}zł</span>
-                                            </p>
+                                                </p>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +197,6 @@
 
     </div>
     @include('scripts')
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk&libraries=places">
     </script>
     <script>
@@ -178,7 +206,12 @@
 
             inputIds.forEach(id => {
                 const input = document.getElementById(id);
-                const autocomplete = new google.maps.places.Autocomplete(input);
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    types: ['(cities)'],
+                    componentRestrictions: {
+                        country: 'pl'
+                    } // Restrict to Poland
+                });
                 autocompleteObjects[id] = autocomplete;
 
                 autocomplete.addListener('place_changed', function() {
@@ -198,14 +231,34 @@
                         }, function(results, status) {
                             if (status === 'OK' && results[0]) {
                                 const addressComponents = results[0].address_components;
+                                let city, administrativeAreaLevel2, administrativeAreaLevel1,
+                                    country;
+
                                 for (let i = 0; i < addressComponents.length; i++) {
-                                    if (addressComponents[i].types.includes('locality')) {
-                                        const city = addressComponents[i].long_name;
-                                        document.getElementById(`city-${id.split('-')[2]}`).value =
-                                            city;
-                                        break;
+                                    const types = addressComponents[i].types;
+
+                                    if (types.includes('locality')) {
+                                        city = addressComponents[i].long_name;
+                                    }
+                                    if (types.includes('administrative_area_level_2')) {
+                                        administrativeAreaLevel2 = addressComponents[i].long_name;
+                                    }
+                                    if (types.includes('administrative_area_level_1')) {
+                                        administrativeAreaLevel1 = addressComponents[i].long_name;
+                                    }
+                                    if (types.includes('country')) {
+                                        country = addressComponents[i].long_name;
                                     }
                                 }
+
+                                document.getElementById(`city-${id.split('-')[2]}`).value = city ||
+                                    '';
+                                document.getElementById(`admin-area-level-2-${id.split('-')[2]}`)
+                                    .value = administrativeAreaLevel2 || '';
+                                document.getElementById(`admin-area-level-1-${id.split('-')[2]}`)
+                                    .value = administrativeAreaLevel1 || '';
+                                document.getElementById(`country-${id.split('-')[2]}`).value =
+                                    country || '';
                             }
                         });
                     }
@@ -214,6 +267,7 @@
         }
         google.maps.event.addDomListener(window, 'load', initAutocomplete);
     </script>
+
 
 </body>
 

@@ -40,7 +40,7 @@
                             </div>
                             <div class="col-md-3 col-lg-3 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="subject" class="form-control">
-                                    <option value="">Rodzaj transakcji</option>
+                                    <option value="">Przedmiot ogłoszenia</option>
                                     <option value="22">Biuro/Obiekt biurowy</option>
                                     <option value="23">Dom</option>
                                     <option value="25">Dworek/Pałac</option>
@@ -61,6 +61,7 @@
                             <div class="col-md-2 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="radius" class="form-control">
                                     <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
                                     <option value="0">0 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
@@ -101,6 +102,7 @@
                             <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no- pb-2">
                                 <select name="radius" class="form-control">
                                     <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
                                     <option value="0">0 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
@@ -108,7 +110,7 @@
                             </div>
                             <div class="col-md-6 col-lg-6 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="subject" class="form-control">
-                                    <option value="">Rodzaj transakcji</option>
+                                    <option value="">Przedmiot ogłoszenia</option>
                                     <option value="32">samochody osobowe</option>
                                     <option value="33">samochody ciężarowe</option>
                                     <option value="34">pojazdy specjalistyczne</option>
@@ -144,8 +146,9 @@
                             </div>
                             <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <select name="radius" class="form-control">
-                                    <option value="0">0 km</option>
                                     <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
+                                    <option value="0">0 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>
@@ -168,8 +171,9 @@
                             </div>
                             <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <select name="radius" class="form-control">
-                                    <option value="0">0 km</option>
                                     <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
+                                    <option value="0">0 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>

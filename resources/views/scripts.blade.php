@@ -12,14 +12,14 @@
         }
     }
 </script>
-<script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ secure_asset('vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ secure_asset('vendor/smooth-scroll/smooth-scroll.polyfills.min.js') }}"></script>
-<script src="{{ secure_asset('vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
-<script src="{{ secure_asset('vendor/object-fit-images/ofi.min.js') }}"></script>
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('vendor/smooth-scroll/smooth-scroll.polyfills.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('vendor/object-fit-images/ofi.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/js/swiper.min.js"></script>
-<script src="{{ secure_asset('vendor/my/theme.js') }}"></script>
+<script src="{{ asset('vendor/my/theme.js') }}"></script>
 
 <script>
     var basePath = ''

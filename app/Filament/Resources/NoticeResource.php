@@ -63,6 +63,10 @@ class NoticeResource extends Resource
                     ->label('Body')
                     ->required()
                     ->columnSpan('full'),
+                Select::make('contact_id')
+                    ->label('Kontakt')
+                    ->relationship('contact', 'nazwa')
+                    ->searchable(),
                 Forms\Components\TextInput::make('miejscowosc')
                     ->label('Miejscowość')
                     ->id('autocomplete'),

@@ -19,8 +19,8 @@ class ComunicatsController extends Controller
         $comunicats = Post::orderBy('created', 'desc')->paginate(5);
         $createdDate = Carbon::parse($property->created);
         $formattedDateNumeric = $createdDate->format('d/m/Y');
-        $formattedDateText = $createdDate->translatedFormat('j F Y'); 
+        $formattedDateText = $createdDate->translatedFormat('j F Y');
 
-        return view('nodes.comunicats', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
+        return view('node.comunicats', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
     }
 }

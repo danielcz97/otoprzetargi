@@ -55,6 +55,9 @@ class PostResource extends Resource
                         }
                         $set('slug', $slug);
                     }),
+                FileUpload::make('attachment')
+                    ->label('Zdjęcie'),
+
                 Forms\Components\RichEditor::make('body')
                     ->label('Body')
                     ->required()
