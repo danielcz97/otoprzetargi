@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 
-# Aktualizacja listy pakietów i instalacja GD
-apt-get update
-apt-get install -y libgd-dev
+# Install GD extension using pecl
+pecl install gd
 
-docker-php-ext-install gd
+# Enable GD extension in PHP
+docker-php-ext-enable gd
 
 # Wykonaj npm run build
 npm install
