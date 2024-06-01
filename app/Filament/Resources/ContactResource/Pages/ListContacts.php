@@ -16,4 +16,9 @@ class ListContacts extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Kontakty';
+    }
 }

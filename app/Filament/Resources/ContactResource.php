@@ -51,15 +51,10 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('node.title')->label('Node'),
                 Tables\Columns\TextColumn::make('nazwa'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('nr_tel'),
                 Tables\Columns\TextColumn::make('strona_www'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
             ])
             ->filters([
                 //
