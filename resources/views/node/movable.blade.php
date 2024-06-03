@@ -245,17 +245,7 @@
                                                     <div class="card-img-overlay-bottom z-index-20">
                                                         <!-- Card Title -->
                                                     </div>
-                                                    <div
-                                                        class="card-img-overlay-top d-flex justify-content-between align-items-center">
-                                                        @php
-                                                            $terms = $property->terms;
-                                                            $termsArray = json_decode($terms, true); // Dekoduj JSON do tablicy asocjacyjnej.
-                                                            $lastTerm = end($termsArray);
-                                                        @endphp
-                                                        <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                            {{ $lastTerm }}</div>
 
-                                                    </div>
                                                 </div>
                                                 <div class="card-body">
                                                     <h2 class="text-sm text-muted mb-3">
@@ -344,17 +334,7 @@
                                         <div class="card-img-overlay-bottom z-index-20">
                                             <!-- Card Title -->
                                         </div>
-                                        <div
-                                            class="card-img-overlay-top d-flex justify-content-between align-items-center">
-                                            @php
-                                                $terms = $property->terms;
-                                                $termsArray = json_decode($terms, true); // Dekoduj JSON do tablicy asocjacyjnej.
-                                                $lastTerm = end($termsArray);
-                                            @endphp
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $lastTerm }}</div>
 
-                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}

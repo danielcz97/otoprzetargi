@@ -180,8 +180,8 @@ class Property extends Model implements HasMedia
         if (!$this->terms) {
             return [];
         }
-        $terms = json_decode($this->terms, true);
-        $values = array_values($terms);
+        // $terms = json_decode($this->terms, true);
+        $values = array_values($this->terms);
 
         $transactionType = $values[0] ?? 'Nieznany';
         $propertyType = $values[1] ?? 'Nieznany';
