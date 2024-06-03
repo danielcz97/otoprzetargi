@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
 
-class Notice extends Model
+class Notice extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     protected $table = 'komunikaty';
     public $timestamps = false;
 
@@ -57,5 +60,10 @@ class Notice extends Model
     public function premium()
     {
         return $this->hasOne(Premiums::class, 'node_id', 'id');
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class, 'contact_id');
     }
 }

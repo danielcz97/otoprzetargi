@@ -8,6 +8,8 @@
         "dev": "vite"
     },
     "dependencies": {
+        "@alpinejs/persist": "^3.14.0",
+        "alpinejs": "^3.14.0",
         "bootstrap": "5.2.2",
         "bootstrap-select": "^1.14.0-beta2",
         "dropzone": "^5.9.2",

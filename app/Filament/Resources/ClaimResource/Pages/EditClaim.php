@@ -14,6 +14,10 @@ class EditClaim extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\Action::make('podglad')
+                ->label('Podgląd')
+                ->url(fn() => url('wierzytelnosci/' . $this->record->slug))
+                ->openUrlInNewTab(),
         ];
     }
 }

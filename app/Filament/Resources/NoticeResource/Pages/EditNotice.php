@@ -14,8 +14,12 @@ class EditNotice extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\Action::make('podglad')
+                ->label('Podgląd')
+                ->url(fn() => url('komunikaty/' . $this->record->slug))
+                ->openUrlInNewTab(),
         ];
     }
 
-    
+
 }

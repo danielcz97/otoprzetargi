@@ -14,34 +14,11 @@ class EditMovableProperty extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\Action::make('podglad')
+                ->label('Podgląd')
+                ->url(fn() => url('ruchomosci/' . $this->record->slug))
+                ->openUrlInNewTab(),
         ];
-    }
-
-    protected function fillForm(): void
-    {
-        parent::fillForm();
-
-        $terms = json_decode($this->record->terms, true);
-        $this->form->fill([
-            'transaction_type' => $terms ? array_key_first($terms) : [],
-            'object_type' => $terms ? array_key_last($terms) : [],
-            'title' => $this->record->title,
-            'slug' => $this->record->slug,
-            'cena' => $this->record->cena,
-            'powierzchnia' => $this->record->powierzchnia,
-            'referencje' => $this->record->referencje,
-            'promote' => $this->record->promote,
-            'body' => $this->record->body,
-            'miejscowosc' => $this->record->miejscowosc,
-            'status' => $this->record->status,
-            'terms' => $this->record->terms,
-            'lft' => $this->record->lft,
-            'rght' => $this->record->rght,
-            'type' => $this->record->type,
-            'updated' => $this->record->updated,
-            'created' => $this->record->created,
-            'portal' => $this->record->portal,
-        ]);
     }
 
     protected function mutateFormDataBeforeSave(array $data): array

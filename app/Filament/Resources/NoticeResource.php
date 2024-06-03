@@ -17,6 +17,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class NoticeResource extends Resource
 {
@@ -103,20 +104,9 @@ class NoticeResource extends Resource
                             ->label('Ulica')
                             ->default(fn($record) => $record->teryt->ulica ?? ''),
                     ]),
-                FileUpload::make('images')
-                    ->label('Zdjęcia')
+                SpatieMediaLibraryFileUpload::make('media')
+                    ->collection('default')
                     ->multiple()
-                    ->disk('public')
-                    ->directory('property-images')
-                    ->preserveFilenames()
-                    ->image()
-                    ->maxSize(5120)
-                    ->reorderable()
-                    ->downloadable()
-                    ->openable()
-                    ->columnSpan('full')
-                    ->imagePreviewHeight('250')
-                    ->panelLayout('integrated')
                     ->reorderable(),
                 Fieldset::make('Premium')
                     ->relationship('premium')

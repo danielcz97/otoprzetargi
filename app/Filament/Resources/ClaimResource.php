@@ -20,6 +20,10 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\Hidden;
+use App\Models\ObjectType;
+use App\Models\TransactionType;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class ClaimResource extends Resource
 {
@@ -33,31 +37,38 @@ class ClaimResource extends Resource
             ->schema([
                 Select::make('transaction_type')
                     ->label('Przedmiot ogłoszenia')
-                    ->options([
-                        '10' => 'Sprzedaż',
-                        '11' => 'Kupno',
-                        '13' => 'Wynajem',
-                        '12' => 'Dzierżawa',
-                        '5' => 'Inne',
-                    ])
+                    ->options(TransactionType::all()->pluck('name', 'id')->toArray())
                     ->required()
-                    ->default(fn($record) => $record?->transaction_type), // Pobieranie bieżącej wartości z modelu
+                    ->default(fn($record) => $record?->transaction_type)
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                        $terms = $get('terms');
+                        $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
+                        $transactionTypeName = TransactionType::find($state)?->name;
+                        if ($transactionTypeName) {
+                            $termsArray[$state] = $transactionTypeName;
+                        }
+                        $set('terms', json_encode($termsArray));
+                    }),
 
                 Select::make('object_type')
                     ->label('Rodzaj obiektu')
-                    ->options([
-                        '22' => 'biuro/obiekt biurowy',
-                        '23' => 'dom',
-                        '25' => 'dworek/pałac',
-                        '26' => 'działka',
-                        '27' => 'hotel/pensjonat',
-                        '28' => 'lokal użytkowy',
-                        '29' => 'magazyn',
-                        '30' => 'mieszkanie',
-                        '31' => 'obiekt użytkowy',
-                    ])
+                    ->options(ObjectType::all()->pluck('name', 'id')->toArray())
                     ->required()
-                    ->default(fn($record) => $record?->object_type), // Pobieranie bieżącej wartości z modelu
+                    ->default(fn($record) => $record?->object_type)
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                        $terms = $get('terms');
+                        $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
+                        $objectTypeName = ObjectType::find($state)?->name;
+                        if ($objectTypeName) {
+                            $termsArray[$state] = $objectTypeName;
+                        }
+                        $set('terms', json_encode($termsArray));
+                    }),
+
+                Hidden::make('terms')
+                    ->default(fn($record) => $record ? json_encode($record->terms) : null),
 
                 TextInput::make('title')
                     ->label('Title')
@@ -134,20 +145,9 @@ class ClaimResource extends Resource
                             ->label('Ulica')
                             ->default(fn($record) => $record->teryt->ulica ?? ''),
                     ]),
-                FileUpload::make('images')
-                    ->label('Zdjęcia')
+                SpatieMediaLibraryFileUpload::make('media')
+                    ->collection('default')
                     ->multiple()
-                    ->disk('public')
-                    ->directory('property-images')
-                    ->preserveFilenames()
-                    ->image()
-                    ->maxSize(5120)
-                    ->reorderable()
-                    ->downloadable()
-                    ->openable()
-                    ->columnSpan('full')
-                    ->imagePreviewHeight('250')
-                    ->panelLayout('integrated')
                     ->reorderable(),
                 Fieldset::make('Premium')
                     ->relationship('premium')
@@ -229,5 +229,10 @@ class ClaimResource extends Resource
             'create' => Pages\CreateClaim::route('/create'),
             'edit' => Pages\EditClaim::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Wierzytelności';
     }
 }

@@ -4,11 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class MovableProperty extends Model
+class MovableProperty extends Model implements HasMedia
 {
     protected $table = 'ruchomosci';
     public $timestamps = false;
+    use InteractsWithMedia;
+
 
     protected $fillable = [
         'user_id',
@@ -44,6 +49,61 @@ class MovableProperty extends Model
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'updated';
+
+    public function getFirstMediaUrl()
+    {
+        return $this->getFirstMediaUrl();
+    }
+
+    protected $casts = [
+        'terms' => 'array',
+    ];
+
+    protected function terms(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value, true),
+            set: fn($value) => json_encode($value),
+        );
+    }
+
+    public function setTermsAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+
+        if (is_array($value)) {
+            $terms = [];
+
+            foreach ($value as $id => $name) {
+                $transactionType = TransactionType::find($id);
+                $objectType = ObjectType::find($id);
+
+                if ($transactionType) {
+                    $terms[$transactionType->id] = $transactionType->name;
+                }
+
+                if ($objectType) {
+                    $terms[$objectType->id] = $objectType->name;
+                }
+            }
+
+            $this->attributes['terms'] = json_encode($terms);
+        } else {
+            $this->attributes['terms'] = json_encode([]);
+        }
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('default')->useDisk('public');
+    }
+
+    public function getAllMediaUrls()
+    {
+        return $this->getMedia('default')->map(fn($media) => $media->getUrl())->toArray();
+    }
 
     public static function getTypes()
     {

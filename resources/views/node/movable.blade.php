@@ -20,7 +20,12 @@
 </style>
 
 <body>
-
+    @if (auth()->check())
+        <a style="position: fixed; top: 30px;left: 30px;z-index: 99999;"
+            href="/admin/movable-properties/{{ $property->id }}/edit">
+            Edytuj ogłoszenie
+        </a>
+    @endif
     @include('header')
     <section class="pt-4 pb-2 d-flex align-items-end bg-gray-700">
         <div class="container overlay-content">
@@ -169,34 +174,55 @@
                 <div class="col-lg-4">
                     <div class="ps-xl-4">
                         <!-- Contact-->
-                        <div class="card border-0 shadow mb-5">
-                            <div class="card-header bg-gray-100 py-4 border-0">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <p class="subtitle text-sm text-primary">Dane zlecającego</p>
-                                        <h4 class="mb-0">Kontakt</h4>
+                        @if ($property->contact)
+
+                            <div class="card border-0 shadow mb-5">
+                                <div class="card-header bg-gray-100 py-4 border-0">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <p class="subtitle text-sm text-primary">Dane zlecającego</p>
+                                            <h4 class="mb-0">Kontakt</h4>
+                                        </div>
+                                        <svg
+                                            class="svg-icon svg-icon svg-icon-light w-3rem h-3rem ms-3 text-muted flex-shrink-0">
+                                            <use xlink:href="#fountain-pen-1"> </use>
+                                        </svg>
                                     </div>
-                                    <svg
-                                        class="svg-icon svg-icon svg-icon-light w-3rem h-3rem ms-3 text-muted flex-shrink-0">
-                                        <use xlink:href="#fountain-pen-1"> </use>
-                                    </svg>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled mb-4">
+                                        @if ($property->contact->nr_tel)
+                                            <li class="mb-2">
+                                                <a class="text-gray-00 text-sm text-decoration-none"
+                                                    href="tel:{{ $property->contact->nr_tel }}">
+                                                    <i class="fa fa-phone me-3"></i>
+                                                    <span class="text-muted">{{ $property->contact->nr_tel }}</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if ($property->contact->email)
+                                            <li class="mb-2">
+                                                <a class="text-sm text-decoration-none"
+                                                    href="mailto:{{ $property->contact->email }}">
+                                                    <i class="fa fa-envelope me-3"></i>
+                                                    <span class="text-muted">{{ $property->contact->email }}</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if ($property->contact->strona_www)
+                                            <li class="mb-2">
+                                                <a class="text-sm text-decoration-none"
+                                                    href="{{ $property->contact->strona_www }}" target="_blank">
+                                                    <i class="fa fa-globe me-3"></i>
+                                                    <span
+                                                        class="text-muted">{{ $property->contact->strona_www }}</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <ul class="list-unstyled mb-4">
-                                    <li class="mb-2"> <a class="text-gray-00 text-sm text-decoration-none"
-                                            href="#"><i class="fa fa-phone me-3"></i><span
-                                                class="text-muted">(020) 123 456 789</span></a></li>
-                                    <li class="mb-2"> <a class=" text-sm text-decoration-none" href="#"><i
-                                                class="fa fa-envelope me-3"></i><span
-                                                class="text-muted">info@example.com</span></a></li>
-                                    <li class="mb-2"> <a class=" text-sm text-decoration-none" href="#"><i
-                                                class="fa fa-globe me-3"></i><span
-                                                class="text-muted">www.example.com</span></a></li>
-                                </ul>
-
-                            </div>
-                        </div>
+                        @endif
                         <h5 class="pb-2 text-primary">Polecane ruchomości</h5>
 
                         <div class="swiper-container swiper-container-mx-negative items-slider-custom">

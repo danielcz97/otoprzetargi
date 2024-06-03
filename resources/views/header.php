@@ -29,7 +29,7 @@
       <div class="navbar-collapse" id="navbarsExample04">
         <div class="menu-links">
           <a class="navbar-brand text-dark" href="/">Home</a>
-          <a class="navbar-brand" href="#">Informacje z rynku</a>
+          <a class="navbar-brand" href="/news">Informacje z rynku</a>
           <a class="navbar-brand" href="#">Regulamin</a>
           <a class="navbar-brand" href="#">Kontakt</a>
         </div>

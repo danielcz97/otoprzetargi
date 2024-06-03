@@ -20,7 +20,12 @@
 </style>
 
 <body>
-
+    @if (auth()->check())
+        <a style="position: fixed; top: 30px;left: 30px;z-index: 99999;"
+            href="/admin/properties/{{ $property->id }}/edit">
+            Edytuj ogłoszenie
+        </a>
+    @endif
     @include('header')
     <section class="pt-4 pb-2 d-flex align-items-end bg-gray-700">
         <div class="container overlay-content">

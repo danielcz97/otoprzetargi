@@ -103,15 +103,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
-                                        @php
-                                            $transactionDetails = $property->getTransactionDetails() ?? [];
-                                        @endphp
-                                        @if ($transactionDetails)
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['transaction_type'] }}</div>
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['property_type'] }}</div>
-                                        @endif
+
                                         <div class="card-img-overlay-bottom z-index-20">
 
                                         </div>

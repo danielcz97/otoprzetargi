@@ -4,15 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Property extends Model
+class Property extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $table = 'nieruchomosci';
     public $timestamps = false;
     protected $casts = [
-        'images' => 'array',
+        'terms' => 'array',
     ];
-
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('default')->useDisk('public');
+    }
     protected $fillable = [
         'user_id',
         'title',
@@ -182,5 +190,42 @@ class Property extends Model
             'transaction_type' => $transactionType,
             'property_type' => $propertyType,
         ];
+    }
+
+
+    protected function terms(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value, true),
+            set: fn($value) => json_encode($value),
+        );
+    }
+
+    public function setTermsAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+
+        if (is_array($value)) {
+            $terms = [];
+
+            foreach ($value as $id => $name) {
+                $transactionType = TransactionType::find($id);
+                $objectType = ObjectType::find($id);
+
+                if ($transactionType) {
+                    $terms[$transactionType->id] = $transactionType->name;
+                }
+
+                if ($objectType) {
+                    $terms[$objectType->id] = $objectType->name;
+                }
+            }
+
+            $this->attributes['terms'] = json_encode($terms);
+        } else {
+            $this->attributes['terms'] = json_encode([]);
+        }
     }
 }

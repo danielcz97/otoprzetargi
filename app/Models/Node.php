@@ -15,7 +15,7 @@ class Node extends Model
         'path', 'terms', 'sticky', 'lft', 'rght', 'visibility_roles', 
         'type', 'updated', 'created', 'cena', 'powierzchnia', 
         'referencje', 'stats', 'old_id', 'hits', 'weight', 'weightold', 
-        'pierwotna waga przed zmianą na standard', 'portal'
+        'portal'
     ];
 
     const CREATED_AT = 'created';

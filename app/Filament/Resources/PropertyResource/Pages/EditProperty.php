@@ -4,41 +4,21 @@ namespace App\Filament\Resources\PropertyResource\Pages;
 
 use App\Filament\Resources\PropertyResource;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Actions;
 
 class EditProperty extends EditRecord
 {
     protected static string $resource = PropertyResource::class;
 
-    protected function fillForm(): void
+    protected function getHeaderActions(): array
     {
-        parent::fillForm();
-
-        $terms = json_decode($this->record->terms, true);
-        $this->form->fill([
-            'transaction_type' => $terms ? array_key_first($terms) : [],
-            'object_type' => $terms ? array_key_last($terms) : [],
-            'title' => $this->record->title,
-            'slug' => $this->record->slug,
-            'cena' => $this->record->cena,
-            'powierzchnia' => $this->record->powierzchnia,
-            'referencje' => $this->record->referencje,
-            'promote' => $this->record->promote,
-            'body' => $this->record->body,
-            'miejscowosc' => $this->record->miejscowosc,
-            'status' => $this->record->status,
-            'terms' => $this->record->terms,
-            'lft' => $this->record->lft,
-            'rght' => $this->record->rght,
-            'type' => $this->record->type,
-            'updated' => $this->record->updated,
-            'created' => $this->record->created,
-            'portal' => $this->record->portal,
-        ]);
-    }
-
-    protected function afterSave()
-    {
-        $this->notify('success', 'Nieruchomość została zaktualizowana. <a href="' . route('properties.index', $this->record->slug) . '">Zobacz podgląd</a>');
+        return [
+            Actions\DeleteAction::make(),
+            Actions\Action::make('podglad')
+                ->label('Podgląd')
+                ->url(fn() => url('nieruchomosci/' . $this->record->slug))
+                ->openUrlInNewTab(),
+        ];
     }
 
     protected function mutateFormDataBeforeSave(array $data): array

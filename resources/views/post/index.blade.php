@@ -36,10 +36,8 @@
                 @endforeach
             </div>
             <!-- Pagination -->
-            <nav aria-label="Blog pagination">
-                <ul class="pagination justify-content-between mb-5">
-                    {{ $posts->links() }}
-                </ul>
+            <nav aria-label="Page navigation example">
+                {{ $posts->links('vendor.pagination.bootstrap-5') }}
             </nav>
         </div>
     </section>

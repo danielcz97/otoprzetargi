@@ -25,6 +25,7 @@ use Illuminate\Support\Str;
 class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
 
     public static function form(Form $form): Form
@@ -75,5 +76,10 @@ class ContactResource extends Resource
             'create' => ContactResource\Pages\CreateContact::route('/create'),
             'edit' => ContactResource\Pages\EditContact::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Kontakty';
     }
 }
