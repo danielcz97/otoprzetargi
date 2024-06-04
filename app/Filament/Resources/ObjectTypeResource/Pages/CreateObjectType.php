@@ -9,4 +9,12 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateObjectType extends CreateRecord
 {
     protected static string $resource = ObjectTypeResource::class;
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        if (request()->has('model_type')) {
+            $data['model_type'] = request()->query('model_type');
+        }
+        return $data;
+    }
 }

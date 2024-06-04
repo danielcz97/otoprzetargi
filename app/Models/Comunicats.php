@@ -11,6 +11,12 @@ class Comunicats extends Model implements HasMedia
 {
     use InteractsWithMedia;
     protected $table = 'komunikaty';
+
+    protected $casts = [
+        'terms' => 'array',
+        'portal' => 'array',
+
+    ];
     public $timestamps = false;
     public function registerMediaCollections(): void
     {
@@ -101,10 +107,6 @@ class Comunicats extends Model implements HasMedia
         return $imagePaths;
     }
 
-    protected $casts = [
-        'terms' => 'array',
-    ];
-
     protected function terms(): Attribute
     {
         return Attribute::make(
@@ -139,5 +141,15 @@ class Comunicats extends Model implements HasMedia
         } else {
             $this->attributes['terms'] = json_encode([]);
         }
+    }
+
+    public function objectType()
+    {
+        return $this->belongsTo(ObjectType::class);
+    }
+
+    public function transactionType()
+    {
+        return $this->belongsTo(TransactionType::class);
     }
 }

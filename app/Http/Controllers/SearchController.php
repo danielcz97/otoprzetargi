@@ -7,6 +7,7 @@ use App\Models\Comunicats;
 use App\Models\Property;
 use App\Models\MovableProperty;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SearchController extends Controller
 {
@@ -59,7 +60,10 @@ class SearchController extends Controller
             $subject = $request->input('subject');
             $query->where('terms', 'like', '%"' . $subject . '"%');
         }
+        $today = Carbon::today();
 
+        // Dodanie warunku whereDate do istniejącego zapytania
+        $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
 
         return view('nodes.nieruchomosci', compact('properties'));
@@ -114,7 +118,10 @@ class SearchController extends Controller
             $subject = $request->input('subject');
             $query->where('terms', 'like', '%"' . $subject . '"%');
         }
+        $today = Carbon::today();
 
+        // Dodanie warunku whereDate do istniejącego zapytania
+        $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
 
         return view('nodes.ruchomosci', compact('properties'));
@@ -142,7 +149,10 @@ class SearchController extends Controller
                 }
             }
         }
+        $today = Carbon::today();
 
+        // Dodanie warunku whereDate do istniejącego zapytania
+        $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
 
         return view('nodes.komunikaty', compact('properties'));
@@ -170,7 +180,10 @@ class SearchController extends Controller
                 }
             }
         }
+        $today = Carbon::today();
 
+        // Dodanie warunku whereDate do istniejącego zapytania
+        $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
 
         return view('nodes.claims', compact('properties'));

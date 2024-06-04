@@ -9,4 +9,13 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateClaim extends CreateRecord
 {
     protected static string $resource = ClaimResource::class;
+
+    public $autocomplete;
+
+    public function mount(): void
+    {
+        parent::mount();
+
+        $this->autocomplete = $this->record->miejscowosc ?? '';
+    }
 }

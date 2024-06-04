@@ -5,7 +5,7 @@
     @include('head')
     <meta property="og:title" content="{{ $property->title }}">
     <meta property="og:description" content="{{ Str::limit(strip_tags($property->body), 150) }}">
-    <meta property="og:image" content="{{ $property->getFirstImage() }}">
+    <meta property="og:image" content="">
     <meta property="og:url" content="{{ route('properties.index', ['slug' => $property->slug]) }}">
     <meta property="og:type" content="website">
 </head>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    <img src="{{ $property->getFirstImage() }}">
+                    <img src="">
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url('{{ $property->getFirstImage() }}'); min-height: 200px;background-attachment: fixed;
+                                                    style="background-image: url(''); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
@@ -226,7 +226,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url('{{ $property->getFirstImage() }}'); min-height: 200px;background-attachment: fixed;
+                                                    style="background-image: url(''); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
@@ -273,7 +273,7 @@
                             <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden bg-cover"
-                                        style="background-image: url('{{ $property->getFirstImage() }}'); min-height: 200px;background-attachment: fixed;
+                                        style="background-image: url(''); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">

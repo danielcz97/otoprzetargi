@@ -9,4 +9,13 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateNotice extends CreateRecord
 {
     protected static string $resource = NoticeResource::class;
+
+    public $autocomplete;
+
+    public function mount(): void
+    {
+        parent::mount();
+
+        $this->autocomplete = $this->record->miejscowosc ?? '';
+    }
 }

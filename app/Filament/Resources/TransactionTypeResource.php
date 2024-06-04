@@ -3,20 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransactionTypeResource\Pages;
-use App\Filament\Resources\TransactionTypeResource\RelationManagers;
 use App\Models\TransactionType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 
 class TransactionTypeResource extends Resource
 {
     protected static ?string $model = TransactionType::class;
-    protected static ?string $navigationLabel = 'Typy Transakcji';
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -24,6 +23,8 @@ class TransactionTypeResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Hidden::make('model_type')
+                    ->default(fn() => request()->query('model_type')),
             ]);
     }
 
@@ -52,5 +53,17 @@ class TransactionTypeResource extends Resource
             'create' => Pages\CreateTransactionType::route('/create'),
             'edit' => Pages\EditTransactionType::route('/{record}/edit'),
         ];
+    }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['model_type'] = request()->query('model_type');
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['model_type'] = request()->query('model_type');
+        return $data;
     }
 }

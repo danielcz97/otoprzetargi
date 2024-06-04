@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
+
 class Claim extends Model implements HasMedia
 {
     use InteractsWithMedia;
@@ -15,6 +16,12 @@ class Claim extends Model implements HasMedia
     {
         $this->addMediaCollection('default')->useDisk('public');
     }
+
+    protected $casts = [
+        'terms' => 'array',
+        'portal' => 'array',
+    ];
+
     protected $fillable = [
         'user_id',
         'title',
@@ -45,10 +52,6 @@ class Claim extends Model implements HasMedia
         'weightold',
         'pierwotna waga przed zmianą na standard',
         'portal'
-    ];
-
-    protected $casts = [
-        'terms' => 'array',
     ];
 
     protected function terms(): Attribute
@@ -138,5 +141,15 @@ class Claim extends Model implements HasMedia
         }
 
         return $imagePaths;
+    }
+
+    public function objectType()
+    {
+        return $this->belongsTo(ObjectType::class);
+    }
+
+    public function transactionType()
+    {
+        return $this->belongsTo(TransactionType::class);
     }
 }

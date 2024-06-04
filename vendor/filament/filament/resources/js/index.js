@@ -4,7 +4,7 @@ document.addEventListener('alpine:init', () => {
     window.Alpine.plugin(Mousetrap)
 
     window.Alpine.store('sidebar', {
-        isOpen: window.Alpine.$persist(true).as('isOpen') || 'placeholder',
+        isOpen: window.Alpine.$persist(true).as('isOpen'),
 
         collapsedGroups: window.Alpine.$persist(null).as('collapsedGroups'),
 

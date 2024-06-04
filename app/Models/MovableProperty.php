@@ -14,7 +14,11 @@ class MovableProperty extends Model implements HasMedia
     public $timestamps = false;
     use InteractsWithMedia;
 
+    protected $casts = [
+        'terms' => 'array',
+        'portal' => 'array',
 
+    ];
     protected $fillable = [
         'user_id',
         'title',
@@ -55,10 +59,6 @@ class MovableProperty extends Model implements HasMedia
         return $this->getFirstMediaUrl();
     }
 
-    protected $casts = [
-        'terms' => 'array',
-    ];
-
     protected function terms(): Attribute
     {
         return Attribute::make(
@@ -93,6 +93,22 @@ class MovableProperty extends Model implements HasMedia
         } else {
             $this->attributes['terms'] = json_encode([]);
         }
+    }
+    public function getTransactionDetails()
+    {
+        if (!$this->terms) {
+            return [];
+        }
+        // $terms = json_decode($this->terms, true);
+        $values = array_values($this->terms);
+
+        $transactionType = $values[0] ?? 'Nieznany';
+        $propertyType = $values[1] ?? 'Nieznany';
+
+        return [
+            'transaction_type' => $transactionType,
+            'property_type' => $propertyType,
+        ];
     }
 
     public function registerMediaCollections(): void
@@ -212,20 +228,13 @@ class MovableProperty extends Model implements HasMedia
         return 'Lokalizacja nieznana';
     }
 
-    public function getTransactionDetails()
+    public function objectType()
     {
-        if (!$this->terms) {
-            return [];
-        }
-        // $terms = json_decode($this->terms, true);
-        $values = array_values($this->terms);
+        return $this->belongsTo(ObjectType::class);
+    }
 
-        $transactionType = $values[0] ?? 'Nieznany';
-        $propertyType = $values[1] ?? 'Nieznany';
-
-        return [
-            'transaction_type' => $transactionType,
-            'property_type' => $propertyType,
-        ];
+    public function transactionType()
+    {
+        return $this->belongsTo(TransactionType::class);
     }
 }

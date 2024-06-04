@@ -23,44 +23,19 @@ class EditProperty extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['terms'] = json_encode([
-            $data['transaction_type'] => $this->getTransactionTypeLabel($data['transaction_type']),
-            $data['object_type'] => $this->getObjectTypeLabel($data['object_type']),
-        ]);
-
-        unset($data['transaction_type']);
-        unset($data['object_type']);
+        if (isset($data['terms']) && is_array($data['terms'])) {
+            $data['terms'] = json_encode($data['terms']);
+        }
 
         return $data;
     }
 
-    private function getTransactionTypeLabel($value)
+    public $autocomplete;
+
+    public function mount($record): void
     {
-        $options = [
-            '10' => 'sprzedaz',
-            '11' => 'kupno',
-            '13' => 'wynajem',
-            '12' => 'dzierzawa',
-            '5' => 'inne',
-        ];
+        parent::mount($record);
 
-        return $options[$value] ?? '';
-    }
-
-    private function getObjectTypeLabel($value)
-    {
-        $options = [
-            '22' => 'biuro/obiekt biurowy',
-            '23' => 'dom',
-            '25' => 'dworek/pałac',
-            '26' => 'działka',
-            '27' => 'hotel/pensjonat',
-            '28' => 'lokal użytkowy',
-            '29' => 'magazyn',
-            '30' => 'mieszkanie',
-            '31' => 'obiekt użytkowy',
-        ];
-
-        return $options[$value] ?? '';
+        $this->autocomplete = $this->record->miejscowosc ?? '';
     }
 }

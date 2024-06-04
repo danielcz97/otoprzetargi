@@ -16,4 +16,10 @@ class EditTransactionType extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['model_type'] = request()->query('model_type');
+        return $data;
+    }
 }

@@ -3,27 +3,26 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ClaimResource\Pages;
-use App\Filament\Resources\ClaimResource\RelationManagers;
 use App\Models\Claim;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\Premium;
 use App\Models\Property;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\Hidden;
 use App\Models\ObjectType;
 use App\Models\TransactionType;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Navigation\NavigationItem;
+use Cheesegrits\FilamentGoogleMaps\Fields\Map;
+use Filament\Forms\Components\CheckboxList;
 
 class ClaimResource extends Resource
 {
@@ -40,7 +39,6 @@ class ClaimResource extends Resource
                     ->options(TransactionType::all()->pluck('name', 'id')->toArray())
                     ->required()
                     ->default(fn($record) => $record?->transaction_type)
-                    ->reactive()
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                         $terms = $get('terms');
                         $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
@@ -56,7 +54,6 @@ class ClaimResource extends Resource
                     ->options(ObjectType::all()->pluck('name', 'id')->toArray())
                     ->required()
                     ->default(fn($record) => $record?->object_type)
-                    ->reactive()
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                         $terms = $get('terms');
                         $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
@@ -73,6 +70,7 @@ class ClaimResource extends Resource
                 TextInput::make('title')
                     ->label('Title')
                     ->required()
+                    ->live()
                     ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $slug = Str::slug(
                             str_replace(
@@ -109,26 +107,63 @@ class ClaimResource extends Resource
                     ->label('Body')
                     ->required()
                     ->columnSpan('full'),
-                Forms\Components\TextInput::make('miejscowosc')
-                    ->label('Miejscowość')
-                    ->id('autocomplete'),
-                Forms\Components\ViewField::make('map')
-                    ->label('Mapa')
-                    ->view('filament.resources.property-resource.map', [
-                        'latitude' => fn($record) => $record->teryt->latitude ?? 52.2297,
-                        'longitude' => fn($record) => $record->teryt->longitude ?? 21.0122,
-                    ]),
                 Fieldset::make('Dane terytorialne')
                     ->relationship('teryt')
                     ->schema([
+                        Forms\Components\TextInput::make('miejscowosc')
+                            ->label('Miejscowość')
+                            ->id('autocomplete'),
+
+                        Map::make('location')
+                            ->label('Mapa')
+                            ->mapControls([
+                                'mapTypeControl' => true,
+                                'scaleControl' => true,
+                                'streetViewControl' => true,
+                                'rotateControl' => true,
+                                'fullscreenControl' => true,
+                                'searchBoxControl' => false,
+                                'zoomControl' => false,
+                            ])
+                            ->height(fn() => '400px')
+                            ->defaultZoom(10)
+                            ->autocomplete(
+                                fieldName: 'miejscowosc',
+                                types: ['(cities)'],
+                                countries: ['PL']
+                            )
+                            ->autocompleteReverse(true)
+                            ->reverseGeocode([
+                                'street' => '%n %S',
+                                'city' => '%L',
+                                'state' => '%A1',
+                                'zip' => '%z',
+                            ])
+                            ->defaultLocation([52.2297, 21.0122]) // Warszawa jako domyślna lokalizacja
+                            ->draggable()
+                            ->clickable(false)
+                            ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                $set('latitude', $state['lat']);
+                                $set('longitude', $state['lng']);
+                            }),
                         Forms\Components\TextInput::make('latitude')
-                            ->label('Szerokość geograficzna')
-                            ->numeric()
-                            ->default(fn($record) => $record->teryt->latitude ?? 52.2297),
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                $set('location', [
+                                    'lat' => floatVal($state),
+                                    'lng' => floatVal($get('longitude')),
+                                ]);
+                            })
+                            ->lazy(), // important to use lazy, to avoid updates as you type
                         Forms\Components\TextInput::make('longitude')
-                            ->label('Długość geograficzna')
-                            ->numeric()
-                            ->default(fn($record) => $record->teryt->longitude ?? 21.0122),
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                $set('location', [
+                                    'lat' => floatval($get('latitude')),
+                                    'lng' => floatVal($state),
+                                ]);
+                            })
+                            ->lazy(),
                         Forms\Components\TextInput::make('wojewodztwo')
                             ->label('Województwo')
                             ->default(fn($record) => $record->teryt->wojewodztwo ?? ''),
@@ -149,6 +184,15 @@ class ClaimResource extends Resource
                     ->collection('default')
                     ->multiple()
                     ->reorderable(),
+                CheckboxList::make('portal')
+                    ->label('Wyświetlane w serwisie')
+                    ->options([
+                        'Wierzytelności' => 'Wierzytelności',
+                        'GC Trader' => 'GC Trader',
+                        'Otoprzetargi' => 'Otoprzetargi',
+                        'Syndycy' => 'Syndycy'
+                    ])
+                    ->columns(2),
                 Fieldset::make('Premium')
                     ->relationship('premium')
                     ->schema([
@@ -158,10 +202,10 @@ class ClaimResource extends Resource
                             ->default(fn($record) => $record->premium->premium_id ?? 1),
                         DatePicker::make('datefrom')
                             ->label('Data od')
-                            ->default(fn($record) => $record->premium->datefrom ?? ''),
+                            ->default(fn($record) => $record->premium->datefrom ?? 'today'),
                         DatePicker::make('dateto')
                             ->label('Data do')
-                            ->default(fn($record) => $record->premium->dateto ?? ''),
+                            ->default(fn($record) => $record->premium->dateto ?? 'today + 1month'),
                         TextInput::make('platnosc_premium')
                             ->label('RAZEM')
                             ->default(fn($record) => $record->premium->platnosc_premium ?? 1),
@@ -234,5 +278,23 @@ class ClaimResource extends Resource
     public static function getNavigationLabel(): string
     {
         return 'Wierzytelności';
+    }
+
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make('Wierzytelności')
+                ->url(static::getUrl('index'))
+                ->icon(static::$navigationIcon)
+                ->group('Wierzytelności'),
+            NavigationItem::make('Typy obiektów')
+                ->url(ObjectTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Claim']))
+                ->icon('heroicon-o-rectangle-stack')
+                ->group('Wierzytelności'),
+            NavigationItem::make('Typy transakcji')
+                ->url(TransactionTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Claim']))
+                ->icon('heroicon-o-rectangle-stack')
+                ->group('Wierzytelności'),
+        ];
     }
 }

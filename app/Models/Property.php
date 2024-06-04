@@ -16,11 +16,9 @@ class Property extends Model implements HasMedia
     public $timestamps = false;
     protected $casts = [
         'terms' => 'array',
+        'portal' => 'array',
     ];
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('default')->useDisk('public');
-    }
+
     protected $fillable = [
         'user_id',
         'title',
@@ -50,50 +48,65 @@ class Property extends Model implements HasMedia
         'weight',
         'weightold',
         'pierwotna waga przed zmianą na standard',
-        'portal'
+        'portal',
+    ];
+
+    protected $appends = [
+        'location',
     ];
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'updated';
 
-    public static function getTypes()
+    public function getLocationAttribute(): array
     {
-        return self::query()->select('type')->distinct()->pluck('type');
+        return [
+            "lat" => (float) ($this->teryt->latitude ?? 52.2297),
+            "lng" => (float) ($this->teryt->longitude ?? 21.0122),
+        ];
     }
 
+    public function setLocationAttribute(?array $location): void
+    {
+        if (is_array($location)) {
+            \Log::info('setLocationAttribute called', ['location' => $location]);
+
+            if ($this->teryt) {
+                $this->teryt->latitude = $location['lat'];
+                $this->teryt->longitude = $location['lng'];
+                $this->teryt->save();
+
+                \Log::info('teryt updated', ['teryt' => $this->teryt]);
+            } else {
+                \Log::warning('teryt relation not found for Property', ['property_id' => $this->id]);
+            }
+        } else {
+            \Log::warning('Invalid location data', ['location' => $location]);
+        }
+    }
+
+    public static function getLatLngAttributes(): array
+    {
+        return [
+            'lat' => 'lat',
+            'lng' => 'lng',
+        ];
+    }
+
+    public static function getComputedLocation(): string
+    {
+        return 'location';
+    }
+
+    // Pozostała część Twojego modelu pozostaje bez zmian
     public function nodeFiles()
     {
         return $this->hasMany(NodeFile::class, 'node_id', 'id');
     }
+
     public function contact()
     {
         return $this->belongsTo(Contact::class, 'contact_id');
-    }
-    public function getFirstImage()
-    {
-        $files = $this->nodeFiles()->get();
-
-        foreach ($files as $file) {
-            if (!empty($file->filename) && !empty($file->folder)) {
-                $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
-
-                // Sprawdź, czy URL zwraca błąd 404
-                if ($this->urlExists($filePath)) {
-                    return $filePath;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private function urlExists($url)
-    {
-        $headers = @get_headers($url);
-        if (!$headers || strpos($headers[0], '404') !== false) {
-            return false;
-        }
-        return true;
     }
 
     public function teryt()
@@ -175,24 +188,6 @@ class Property extends Model implements HasMedia
         return 'Lokalizacja nieznana';
     }
 
-    public function getTransactionDetails()
-    {
-        if (!$this->terms) {
-            return [];
-        }
-        // $terms = json_decode($this->terms, true);
-        $values = array_values($this->terms);
-
-        $transactionType = $values[0] ?? 'Nieznany';
-        $propertyType = $values[1] ?? 'Nieznany';
-
-        return [
-            'transaction_type' => $transactionType,
-            'property_type' => $propertyType,
-        ];
-    }
-
-
     protected function terms(): Attribute
     {
         return Attribute::make(
@@ -227,5 +222,33 @@ class Property extends Model implements HasMedia
         } else {
             $this->attributes['terms'] = json_encode([]);
         }
+    }
+
+    public function getTransactionDetails()
+    {
+        if (!$this->terms) {
+            return [];
+        }
+        if (is_array($this->terms)) {
+            $values = array_values($this->terms);
+
+            $transactionType = $values[0] ?? 'Nieznany';
+            $propertyType = $values[1] ?? 'Nieznany';
+
+            return [
+                'transaction_type' => $transactionType,
+                'property_type' => $propertyType,
+            ];
+        }
+    }
+
+    public function objectType()
+    {
+        return $this->belongsTo(ObjectType::class);
+    }
+
+    public function transactionType()
+    {
+        return $this->belongsTo(TransactionType::class);
     }
 }

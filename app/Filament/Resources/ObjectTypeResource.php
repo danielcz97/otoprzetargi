@@ -3,20 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ObjectTypeResource\Pages;
-use App\Filament\Resources\ObjectTypeResource\RelationManagers;
 use App\Models\ObjectType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ObjectTypeResource extends Resource
 {
     protected static ?string $model = ObjectType::class;
-    protected static ?string $navigationLabel = 'Typy obiektów';
+    protected static bool $shouldRegisterNavigation = false;
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -24,6 +23,8 @@ class ObjectTypeResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Hidden::make('model_type')
+                    ->default(fn() => request()->query('model_type')),
             ]);
     }
 
@@ -56,5 +57,17 @@ class ObjectTypeResource extends Resource
             'create' => Pages\CreateObjectType::route('/create'),
             'edit' => Pages\EditObjectType::route('/{record}/edit'),
         ];
+    }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['model_type'] = request()->query('model_type');
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['model_type'] = request()->query('model_type');
+        return $data;
     }
 }

@@ -20,6 +20,13 @@ class EditNotice extends EditRecord
                 ->openUrlInNewTab(),
         ];
     }
+    public $autocomplete;
 
+    public function mount($record): void
+    {
+        parent::mount($record);
+
+        $this->autocomplete = $this->record->miejscowosc ?? '';
+    }
 
 }

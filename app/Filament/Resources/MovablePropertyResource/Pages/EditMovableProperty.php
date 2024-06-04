@@ -33,34 +33,12 @@ class EditMovableProperty extends EditRecord
 
         return $data;
     }
+    public $autocomplete;
 
-    private function getTransactionTypeLabel($value)
+    public function mount($record): void
     {
-        $options = [
-            '10' => 'sprzedaz',
-            '11' => 'kupno',
-            '13' => 'wynajem',
-            '12' => 'dzierzawa',
-            '5' => 'inne',
-        ];
+        parent::mount($record);
 
-        return $options[$value] ?? '';
-    }
-
-    private function getObjectTypeLabel($value)
-    {
-        $options = [
-            '32' => 'samochody osobowe',
-            '33' => 'samochody ciężarowe',
-            '34' => 'pojazdy specjalistyczne',
-            '35' => 'maszyny, urządzenia',
-            '47' => 'łodzie',
-            '48' => 'maszyny przemysłowe',
-            '49' => 'maszyny rolnicze',
-            '50' => 'przyczepy/naczepy',
-            '51' => 'motocykle/skutery',
-        ];
-
-        return $options[$value] ?? '';
+        $this->autocomplete = $this->record->miejscowosc ?? '';
     }
 }
