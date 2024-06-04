@@ -57,8 +57,6 @@ class PropertyResource extends Resource
                             $termsArray[$state] = $transactionTypeName;
                         }
                         $set('terms', json_encode($termsArray));
-                        $set('map_needs_init', true);
-
                     }),
 
                 Select::make('object_type')
@@ -75,14 +73,11 @@ class PropertyResource extends Resource
                             $termsArray[$state] = $objectTypeName;
                         }
                         $set('terms', json_encode($termsArray));
-                        $set('map_needs_init', true);
-
                     }),
 
                 Hidden::make('terms')
                     ->default(fn($record) => $record ? json_encode($record->terms) : null),
-                Hidden::make('map_needs_init')
-                    ->default(false),
+
                 TextInput::make('title')
                     ->label('Title')
                     ->required()

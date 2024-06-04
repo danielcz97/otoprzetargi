@@ -36,7 +36,7 @@ class ClaimResource extends Resource
             ->schema([
                 Select::make('transaction_type')
                     ->label('Przedmiot ogłoszenia')
-                    ->options(TransactionType::all()->pluck('name', 'id')->toArray())
+                    ->options(fn() => TransactionType::where('model_type', 'App\\Models\\Claim')->pluck('name', 'id')->toArray())
                     ->required()
                     ->default(fn($record) => $record?->transaction_type)
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
@@ -51,7 +51,7 @@ class ClaimResource extends Resource
 
                 Select::make('object_type')
                     ->label('Rodzaj obiektu')
-                    ->options(ObjectType::all()->pluck('name', 'id')->toArray())
+                    ->options(fn() => ObjectType::where('model_type', 'App\\Models\\Claim')->pluck('name', 'id')->toArray())
                     ->required()
                     ->default(fn($record) => $record?->object_type)
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
