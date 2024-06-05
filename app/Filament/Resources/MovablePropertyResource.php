@@ -233,11 +233,6 @@ class MovablePropertyResource extends Resource
                 Forms\Components\TextInput::make('cyclic_day')
                     ->label('Dzień dodawania')
                     ->numeric()
-                    ->min(1)
-                    ->max(31)
-                    ->dependsOn(['cyclic'], function (Forms\Components\TextInput $field, $state) {
-                        $field->visible($state === true);
-                    }),
             ]);
     }
 
