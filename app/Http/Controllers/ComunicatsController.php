@@ -17,6 +17,10 @@ class ComunicatsController extends Controller
         $today = Carbon::today();
 
         $property = Comunicats::where('slug', $slug)->firstOrFail();
+        $mainMedia = $property->getFirstMedia('default');
+        $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
+
+        $galleryMedia = $property->getMedia('default');
         $properties = Comunicats::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
@@ -27,6 +31,6 @@ class ComunicatsController extends Controller
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');
 
-        return view('node.comunicats', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
+        return view('node.comunicats', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia'));
     }
 }

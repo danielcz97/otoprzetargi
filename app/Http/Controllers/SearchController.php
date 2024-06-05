@@ -65,7 +65,10 @@ class SearchController extends Controller
         // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
-
+        foreach ($properties as $property) {
+            $media = $property->getFirstMedia('default');
+            $property->thumbnail_url = $media ? $media->getUrl() : null;
+        }
         return view('nodes.nieruchomosci', compact('properties'));
     }
 
@@ -123,7 +126,10 @@ class SearchController extends Controller
         // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
-
+        foreach ($properties as $property) {
+            $media = $property->getFirstMedia('default');
+            $property->thumbnail_url = $media ? $media->getUrl() : null;
+        }
         return view('nodes.ruchomosci', compact('properties'));
     }
 
@@ -154,7 +160,10 @@ class SearchController extends Controller
         // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
-
+        foreach ($properties as $property) {
+            $media = $property->getFirstMedia('default');
+            $property->thumbnail_url = $media ? $media->getUrl() : null;
+        }
         return view('nodes.komunikaty', compact('properties'));
     }
 
@@ -185,7 +194,10 @@ class SearchController extends Controller
         // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
-
+        foreach ($properties as $property) {
+            $media = $property->getFirstMedia('default');
+            $property->thumbnail_url = $media ? $media->getUrl() : null;
+        }
         return view('nodes.claims', compact('properties'));
     }
 }

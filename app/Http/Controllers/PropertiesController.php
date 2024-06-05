@@ -18,6 +18,12 @@ class PropertiesController extends Controller
         $today = Carbon::today();
 
         $property = Property::where('slug', $slug)->firstOrFail();
+
+        $mainMedia = $property->getFirstMedia('default');
+        $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
+
+        $galleryMedia = $property->getMedia('default');
+
         $properties = Property::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
@@ -28,7 +34,7 @@ class PropertiesController extends Controller
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');
 
-        return view('node.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText'));
+        return view('node.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia'));
     }
 
     public function printPage($slug)

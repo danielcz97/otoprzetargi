@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    <img src="">
+                    <img src="{{ $mainMediaUrl }}">
                 </div>
             </div>
         </div>
@@ -49,6 +49,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
+                    <div class="text-block">
+                        <!-- Gallery -->
+                        <style>
+                            .gallery-image {
+                                width: 100%;
+                                height: 200px;
+                                object-fit: cover;
+                                object-position: center;
+                            }
+                        </style>
+                        <div class="row gallery ms-n1 me-n1">
+                            @if ($galleryMedia->isNotEmpty())
+                                @foreach ($galleryMedia as $media)
+                                    <div class="col-lg-4 col-6 px-1 mb-2">
+                                        <a href="{{ $media->getUrl() }}">
+                                            <img class="img-fluid gallery-image" src="{{ $media->getUrl() }}"
+                                                alt="Property Image">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+
+                    </div>
                     <div class="text-block">
                         <h3 class="mb-3">Szczegóły</h3>
                         <p class="text-sm text-muted">{!! $property->body !!}</p>

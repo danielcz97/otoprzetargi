@@ -99,7 +99,7 @@
 
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden  bg-cover"
-                                        style="background-image: url(''); min-height: 200px;
+                                        style="background-image: url('{{ $property->thumbnail_url ?? '' }}'); min-height: 200px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">

@@ -83,7 +83,7 @@
                             <i style="font-size:25px;" class="fas fa-print">Drukuj</i>
                         </a>
                     </div>
-                    <img style="max-width:250px" src="">
+                    <img style="max-width:250px" src="{{ $mainMediaUrl }}">
                 </div>
             </div>
         </div>
@@ -103,22 +103,16 @@
                             }
                         </style>
                         <div class="row gallery ms-n1 me-n1">
-
-                            @php
-                                $images = $property->getAllImages();
-                            @endphp
-
-                            @if ($images)
-                                @foreach ($images as $image)
+                            @if ($galleryMedia->isNotEmpty())
+                                @foreach ($galleryMedia as $media)
                                     <div class="col-lg-4 col-6 px-1 mb-2">
-                                        <a href="{{ $image }}">
-                                            <img class="img-fluid gallery-image" src="{{ $image }}"
+                                        <a href="{{ $media->getUrl() }}">
+                                            <img class="img-fluid gallery-image" src="{{ $media->getUrl() }}"
                                                 alt="Property Image">
                                         </a>
                                     </div>
                                 @endforeach
                             @endif
-
                         </div>
 
                     </div>
