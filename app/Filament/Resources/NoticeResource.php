@@ -71,6 +71,10 @@ class NoticeResource extends Resource
                     ->label('Kontakt')
                     ->relationship('contact', 'nazwa')
                     ->searchable(),
+                Forms\Components\TextInput::make('views')
+                    ->label('Ilość wyświetleń')
+                    ->numeric()
+                    ->default(0),
                 Fieldset::make('Dane terytorialne')
                     ->relationship('teryt')
                     ->schema([
@@ -183,6 +187,17 @@ class NoticeResource extends Resource
                     ->label('Data utworzenia')
                     ->default('now')
                     ->required(),
+
+                Forms\Components\Toggle::make('cyclic')
+                    ->label('Cykliczne ogłoszenie'),
+                Forms\Components\TextInput::make('cyclic_day')
+                    ->label('Dzień dodawania')
+                    ->numeric()
+                    ->min(1)
+                    ->max(31)
+                    ->dependsOn(['cyclic'], function (Forms\Components\TextInput $field, $state) {
+                        $field->visible($state === true);
+                    }),
             ]);
     }
 
@@ -198,7 +213,8 @@ class NoticeResource extends Resource
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Tytuł'),
-
+                Tables\Columns\TextColumn::make('views')
+                    ->label('Ilość wyświetleń'),
             ])
             ->filters([
                 // Dodaj filtry, jeśli są potrzebne

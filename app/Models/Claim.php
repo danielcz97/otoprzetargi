@@ -51,7 +51,10 @@ class Claim extends Model implements HasMedia
         'weight',
         'weightold',
         'pierwotna waga przed zmianą na standard',
-        'portal'
+        'portal',
+        'views',
+        'cyclic',
+        'cyclic_day'
     ];
 
     protected function terms(): Attribute

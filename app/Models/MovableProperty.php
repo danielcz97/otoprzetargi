@@ -48,7 +48,10 @@ class MovableProperty extends Model implements HasMedia
         'weight',
         'weightold',
         'pierwotna waga przed zmianą na standard',
-        'portal'
+        'portal',
+        'views',
+        'cyclic',
+        'cyclic_day'
     ];
 
     const CREATED_AT = 'created';

@@ -103,6 +103,10 @@ class ClaimResource extends Resource
                     ->label('Kontakt')
                     ->relationship('contact', 'nazwa')
                     ->searchable(),
+                Forms\Components\TextInput::make('views')
+                    ->label('Ilość wyświetleń')
+                    ->numeric()
+                    ->default(0),
                 Forms\Components\RichEditor::make('body')
                     ->label('Body')
                     ->required()
@@ -219,6 +223,16 @@ class ClaimResource extends Resource
                     ->label('Data utworzenia')
                     ->default('now')
                     ->required(),
+                Forms\Components\Toggle::make('cyclic')
+                    ->label('Cykliczne ogłoszenie'),
+                Forms\Components\TextInput::make('cyclic_day')
+                    ->label('Dzień dodawania')
+                    ->numeric()
+                    ->min(1)
+                    ->max(31)
+                    ->dependsOn(['cyclic'], function (Forms\Components\TextInput $field, $state) {
+                        $field->visible($state === true);
+                    }),
             ]);
     }
 
@@ -234,16 +248,8 @@ class ClaimResource extends Resource
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Tytuł'),
-                Tables\Columns\TextColumn::make('promote')
-                    ->label('Premium'),
-                Tables\Columns\TextColumn::make('powierzchnia')
-                    ->label('Miejscowość')
-                    ->numeric(),
-                Tables\Columns\TextColumn::make('cena')
-                    ->label('Cena')
-                    ->numeric(),
-                Tables\Columns\TextColumn::make('teryt.wojewodztwo')
-                    ->label('Województwo'),
+                Tables\Columns\TextColumn::make('views')
+                    ->label('Ilość wyświetleń'),
             ])
             ->filters([
                 // Dodaj filtry, jeśli są potrzebne

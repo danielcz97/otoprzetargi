@@ -41,7 +41,8 @@ class Notice extends Model implements HasMedia
         'weight',
         'weightold',
         'pierwotna waga przed zmianą na standard',
-        'portal'
+        'portal',
+        'views',
     ];
 
     const CREATED_AT = 'created';

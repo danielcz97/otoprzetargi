@@ -1,13 +1,14 @@
 <?php
 
+use App\Http\Middleware\CountViews;
 use Illuminate\Support\Facades\Route;
 
-// dla otoprzetargi
-Route::get('/nieruchomosci/{slug}', [App\Http\Controllers\PropertiesController::class, 'index'])->name('properties.index');
-Route::get('/komunikaty/{slug}', [App\Http\Controllers\ComunicatsController::class, 'index'])->name('comunicats.index');
-Route::get('/ruchomosci/{slug}', [App\Http\Controllers\MovablePropertyController::class, 'index'])->name('movable.index');
-Route::get('/wierzytelnosci/{slug}', [App\Http\Controllers\ClaimController::class, 'index'])->name('wierzytelnosci.index');
-
+Route::middleware([CountViews::class])->group(function () {
+    Route::get('/nieruchomosci/{slug}', [App\Http\Controllers\PropertiesController::class, 'index'])->name('properties.index');
+    Route::get('/komunikaty/{slug}', [App\Http\Controllers\ComunicatsController::class, 'index'])->name('comunicats.index');
+    Route::get('/ruchomosci/{slug}', [App\Http\Controllers\MovablePropertyController::class, 'index'])->name('movable.index');
+    Route::get('/wierzytelnosci/{slug}', [App\Http\Controllers\ClaimController::class, 'index'])->name('wierzytelnosci.index');
+});
 Route::get('/print/{slug}', [App\Http\Controllers\PropertiesController::class, 'printPage'])->name('properties.printPage');
 Route::get('/print-movable/{slug}', [App\Http\Controllers\MovablePropertyController::class, 'printPage'])->name('movable.printPage');
 

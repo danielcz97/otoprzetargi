@@ -49,6 +49,9 @@ class Property extends Model implements HasMedia
         'weightold',
         'pierwotna waga przed zmianą na standard',
         'portal',
+        'views',
+        'cyclic',
+        'cyclic_day'
     ];
 
     protected $appends = [

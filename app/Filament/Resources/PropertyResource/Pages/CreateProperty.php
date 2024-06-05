@@ -18,4 +18,9 @@ class CreateProperty extends CreateRecord
 
         $this->autocomplete = $this->record->miejscowosc ?? '';
     }
+
+    protected function afterSave(): void
+    {
+        $this->notify('success', 'Rekord został utworzony. <a href="' . url('komunikaty/' . $this->record->slug) . '" target="_blank">Przejdź do strony</a>');
+    }
 }
