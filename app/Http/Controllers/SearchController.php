@@ -15,7 +15,6 @@ class SearchController extends Controller
     {
         $query = Property::query();
 
-        // Dołączamy tabelę c144_nodes_teryts do głównego zapytania
         $query->join('c144_nodes_teryts', 'nieruchomosci.id', '=', 'c144_nodes_teryts.node_id')
             ->select('nieruchomosci.*', 'c144_nodes_teryts.latitude', 'c144_nodes_teryts.longitude', 'c144_nodes_teryts.miasto');
 
@@ -25,7 +24,6 @@ class SearchController extends Controller
             $radius = $request->input('radius', 0);
 
             if ($radius > 0) {
-                // Surowe zapytanie z obliczeniami odległości
                 $haversine = "(6371 * acos(cos(radians($latitude)) * cos(radians(c144_nodes_teryts.latitude)) * cos(radians(c144_nodes_teryts.longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(c144_nodes_teryts.latitude))))";
 
                 $query->whereRaw("$haversine <= ?", [$radius]);
@@ -62,7 +60,6 @@ class SearchController extends Controller
         }
         $today = Carbon::today();
 
-        // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {
@@ -77,7 +74,6 @@ class SearchController extends Controller
     {
         $query = MovableProperty::query();
 
-        // Dołączamy tabelę c144_nodes_teryts do głównego zapytania
         $query->join('c144_nodes_teryts', 'ruchomosci.id', '=', 'c144_nodes_teryts.node_id')
             ->select('ruchomosci.*', 'c144_nodes_teryts.latitude', 'c144_nodes_teryts.longitude', 'c144_nodes_teryts.miasto');
 
@@ -123,7 +119,6 @@ class SearchController extends Controller
         }
         $today = Carbon::today();
 
-        // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {
@@ -157,7 +152,6 @@ class SearchController extends Controller
         }
         $today = Carbon::today();
 
-        // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {
@@ -191,7 +185,6 @@ class SearchController extends Controller
         }
         $today = Carbon::today();
 
-        // Dodanie warunku whereDate do istniejącego zapytania
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {

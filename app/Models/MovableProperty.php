@@ -57,11 +57,6 @@ class MovableProperty extends Model implements HasMedia
     const CREATED_AT = 'created';
     const UPDATED_AT = 'updated';
 
-    public function getFirstMediaUrl()
-    {
-        return $this->getFirstMediaUrl();
-    }
-
     protected function terms(): Attribute
     {
         return Attribute::make(
