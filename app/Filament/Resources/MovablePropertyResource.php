@@ -39,7 +39,7 @@ class MovablePropertyResource extends Resource
                     ->label('Przedmiot ogłoszenia')
                     ->options(fn() => TransactionType::where('model_type', 'App\\Models\\MovableProperty')->pluck('name', 'id')->toArray())
                     ->required()
-                    ->default(fn($record) => $record?->transaction_type)
+                    ->default(fn($record) => $record->transaction_type)
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                         $terms = $get('terms');
@@ -74,7 +74,7 @@ class MovablePropertyResource extends Resource
                 TextInput::make('title')
                     ->label('Title')
                     ->required()
-                    ->live()
+                    ->live(debounce: 500)
                     ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $slug = Str::slug(
                             str_replace(
@@ -137,7 +137,7 @@ class MovablePropertyResource extends Resource
                             ->defaultZoom(10)
                             ->autocomplete(
                                 fieldName: 'miejscowosc',
-                                types: ['(cities)'],
+                                types: ['address'],
                                 countries: ['PL']
                             )
                             ->autocompleteReverse(true)
@@ -147,7 +147,7 @@ class MovablePropertyResource extends Resource
                                 'state' => '%A1',
                                 'zip' => '%z',
                             ])
-                            ->defaultLocation([52.2297, 21.0122]) // Warszawa jako domyślna lokalizacja
+                            ->defaultLocation([52.2297, 21.0122])
                             ->draggable()
                             ->clickable(false)
                             ->afterStateUpdated(function ($state, callable $get, callable $set) {
@@ -200,6 +200,7 @@ class MovablePropertyResource extends Resource
                         'Otoprzetargi' => 'Otoprzetargi',
                         'Syndycy' => 'Syndycy'
                     ])
+                    ->default(['Otoprzetargi'])
                     ->columns(2),
                 Fieldset::make('Premium')
                     ->relationship('premium')
@@ -243,11 +244,16 @@ class MovablePropertyResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID'),
+                Tables\Columns\TextColumn::make('teryt.latitude')
+                    ->label('latitude'),
+                Tables\Columns\TextColumn::make('teryt.longitude')
+                    ->label('longitude'),
                 Tables\Columns\TextColumn::make('created')
                     ->label('Opublikowano')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Tytuł'),
+                    ->label('Tytuł')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('views')
                     ->label('Ilość wyświetleń')
                     ->numeric(),

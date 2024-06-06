@@ -33,7 +33,7 @@ class PostResource extends Resource
                 TextInput::make('title')
                     ->label('Title')
                     ->required()
-                    ->live()
+                    ->live(debounce: 500)
                     ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $slug = Str::slug(
                             str_replace(

@@ -10,8 +10,17 @@ class Notice extends Model implements HasMedia
 {
     use InteractsWithMedia;
     protected $table = 'komunikaty';
-    public $timestamps = false;
 
+    protected $casts = [
+        'terms' => 'array',
+        'portal' => 'array',
+
+    ];
+    public $timestamps = false;
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('default')->useDisk('public');
+    }
     protected $fillable = [
         'user_id',
         'title',
@@ -43,14 +52,36 @@ class Notice extends Model implements HasMedia
         'pierwotna waga przed zmianą na standard',
         'portal',
         'views',
+        'cyclic',
+        'cyclic_day'
     ];
-
-    const CREATED_AT = 'created';
-    const UPDATED_AT = 'updated';
 
     public static function getTypes()
     {
         return self::query()->select('type')->distinct()->pluck('type');
+    }
+
+    public function nodeFiles()
+    {
+        return $this->hasMany(NodeFile::class, 'node_id', 'id');
+    }
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class, 'contact_id');
+    }
+    public function getFirstImage()
+    {
+        $files = $this->nodeFiles()->get();
+
+        foreach ($files as $file) {
+            if (!empty($file->filename) && !empty($file->folder)) {
+                $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
+
+                return $filePath;
+            }
+        }
+
+        return null;
     }
 
     public function teryt()
@@ -63,8 +94,64 @@ class Notice extends Model implements HasMedia
         return $this->hasOne(Premiums::class, 'node_id', 'id');
     }
 
-    public function contact()
+    public function getAllImages()
     {
-        return $this->belongsTo(Contact::class, 'contact_id');
+        $files = $this->nodeFiles()->get();
+        $imagePaths = [];
+
+        foreach ($files as $file) {
+            if (!empty($file->filename) && !empty($file->folder)) {
+                $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
+                $imagePaths[] = $filePath;
+            }
+        }
+
+        return $imagePaths;
+    }
+
+    protected function terms(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value, true),
+            set: fn($value) => json_encode($value),
+        );
+    }
+
+    public function setTermsAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+
+        if (is_array($value)) {
+            $terms = [];
+
+            foreach ($value as $id => $name) {
+                $transactionType = TransactionType::find($id);
+                $objectType = ObjectType::find($id);
+
+                if ($transactionType) {
+                    $terms[$transactionType->id] = $transactionType->name;
+                }
+
+                if ($objectType) {
+                    $terms[$objectType->id] = $objectType->name;
+                }
+            }
+
+            $this->attributes['terms'] = json_encode($terms);
+        } else {
+            $this->attributes['terms'] = json_encode([]);
+        }
+    }
+
+    public function objectType()
+    {
+        return $this->belongsTo(ObjectType::class);
+    }
+
+    public function transactionType()
+    {
+        return $this->belongsTo(TransactionType::class);
     }
 }

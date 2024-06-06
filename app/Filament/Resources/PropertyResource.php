@@ -81,7 +81,7 @@ class PropertyResource extends Resource
                 TextInput::make('title')
                     ->label('Title')
                     ->required()
-                    ->live()
+                    ->live(debounce: 500)
                     ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $slug = Str::slug(
                             str_replace(
@@ -144,7 +144,7 @@ class PropertyResource extends Resource
                             ->defaultZoom(10)
                             ->autocomplete(
                                 fieldName: 'miejscowosc',
-                                types: ['(cities)'],
+                                types: ['address'],
                                 countries: ['PL']
                             )
                             ->autocompleteReverse(true)
@@ -154,34 +154,36 @@ class PropertyResource extends Resource
                                 'state' => '%A1',
                                 'zip' => '%z',
                             ])
-                            ->defaultLocation([
-                                52.2297,
-                                21.0122
+                            ->defaultLocation(fn($record) => [
+                                $record->teryt?->latitude ?? 52.2297, // Domyślnie Warszawa
+                                $record->teryt?->longitude ?? 21.0122,
                             ])
                             ->draggable()
                             ->clickable(false)
+                            ->reactive()
                             ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                 $set('latitude', $state['lat']);
                                 $set('longitude', $state['lng']);
                             }),
                         Forms\Components\TextInput::make('latitude')
                             ->reactive()
+                            ->default(fn($record) => $record->teryt->latitude ?? null)
+
                             ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                 $set('location', [
                                     'lat' => floatVal($state),
                                     'lng' => floatVal($get('longitude')),
                                 ]);
-                            })
-                            ->lazy(), // important to use lazy, to avoid updates as you type
+                            }),
                         Forms\Components\TextInput::make('longitude')
                             ->reactive()
+                            ->default(fn($record) => $record->teryt->longitude ?? null)
                             ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                 $set('location', [
                                     'lat' => floatval($get('latitude')),
                                     'lng' => floatVal($state),
                                 ]);
-                            })
-                            ->lazy(),
+                            }),
                         Forms\Components\TextInput::make('wojewodztwo')
                             ->label('Województwo')
                             ->default(fn($record) => $record->teryt->wojewodztwo ?? ''),
@@ -210,6 +212,7 @@ class PropertyResource extends Resource
                         'Otoprzetargi' => 'Otoprzetargi',
                         'Syndycy' => 'Syndycy'
                     ])
+                    ->default(['Otoprzetargi'])
                     ->columns(2),
                 Fieldset::make('Premium')
                     ->relationship('premium')
@@ -254,11 +257,16 @@ class PropertyResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID'),
+                Tables\Columns\TextColumn::make('teryt.latitude')
+                    ->label('latitude'),
+                Tables\Columns\TextColumn::make('teryt.longitude')
+                    ->label('longitude'),
                 Tables\Columns\TextColumn::make('created')
                     ->label('Opublikowano')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Tytuł'),
+                    ->label('Tytuł')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('views')
                     ->label('Ilość wyświetleń'),
 

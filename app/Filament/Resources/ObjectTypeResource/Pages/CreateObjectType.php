@@ -17,4 +17,16 @@ class CreateObjectType extends CreateRecord
         }
         return $data;
     }
+
+
+    protected function getRedirectUrl(): string
+    {
+        $url = parent::getRedirectUrl();
+
+        if (request()->has('model_type')) {
+            $url .= '?model_type=' . request()->query('model_type');
+        }
+
+        return $url;
+    }
 }

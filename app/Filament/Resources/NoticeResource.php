@@ -34,7 +34,7 @@ class NoticeResource extends Resource
                 TextInput::make('title')
                     ->label('Title')
                     ->required()
-                    ->live()
+                    ->live(debounce: 500)
                     ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $slug = Str::slug(
                             str_replace(
@@ -97,7 +97,7 @@ class NoticeResource extends Resource
                             ->defaultZoom(10)
                             ->autocomplete(
                                 fieldName: 'miejscowosc',
-                                types: ['(cities)'],
+                                types: ['address'],
                                 countries: ['PL']
                             )
                             ->autocompleteReverse(true)
@@ -160,6 +160,7 @@ class NoticeResource extends Resource
                         'Otoprzetargi' => 'Otoprzetargi',
                         'Syndycy' => 'Syndycy'
                     ])
+                    ->default(['Otoprzetargi'])
                     ->columns(2),
                 Fieldset::make('Premium')
                     ->relationship('premium')
@@ -203,11 +204,16 @@ class NoticeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID'),
+                Tables\Columns\TextColumn::make('teryt.latitude')
+                    ->label('latitude'),
+                Tables\Columns\TextColumn::make('teryt.longitude')
+                    ->label('longitude'),
                 Tables\Columns\TextColumn::make('created')
                     ->label('Opublikowano')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Tytuł'),
+                    ->label('Tytuł')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('views')
                     ->label('Ilość wyświetleń'),
             ])

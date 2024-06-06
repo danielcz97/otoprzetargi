@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\MovablePropertyResource\Pages;
 
 use App\Filament\Resources\MovablePropertyResource;
+use App\Models\ObjectType;
+use App\Models\TransactionType;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -40,5 +42,17 @@ class EditMovableProperty extends EditRecord
         parent::mount($record);
 
         $this->autocomplete = $this->record->miejscowosc ?? '';
+    }
+
+    private function getTransactionTypeLabel($id): ?string
+    {
+        $transactionType = TransactionType::find($id);
+        return $transactionType ? $transactionType->name : null;
+    }
+
+    private function getObjectTypeLabel($id): ?string
+    {
+        $objectType = ObjectType::find($id);
+        return $objectType ? $objectType->name : null;
     }
 }
