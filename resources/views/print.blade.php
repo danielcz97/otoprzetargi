@@ -17,11 +17,12 @@
         }
 
         h1 {
-            font-size: 25px;
+            font-size: 20px;
         }
 
         body {
             font-family: DejaVu Sans, sans-serif;
+            font-size: 10px;
         }
 
         .header-table {
@@ -85,7 +86,8 @@
                 </td>
                 <td style="width: 50%; text-align: right;">
                     <div>
-                        <p>Copyright © 2012 - 2018 Otoprzetargi.pl<br>wdrożenie: Teamwant.pl</p>
+                        <p>Copyright © 2012 - 2024 Otoprzetargi.pl<br>wdrożenie: Daniel Czerepak firma.dcode@gmail.com
+                        </p>
                     </div>
                 </td>
             </tr>

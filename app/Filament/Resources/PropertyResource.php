@@ -23,10 +23,13 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Navigation\NavigationItem;
 use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 use Filament\Forms\Components\CheckboxList;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class PropertyResource extends Resource
 {
     protected static ?string $model = Property::class;
+    protected static ?int $navigationSort = 1;
+
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -118,7 +121,7 @@ class PropertyResource extends Resource
                     ->label('Ilość wyświetleń')
                     ->numeric()
                     ->default(0),
-                Forms\Components\RichEditor::make('body')
+                TinyEditor::make('body')
                     ->label('Body')
                     ->required()
                     ->columnSpan('full'),
@@ -315,4 +318,5 @@ class PropertyResource extends Resource
                 ->group('Nieruchomości'),
         ];
     }
+
 }

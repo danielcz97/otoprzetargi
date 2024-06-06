@@ -10,78 +10,81 @@
 
     @include('hero')
 
-
-    <section class="py-6">
-        <div class="container">
-            <div class="row mb-lg-6">
-                <div class="col-md-8">
-                    <p class="subtitle text-secondary">Najlepsze oferty</p>
-                    <h2 class="mb-md-0">Promowane ogłoszenia</h2>
+    @if (!$promotedNodes->isEmpty())
+        <section class="py-6">
+            <div class="container">
+                <div class="row mb-lg-6">
+                    <div class="col-md-8">
+                        <p class="subtitle text-secondary">Najlepsze oferty</p>
+                        <h2 class="mb-md-0">Promowane ogłoszenia</h2>
+                    </div>
+                    <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm"
+                            href="nieruchomosci">
+                            Zobacz wszystkie<i class="fas fa-angle-double-right ms-2"></i></a></div>
                 </div>
-                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm"
-                        href="nieruchomosci">
-                        Zobacz wszystkie<i class="fas fa-angle-double-right ms-2"></i></a></div>
             </div>
-        </div>
-        <div class="container">
-            <div class="swiper-container swiper-container-mx-negative items-slider px-lg-5 pt-3">
-                <div class="swiper-wrapper pb-5">
-                    @foreach ($promotedNodes as $node)
-                        <div class="swiper-slide h-auto px-2">
-                            <div class="w-100 h-100 hover-animate" data-marker-id="{{ $node->id }}">
-                                <div class="card h-100 border-0 shadow">
-                                    <div class="card-img-top overflow-hidden gradient-overlay"
-                                        style="background-image: url('{{ $node->mainMedia }}'); min-height: 200px;    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;">
-                                        @php
-                                            $transactionDetails = $node->getTransactionDetails() ?? [];
-                                        @endphp
-                                        @if ($transactionDetails)
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['transaction_type'] }}</div>
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['property_type'] }}</div>
-                                        @endif
-                                        <a class="tile-link"
-                                            href="{{ route('properties.index', ['slug' => $node->slug]) }}"></a>
-
-                                    </div>
-                                    <div class="card-body d-flex align-items-center">
-                                        <div class="w-100">
-                                            <h6 class="card-title"><a class="text-decoration-none text-dark"
-                                                    href="{{ route('properties.index', ['slug' => $node->slug]) }}">{{ $node->title }}</a>
-                                            </h6>
-
-                                            <p class="text-sm text-muted text-uppercase">{{ $node->type }}</p>
-                                            @if ($node->powierzchnia)
-                                                <p
-                                                    class="card-text d-flex justify-content-between text-gray-800 text-sm">
-                                                    <span class="me-1"><i
-                                                            class="fa fa-ruler-combined text-primary opacity-4 text-xs me-1"></i>
-                                                        {{ $node->powierzchnia }}
-                                                        m<sup>2</sup></span>
+            <div class="container">
+                <div class="swiper-container swiper-container-mx-negative items-slider px-lg-5 pt-3">
+                    <div class="swiper-wrapper pb-5">
+                        @foreach ($promotedNodes as $node)
+                            <div class="swiper-slide h-auto px-2">
+                                <div class="w-100 h-100 hover-animate" data-marker-id="{{ $node->id }}">
+                                    <div class="card h-100 border-0 shadow">
+                                        <div class="card-img-top overflow-hidden gradient-overlay"
+                                            style="background-image: url('{{ $node->mainMedia }}'); min-height: 200px;    background-attachment: fixed;background-repeat: no-repeat;background-size: contain;background-position: center;">
+                                            @php
+                                                $transactionDetails = $node->getTransactionDetails() ?? [];
+                                            @endphp
+                                            @if ($transactionDetails)
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['transaction_type'] }}</div>
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['property_type'] }}</div>
                                             @endif
-                                            @if ($node->cena)
-                                                <span><i
-                                                        class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($node->cena) }}zł</span>
-                                                </p>
-                                            @endif
+                                            <a class="tile-link"
+                                                href="{{ route('properties.index', ['slug' => $node->slug]) }}"></a>
+
+                                        </div>
+                                        <div class="card-body d-flex align-items-start">
+                                            <div class="w-100">
+                                                <h6 class="card-title"><a class="text-decoration-none text-dark"
+                                                        href="{{ route('properties.index', ['slug' => $node->slug]) }}">{{ $node->title }}</a>
+                                                </h6>
+
+                                                <p class="text-sm text-muted text-uppercase">{{ $node->type }}</p>
+                                                <p class="text-sm text-muted text-uppercase">
+                                                    {{ \Carbon\Carbon::parse($node->created)->format('Y-m-d') }}</p>
+
+                                                @if ($node->powierzchnia)
+                                                    <p
+                                                        class="card-text d-flex justify-content-between text-gray-800 text-sm">
+                                                        <span class="me-1"><i
+                                                                class="fa fa-ruler-combined text-primary opacity-4 text-xs me-1"></i>
+                                                            {{ $node->powierzchnia }}
+                                                            m<sup>2</sup></span>
+                                                @endif
+                                                @if ($node->cena)
+                                                    <span><i
+                                                            class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($node->cena) }}zł</span>
+                                                    </p>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                            <div class="swiper-button-next">
+                            </div>
+                            <div class="swiper-button-prev"></div>
+                        @endforeach
+                    </div>
+
+                    <!-- If we need pagination-->
+                    <div class="swiper-pagination"></div>
                 </div>
-
-                <!-- If we need pagination-->
-                <div class="swiper-pagination"></div>
             </div>
-        </div>
-    </section>
-
+        </section>
+    @endif
     <section class="py-6">
         <div class="container">
             <div class="row mb-lg-6">
@@ -95,37 +98,28 @@
             </div>
         </div>
         <div class="container">
-            <!-- Slider main container-->
             <div class="swiper-container swiper-container-mx-negative items-slider px-lg-5 pt-3">
-                <!-- Additional required wrapper -->
                 <div class="swiper-wrapper pb-5">
-                    <!-- Iteruj przez promowane ogłoszenia -->
                     @foreach ($latestNodes as $node)
                         <div class="swiper-slide h-auto px-2">
                             <div class="w-100 h-100 hover-animate" data-marker-id="{{ $node->id }}">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden gradient-overlay"
                                         style="background-image: url('{{ $node->thumbnail_url }}'); min-height: 200px;    background-attachment: fixed;background-repeat: no-repeat;background-size: contain; background-position: center;">
-                                        @php
-                                            $transactionDetails = $node->getTransactionDetails() ?? [];
-                                        @endphp
-                                        @if ($transactionDetails)
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['transaction_type'] }}</div>
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['property_type'] }}</div>
-                                        @endif
+
                                         <a class="tile-link"
                                             href="{{ route('properties.index', ['slug' => $node->slug]) }}"></a>
 
                                     </div>
-                                    <div class="card-body d-flex align-items-center">
+                                    <div class="card-body d-flex align-items-start">
                                         <div class="w-100">
                                             <h6 class="card-title"><a class="text-decoration-none text-dark"
                                                     href="{{ route('properties.index', ['slug' => $node->slug]) }}">{{ $node->title }}</a>
                                             </h6>
 
                                             <p class="text-sm text-muted text-uppercase">{{ $node->type }}</p>
+                                            <p class="text-sm text-muted text-uppercase">
+                                                {{ \Carbon\Carbon::parse($node->created)->format('Y-m-d') }}</p>
                                             @if ($node->powierzchnia)
                                                 <p
                                                     class="card-text d-flex justify-content-between text-gray-800 text-sm">
@@ -139,7 +133,22 @@
                                                         class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($node->cena) }}zł</span>
                                                 </p>
                                             @endif
-
+                                            @php
+                                                $transactionDetails = $node->getTransactionDetails() ?? [];
+                                            @endphp
+                                            @if ($transactionDetails)
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['transaction_type'] }}</div>
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['property_type'] }}</div>
+                                            @endif
+                                            @if (!is_null($node->getFullLocationFront()))
+                                                <div class="pt-4">
+                                                    <p>
+                                                        {{ $node->getFullLocationFront() }}
+                                                    <p>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -148,6 +157,9 @@
                     @endforeach
 
                 </div>
+
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
@@ -171,7 +183,7 @@
                     <div class="col-lg-4 col-sm-6 mb-4 hover-animate">
                         <div class="card shadow border-0 h-100">
                             <a href="{{ route('news.view', $post->slug) }}">
-                                <img src="" alt="{{ $post->title }}">
+                                <img src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}">
 
                             </a>
                             <div class="card-body">
@@ -197,76 +209,7 @@
 
     </div>
     @include('scripts')
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk&libraries=places">
-    </script>
-    <script>
-        function initAutocomplete() {
-            const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell'];
-            const autocompleteObjects = {};
 
-            inputIds.forEach(id => {
-                const input = document.getElementById(id);
-                const autocomplete = new google.maps.places.Autocomplete(input, {
-                    types: ['(cities)'],
-                    componentRestrictions: {
-                        country: 'pl'
-                    } // Restrict to Poland
-                });
-                autocompleteObjects[id] = autocomplete;
-
-                autocomplete.addListener('place_changed', function() {
-                    const place = autocomplete.getPlace();
-                    if (place.geometry) {
-                        const latitude = place.geometry.location.lat();
-                        const longitude = place.geometry.location.lng();
-                        document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
-                        document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
-
-                        const geocoder = new google.maps.Geocoder();
-                        geocoder.geocode({
-                            'location': {
-                                lat: latitude,
-                                lng: longitude
-                            }
-                        }, function(results, status) {
-                            if (status === 'OK' && results[0]) {
-                                const addressComponents = results[0].address_components;
-                                let city, administrativeAreaLevel2, administrativeAreaLevel1,
-                                    country;
-
-                                for (let i = 0; i < addressComponents.length; i++) {
-                                    const types = addressComponents[i].types;
-
-                                    if (types.includes('locality')) {
-                                        city = addressComponents[i].long_name;
-                                    }
-                                    if (types.includes('administrative_area_level_2')) {
-                                        administrativeAreaLevel2 = addressComponents[i].long_name;
-                                    }
-                                    if (types.includes('administrative_area_level_1')) {
-                                        administrativeAreaLevel1 = addressComponents[i].long_name;
-                                    }
-                                    if (types.includes('country')) {
-                                        country = addressComponents[i].long_name;
-                                    }
-                                }
-
-                                document.getElementById(`city-${id.split('-')[2]}`).value = city ||
-                                    '';
-                                document.getElementById(`admin-area-level-2-${id.split('-')[2]}`)
-                                    .value = administrativeAreaLevel2 || '';
-                                document.getElementById(`admin-area-level-1-${id.split('-')[2]}`)
-                                    .value = administrativeAreaLevel1 || '';
-                                document.getElementById(`country-${id.split('-')[2]}`).value =
-                                    country || '';
-                            }
-                        });
-                    }
-                });
-            });
-        }
-        google.maps.event.addDomListener(window, 'load', initAutocomplete);
-    </script>
 
 
 </body>

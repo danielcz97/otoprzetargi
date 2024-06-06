@@ -20,13 +20,18 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Navigation\NavigationItem;
 use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 use Filament\Forms\Components\CheckboxList;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class NoticeResource extends Resource
 {
     protected static ?string $model = Notice::class;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    public static function getNavigationSort(): ?int
+    {
+        return 3;
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -63,7 +68,7 @@ class NoticeResource extends Resource
                 Forms\Components\TextInput::make('powierzchnia')
                     ->label('Powierzchnia')
                     ->numeric(),
-                Forms\Components\RichEditor::make('body')
+                TinyEditor::make('body')
                     ->label('Body')
                     ->required()
                     ->columnSpan('full'),

@@ -9,7 +9,25 @@
 
     @include('header')
     @include('hero')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Funkcja do przewijania do określonej sekcji
+            function scrollToSection() {
+                const targetSection = document.querySelector('.container-fluid.py-5.px-lg-5');
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
 
+            // Sprawdź, czy URL zawiera parametr 'page'
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('page')) {
+                scrollToSection();
+            }
+        });
+    </script>
     <div class="container-fluid py-5 px-lg-5">
         <div class="row border-bottom mb-4">
             <div class="col-12">
@@ -17,7 +35,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 pt-3">
+            <div class="col-lg-3 pt-3 d-none d-sm-block">
                 <form class="pe-xl-3" action="{{ route('search.ruchomosci') }}" method="GET">
                     <div class="mb-4">
                         <label class="form-label" for="address-input">Adres</label>
@@ -123,30 +141,42 @@
 
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden  bg-cover"
-                                        style="background-image: url('{{ $property->thumbnail_url ?? '' }}'); min-height: 200px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;">
-                                        @php
-                                            $transactionDetails = $property->getTransactionDetails() ?? [];
-                                        @endphp
-                                        @if ($transactionDetails)
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['transaction_type'] }}</div>
-                                            <div class="badge badge-transparent badge-pill px-3 py-2">
-                                                {{ $transactionDetails['property_type'] }}</div>
-                                        @endif
-                                        <div class="card-img-overlay-bottom z-index-20">
+                                        style="background-image: url('{{ $property->thumbnail_url ?? '' }}'); min-height: 200px;background-repeat: no-repeat;background-size: contain;background-position: center;">
 
-                                        </div>
 
                                     </div>
                                     <div class="card-body">
                                         <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}
                                         </h2>
-
+                                        @if ($property->powierzchnia)
+                                            <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
+                                                {{ $property->powierzchnia }} </p>
+                                        @endif
+                                        @if ($property->cena)
+                                            <p class="text-sm text-muted text-uppercase mb-1">Cena:
+                                                {{ $property->cena }}
+                                            </p>
+                                        @endif
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:
                                             {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }} </p>
+                                        @php
+                                            $transactionDetails = $property->getTransactionDetails() ?? [];
+                                        @endphp
+                                        @if ($transactionDetails)
+                                            <div class="pt-2">
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['transaction_type'] }}</div>
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['property_type'] }}</div>
+                                            </div>
+                                        @endif
+                                        @if (!is_null($property->getFullLocationFront()))
+                                            <div class="pt-4">
+                                                <p>
+                                                    {{ $property->getFullLocationFront() }}
+                                                <p>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </a>

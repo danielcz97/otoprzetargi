@@ -153,6 +153,7 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Mohamedsabil83\\FilamentFormsTinyeditor\\' => 39,
             'Mockery\\' => 8,
             'Masterminds\\' => 12,
             'Mastani\\GoogleStaticMap\\' => 24,
@@ -537,6 +538,10 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Mohamedsabil83\\FilamentFormsTinyeditor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mohamedsabil83/filament-forms-tinyeditor/src',
+        ),
         'Mockery\\' => 
         array (
             0 => __DIR__ . '/..' . '/mockery/mockery/library/Mockery',
@@ -833,6 +838,7 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'AnourValar\\EloquentSerialize\\Grammars\\QueryBuilderGrammar' => __DIR__ . '/..' . '/anourvalar/eloquent-serialize/src/Grammars/QueryBuilderGrammar.php',
         'AnourValar\\EloquentSerialize\\Package' => __DIR__ . '/..' . '/anourvalar/eloquent-serialize/src/Package.php',
         'AnourValar\\EloquentSerialize\\Service' => __DIR__ . '/..' . '/anourvalar/eloquent-serialize/src/Service.php',
+        'App\\Console\\Commands\\AddCyclicPosts' => __DIR__ . '/../..' . '/app/Console/Commands/AddCyclicPosts.php',
         'App\\Filament\\Resources\\ClaimResource' => __DIR__ . '/../..' . '/app/Filament/Resources/ClaimResource.php',
         'App\\Filament\\Resources\\ClaimResource\\Pages\\CreateClaim' => __DIR__ . '/../..' . '/app/Filament/Resources/ClaimResource/Pages/CreateClaim.php',
         'App\\Filament\\Resources\\ClaimResource\\Pages\\EditClaim' => __DIR__ . '/../..' . '/app/Filament/Resources/ClaimResource/Pages/EditClaim.php',
@@ -878,6 +884,7 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'App\\Http\\Controllers\\PagesController' => __DIR__ . '/../..' . '/app/Http/Controllers/PagesController.php',
         'App\\Http\\Controllers\\PropertiesController' => __DIR__ . '/../..' . '/app/Http/Controllers/PropertiesController.php',
         'App\\Http\\Controllers\\SearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/SearchController.php',
+        'App\\Http\\Middleware\\CountViews' => __DIR__ . '/../..' . '/app/Http/Middleware/CountViews.php',
         'App\\Models\\Claim' => __DIR__ . '/../..' . '/app/Models/Claim.php',
         'App\\Models\\Comunicats' => __DIR__ . '/../..' . '/app/Models/Comunicats.php',
         'App\\Models\\Contact' => __DIR__ . '/../..' . '/app/Models/Contact.php',
@@ -896,6 +903,7 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\FilamentServiceProvider' => __DIR__ . '/../..' . '/app/Providers/FilamentServiceProvider.php',
         'App\\Providers\\Filament\\AdminPanelProvider' => __DIR__ . '/../..' . '/app/Providers/Filament/AdminPanelProvider.php',
+        'App\\Support\\CustomPathGenerator' => __DIR__ . '/../..' . '/app/Support/CustomPathGenerator.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Barryvdh\\DomPDF\\Facade\\Pdf' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/Facade/Pdf.php',
         'Barryvdh\\DomPDF\\PDF' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/PDF.php',
@@ -5638,6 +5646,8 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'Mockery\\Undefined' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Undefined.php',
         'Mockery\\VerificationDirector' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/VerificationDirector.php',
         'Mockery\\VerificationExpectation' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/VerificationExpectation.php',
+        'Mohamedsabil83\\FilamentFormsTinyeditor\\Components\\TinyEditor' => __DIR__ . '/..' . '/mohamedsabil83/filament-forms-tinyeditor/src/Components/TinyEditor.php',
+        'Mohamedsabil83\\FilamentFormsTinyeditor\\FilamentFormsTinyeditorServiceProvider' => __DIR__ . '/..' . '/mohamedsabil83/filament-forms-tinyeditor/src/FilamentFormsTinyeditorServiceProvider.php',
         'Monolog\\Attribute\\AsMonologProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Attribute/AsMonologProcessor.php',
         'Monolog\\Attribute\\WithMonologChannel' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Attribute/WithMonologChannel.php',
         'Monolog\\DateTimeImmutable' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/DateTimeImmutable.php',

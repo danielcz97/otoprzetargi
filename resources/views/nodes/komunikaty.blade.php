@@ -9,7 +9,25 @@
 
     @include('header')
     @include('hero')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Funkcja do przewijania do określonej sekcji
+            function scrollToSection() {
+                const targetSection = document.querySelector('.container-fluid.py-5.px-lg-5');
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
 
+            // Sprawdź, czy URL zawiera parametr 'page'
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('page')) {
+                scrollToSection();
+            }
+        });
+    </script>
     <div class="container-fluid py-5 px-lg-5">
         <div class="row border-bottom mb-4">
             <div class="col-12">
@@ -17,7 +35,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 pt-3">
+            <div class="col-lg-3 pt-3 d-none d-sm-block">
                 <form class="pe-xl-3" action="{{ route('search.komunikaty') }}" method="GET">
 
                     <div class="mb-4">
@@ -116,12 +134,24 @@
                                     <div class="card-body">
                                         <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}
                                         </h2>
-                                        <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
-                                            {{ $property->powierzchnia }} </p>
-                                        <p class="text-sm text-muted text-uppercase mb-1">Cena: {{ $property->cena }}
-                                        </p>
+                                        @if ($property->powierzchnia)
+                                            <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
+                                                {{ $property->powierzchnia }} </p>
+                                        @endif
+                                        @if ($property->cena)
+                                            <p class="text-sm text-muted text-uppercase mb-1">Cena:
+                                                {{ $property->cena }}
+                                            </p>
+                                        @endif
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:
                                             {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }} </p>
+                                        @if (!is_null($property->getFullLocationFront()))
+                                            <div class="pt-4">
+                                                <p>
+                                                    {{ $property->getFullLocationFront() }}
+                                                <p>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </a>

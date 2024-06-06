@@ -26,9 +26,15 @@ class MovablePropertyController extends Controller
         $properties = MovableProperty::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
+        $properties->each(function ($property) {
+            $property->mainMediaUrl = $property->getFirstMediaUrl('default');
+        });
         $comunicats = Post::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(5);
+        $comunicats->each(function ($property) {
+            $property->mainMediaUrl = $property->getFirstMediaUrl('default');
+        });
         $createdDate = Carbon::parse($property->created);
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');

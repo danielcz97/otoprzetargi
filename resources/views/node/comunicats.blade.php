@@ -21,7 +21,8 @@
 
 <body>
     @if (auth()->check())
-        <a style="position: fixed; top: 30px;left: 30px;z-index: 99999;" href="/admin/notices/{{ $property->id }}/edit">
+        <a style="position: fixed; top: 30px;left: 30px;z-index: 99999; background: red;color: white;"
+            href="/admin/notices/{{ $property->id }}/edit">
             Edytuj ogłoszenie
         </a>
     @endif
@@ -30,7 +31,7 @@
     <section class="pt-4 pb-2 d-flex align-items-end bg-gray-700">
         <div class="container overlay-content">
             <div class="row">
-                <div class="col-9 flex align-items-center">
+                <div class="col-md-9 col-12 flex align-items-center">
                     <div
                         class="d-flex justify-content-between align-items-start flex-column flex-lg-row align-items-lg-end">
                         <div class="text-white mb-4 mb-lg-0">
@@ -43,7 +44,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="pb-2">
+                    <a href="{{ route('properties.printPage', ['slug' => $property->slug]) }}" target="_blank">
+                        <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
+                    </a>
+                </div>
+                <div class="col-md-3 col-12">
                     <img src="{{ $mainMediaUrl }}">
                 </div>
             </div>
@@ -65,7 +71,7 @@
                         </style>
                         <div class="row gallery ms-n1 me-n1">
                             @if ($galleryMedia->isNotEmpty())
-                                @foreach ($galleryMedia as $media)
+                                @foreach ($galleryMedia->reverse() as $media)
                                     <div class="col-lg-4 col-6 px-1 mb-2">
                                         <a href="{{ $media->getUrl() }}">
                                             <img class="img-fluid gallery-image" src="{{ $media->getUrl() }}"
@@ -161,7 +167,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url(''); min-height: 200px;background-attachment: fixed;
+                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
@@ -254,7 +260,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url(''); min-height: 200px;background-attachment: fixed;
+                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
@@ -289,7 +295,7 @@
     <div class="py-6 bg-gray-100">
         <div class="container">
             <h5 class="mb-0">Komunikaty</h5>
-            <p class="subtitle text-sm text-primary mb-4"> Które również polubisz </p>
+            <p class="subtitle text-sm text-primary mb-4">Proponowane dla Ciebie</p>
             <!-- Slider main container-->
             <div class="swiper-container swiper-container-mx-negative items-slider">
                 <!-- Additional required wrapper-->
@@ -301,7 +307,7 @@
                             <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden bg-cover"
-                                        style="background-image: url(''); min-height: 200px;background-attachment: fixed;
+                                        style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">

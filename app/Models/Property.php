@@ -122,21 +122,6 @@ class Property extends Model implements HasMedia
         return $this->hasOne(Premiums::class, 'node_id', 'id');
     }
 
-    public function getAllImages()
-    {
-        $files = $this->nodeFiles()->get();
-        $imagePaths = [];
-
-        foreach ($files as $file) {
-            if (!empty($file->filename) && !empty($file->folder)) {
-                $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
-                $imagePaths[] = $filePath;
-            }
-        }
-
-        return $imagePaths;
-    }
-
     public function getFullLocation()
     {
         $latitude = $this->teryt->latitude ?? 52.2297;
@@ -165,7 +150,7 @@ class Property extends Model implements HasMedia
             return "położonej w $region, $city";
         }
 
-        return 'Lokalizacja nieznana';
+        return null;
     }
 
     public function getFullLocationFront()
@@ -185,12 +170,20 @@ class Property extends Model implements HasMedia
         ]);
 
         if ($response->successful() && $response['status'] === 'OK') {
-            return $response['results'][0]['formatted_address'];
+            $formattedAddress = $response['results'][0]['formatted_address'];
+            // Remove the country name "Poland" from the formatted address
+            $addressWithoutCountry = preg_replace('/, Poland$/', '', $formattedAddress);
+            return $addressWithoutCountry;
         }
 
-        return 'Lokalizacja nieznana';
+        return null;
     }
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('default')->useDisk('public');
+        $this->addMediaCollection('herb')->useDisk('public');
 
+    }
     protected function terms(): Attribute
     {
         return Attribute::make(

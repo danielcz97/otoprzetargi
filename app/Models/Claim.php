@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Support\Facades\Http;
 
 class Claim extends Model implements HasMedia
 {
@@ -154,5 +155,80 @@ class Claim extends Model implements HasMedia
     public function transactionType()
     {
         return $this->belongsTo(TransactionType::class);
+    }
+
+    public function getFullLocation()
+    {
+        $latitude = $this->teryt->latitude ?? 52.2297;
+        $longitude = $this->teryt->longitude ?? 21.0122;
+        $apiKey = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk';
+        $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
+            'latlng' => "$latitude,$longitude",
+            'key' => $apiKey
+        ]);
+
+        if ($response->successful() && $response['status'] === 'OK') {
+            $addressComponents = $response['results'][0]['address_components'];
+
+            $region = '';
+            $city = '';
+
+            foreach ($addressComponents as $component) {
+                if (in_array('administrative_area_level_1', $component['types'])) {
+                    $region = $component['long_name'];
+                }
+                if (in_array('locality', $component['types'])) {
+                    $city = $component['long_name'];
+                }
+            }
+
+            return "położonej w $region, $city";
+        }
+
+        return null;
+    }
+
+    public function getFullLocationFront()
+    {
+        if ($this->teryt) {
+            $latitude = $this->teryt->latitude;
+            $longitude = $this->teryt->longitude;
+        } else {
+            $latitude = 52.2297; // domyślna szerokość geograficzna
+            $longitude = 21.0122; // domyślna długość geograficzna
+        }
+
+        $apiKey = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk';
+        $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
+            'latlng' => "$latitude,$longitude",
+            'key' => $apiKey
+        ]);
+
+        if ($response->successful() && $response['status'] === 'OK') {
+            $formattedAddress = $response['results'][0]['formatted_address'];
+            // Remove the country name "Poland" from the formatted address
+            $addressWithoutCountry = preg_replace('/, Poland$/', '', $formattedAddress);
+            return $addressWithoutCountry;
+        }
+
+        return null;
+    }
+
+    public function getTransactionDetails()
+    {
+        if (!$this->terms) {
+            return [];
+        }
+        if (is_array($this->terms)) {
+            $values = array_values($this->terms);
+
+            $transactionType = $values[0] ?? 'Nieznany';
+            $propertyType = $values[1] ?? 'Nieznany';
+
+            return [
+                'transaction_type' => $transactionType,
+                'property_type' => $propertyType,
+            ];
+        }
     }
 }

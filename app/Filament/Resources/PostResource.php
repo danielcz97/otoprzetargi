@@ -9,14 +9,10 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Models\Premium;
 use App\Models\Property;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\DatePicker;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class PostResource extends Resource
 {
@@ -56,8 +52,10 @@ class PostResource extends Resource
                         }
                         $set('slug', $slug);
                     }),
-                FileUpload::make('attachment')
-                    ->label('Zdjęcie'),
+                SpatieMediaLibraryFileUpload::make('media')
+                    ->collection('default')
+                    ->multiple()
+                    ->reorderable(),
 
                 Forms\Components\RichEditor::make('body')
                     ->label('Body')

@@ -140,8 +140,8 @@ $(function () {
 
     var itemsSlider = new Swiper(".items-slider", {
         slidesPerView: 4,
-        spaceBetween: 20,
-        loop: true,
+        spaceBetween: 40,
+        loop: false,
         roundLengths: true,
         breakpoints: {
             1200: {
@@ -154,6 +154,11 @@ $(function () {
                 slidesPerView: 1,
             },
         },
+
+            navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
 
         // If we need pagination
         pagination: {

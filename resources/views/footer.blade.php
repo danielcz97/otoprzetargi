@@ -32,17 +32,7 @@
 
                 </div>
                 <div class="col-lg-4">
-                    {{-- <h6 class="text-uppercase text-dark mb-3">Newsletter</h6>
-                    <p class="mb-3"> Zapisz się, aby być na bieżąco.
-                    </p>
-                    <form action="#" id="newsletter-form">
-                        <div class="input-group mb-3">
-                            <input class="form-control bg-transparent border-dark border-end-0" type="email"
-                                placeholder="Twój email" aria-label="Twój email">
-                            <button class="btn btn-outline-dark border-start-0" type="submit"> <i
-                                    class="fa fa-paper-plane text-lg"></i></button>
-                        </div>
-                    </form> --}}
+
                 </div>
             </div>
         </div>

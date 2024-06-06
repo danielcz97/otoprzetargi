@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     protected $table = 'news';
     public $timestamps = false;
 
@@ -52,20 +55,5 @@ class Post extends Model
     public function nodeFiles()
     {
         return $this->hasMany(NodeFile::class, 'node_id', 'id');
-    }
-
-    public function getFirstImage()
-    {
-        $files = $this->nodeFiles()->get();
-
-        foreach ($files as $file) {
-            if (!empty($file->filename) && !empty($file->folder)) {
-                $filePath = 'https://otoprzetargi.pl/files/' . $file->folder . '/' . $file->filename;
-
-                return $filePath;
-            }
-        }
-
-        return null;
     }
 }

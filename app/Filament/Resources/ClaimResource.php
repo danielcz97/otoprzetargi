@@ -23,10 +23,12 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Navigation\NavigationItem;
 use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 use Filament\Forms\Components\CheckboxList;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class ClaimResource extends Resource
 {
     protected static ?string $model = Claim::class;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -107,7 +109,7 @@ class ClaimResource extends Resource
                     ->label('Ilość wyświetleń')
                     ->numeric()
                     ->default(0),
-                Forms\Components\RichEditor::make('body')
+                TinyEditor::make('body')
                     ->label('Body')
                     ->required()
                     ->columnSpan('full'),

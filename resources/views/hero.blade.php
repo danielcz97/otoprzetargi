@@ -9,7 +9,7 @@
             </div>
         </div>
     </section>
-    <div class="container position-relative mt-n6 z-index-20" style="margin-top: -56px">
+    <div class="container position-relative mt-n6 z-index-20 " style="margin-top: -56px">
         <ul class="nav nav-tabs search-bar-nav-tabs" role="tablist">
             <li class="nav-item me-2"><a class="nav-link active" href="#buy" data-bs-toggle="tab"
                     role="tab">Nieruchomości</a></li>
@@ -190,3 +190,57 @@
             </div>
         </div>
     </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk&libraries=places">
+    </script>
+    <script>
+        function initAutocomplete() {
+            const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell', 'address-input-wierz'];
+            const autocompleteObjects = {};
+
+            inputIds.forEach(id => {
+                const input = document.getElementById(id);
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    componentRestrictions: {
+                        country: 'pl'
+                    } // Restrict to Poland
+                });
+                autocompleteObjects[id] = autocomplete;
+
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        const latitude = place.geometry.location.lat();
+                        const longitude = place.geometry.location.lng();
+                        document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
+                        document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
+
+                        const geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({
+                            'location': {
+                                lat: latitude,
+                                lng: longitude
+                            }
+                        }, function(results, status) {
+                            if (status === 'OK' && results[0]) {
+                                const addressComponents = results[0].address_components;
+                                let city;
+
+                                for (let i = 0; i < addressComponents.length; i++) {
+                                    const types = addressComponents[i].types;
+
+                                    if (types.includes('locality')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If city is found, no need to check further
+                                    }
+                                }
+
+                                document.getElementById(`city-${id.split('-')[2]}`).value = city ||
+                                    '';
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+    </script>

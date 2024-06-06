@@ -20,13 +20,18 @@
 </style>
 
 <body>
-
+    @if (auth()->check())
+        <a style="position: fixed; top: 30px;left: 30px;z-index: 99999; background: red;color: white;"
+            href="/admin/notices/{{ $property->id }}/edit">
+            Edytuj ogłoszenie
+        </a>
+    @endif
     @include('header')
 
     <section class="pt-4 pb-2 d-flex align-items-end bg-gray-700">
         <div class="container overlay-content">
             <div class="row">
-                <div class="col-9 flex align-items-center">
+                <div class="col-md-9 col-12 flex align-items-center">
                     <div
                         class="d-flex justify-content-between align-items-start flex-column flex-lg-row align-items-lg-end">
                         <div class="text-white mb-4 mb-lg-0">
@@ -39,7 +44,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="pb-2">
+                    <a href="{{ route('properties.printPage', ['slug' => $property->slug]) }}" target="_blank">
+                        <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
+                    </a>
+                </div>
+                <div class="col-md-3 col-12">
                     <img src="{{ $mainMediaUrl }}">
                 </div>
             </div>
@@ -61,7 +71,7 @@
                         </style>
                         <div class="row gallery ms-n1 me-n1">
                             @if ($galleryMedia->isNotEmpty())
-                                @foreach ($galleryMedia as $media)
+                                @foreach ($galleryMedia->reverse() as $media)
                                     <div class="col-lg-4 col-6 px-1 mb-2">
                                         <a href="{{ $media->getUrl() }}">
                                             <img class="img-fluid gallery-image" src="{{ $media->getUrl() }}"
@@ -142,51 +152,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4">
                     <div class="ps-xl-4">
-                        <h5 class="pb-2 text-primary">Ostatnie wierzytelności</h5>
-
-                        <div class="swiper-container swiper-container-mx-negative items-slider-custom">
-                            <!-- Additional required wrapper-->
-                            <div class="swiper-wrapper pb-5">
-                                <!-- Slides-->
-
-                                @foreach ($properties as $property)
-                                    <div class="swiper-slide h-auto px-2">
-                                        <!-- venue item-->
-                                        <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
-                                            <div class="card h-100 border-0 shadow">
-                                                <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url(''); min-height: 200px;background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;">
-                                                    <a class="tile-link"
-                                                        href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
-                                                    <div class="card-img-overlay-bottom z-index-20">
-                                                        <!-- Card Title -->
-                                                    </div>
-
-                                                </div>
-                                                <div class="card-body">
-                                                    <h2 class="text-sm text-muted mb-3">
-                                                        {{ Str::limit($property->title, 100) }}
-                                                    </h2>
-                                                    <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
-                                                        {{ $property->powierzchnia }}</p>
-                                                    <p class="text-sm text-muted text-uppercase mb-1">Cena:
-                                                        {{ $property->cena }}
-                                                    </p>
-                                                    <p class="text-sm text-muted text-uppercase mb-1">Data:
-                                                        {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
                         <!-- Contact-->
                         @if ($property->contact)
 
@@ -237,6 +205,72 @@
                                 </div>
                             </div>
                         @endif
+                        <h5 class="pb-2 text-primary">Ostatnie wierzytelności</h5>
+
+                        <div class="swiper-container swiper-container-mx-negative items-slider-custom">
+                            <!-- Additional required wrapper-->
+                            <div class="swiper-wrapper pb-5">
+                                <!-- Slides-->
+
+                                @foreach ($properties as $property)
+                                    <div class="swiper-slide h-auto px-2">
+                                        <!-- venue item-->
+                                        <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
+                                            <div class="card h-100 border-0 shadow">
+                                                <div class="card-img-top overflow-hidden bg-cover"
+                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;">
+                                                    <a class="tile-link"
+                                                        href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
+                                                    <div class="card-img-overlay-bottom z-index-20">
+                                                        <!-- Card Title -->
+                                                    </div>
+
+                                                </div>
+                                                <div class="card-body">
+                                                    <h2 class="text-sm text-muted mb-3">
+                                                        {{ Str::limit($property->title, 100) }}
+                                                    </h2>
+                                                    @if ($property->powierzchnia)
+                                                        <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
+                                                            {{ $property->powierzchnia }} </p>
+                                                    @endif
+                                                    @if ($property->cena)
+                                                        <p class="text-sm text-muted text-uppercase mb-1">Cena:
+                                                            {{ $property->cena }}
+                                                        </p>
+                                                    @endif
+                                                    <p class="text-sm text-muted text-uppercase mb-1">Data:
+                                                        {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}
+                                                    </p>
+                                                    @php
+                                                        $transactionDetails = $property->getTransactionDetails() ?? [];
+                                                    @endphp
+                                                    @if ($transactionDetails)
+                                                        <div class="pt-2">
+                                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                                {{ $transactionDetails['transaction_type'] }}</div>
+                                                            <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                                {{ $transactionDetails['property_type'] }}</div>
+                                                        </div>
+                                                    @endif
+                                                    @if (!is_null($property->getFullLocationFront()))
+                                                        <div class="pt-4">
+                                                            <p>
+                                                                {{ $property->getFullLocationFront() }}
+                                                            <p>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <h5 class="pb-2 text-primary">Informacje z rynku</h5>
 
                         <div class="swiper-container swiper-container-mx-negative items-slider-custom">
@@ -250,7 +284,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url(''); min-height: 200px;background-attachment: fixed;
+                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
@@ -285,7 +319,7 @@
     <div class="py-6 bg-gray-100">
         <div class="container">
             <h5 class="mb-0">Wierzytelności</h5>
-            <p class="subtitle text-sm text-primary mb-4"> Które również polubisz </p>
+            <p class="subtitle text-sm text-primary mb-4"> Proponowane dla Ciebie</p>
             <!-- Slider main container-->
             <div class="swiper-container swiper-container-mx-negative items-slider">
                 <!-- Additional required wrapper-->
@@ -297,7 +331,7 @@
                             <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden bg-cover"
-                                        style="background-image: url(''); min-height: 200px;background-attachment: fixed;
+                                        style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
@@ -316,8 +350,36 @@
                                         <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}
                                         </h2>
 
+                                        @if ($property->powierzchnia)
+                                            <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
+                                                {{ $property->powierzchnia }} </p>
+                                        @endif
+                                        @if ($property->cena)
+                                            <p class="text-sm text-muted text-uppercase mb-1">Cena:
+                                                {{ $property->cena }}
+                                            </p>
+                                        @endif
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:
-                                            {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}</p>
+                                            {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}
+                                        </p>
+                                        @php
+                                            $transactionDetails = $property->getTransactionDetails() ?? [];
+                                        @endphp
+                                        @if ($transactionDetails)
+                                            <div class="pt-2">
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['transaction_type'] }}</div>
+                                                <div class="badge badge-transparent badge-pill px-3 py-2">
+                                                    {{ $transactionDetails['property_type'] }}</div>
+                                            </div>
+                                        @endif
+                                        @if (!is_null($property->getFullLocationFront()))
+                                            <div class="pt-4">
+                                                <p>
+                                                    {{ $property->getFullLocationFront() }}
+                                                <p>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

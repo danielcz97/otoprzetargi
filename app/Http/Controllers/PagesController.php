@@ -38,9 +38,10 @@ class PagesController extends Controller
             ->latest()
             ->take(6)
             ->get();
-        // $latestPosts->each(function ($post) {
-        //     $post->mainMedia = $post->getFirstMedia('default');
-        // });
+        $latestPosts->each(function ($post) {
+            $media = $post->getFirstMedia('default');
+            $post->thumbnail_url = $media ? $media->getUrl() : null;
+        });
 
         return view('welcome', compact('promotedNodes', 'latestNodes', 'latestPosts'));
     }
