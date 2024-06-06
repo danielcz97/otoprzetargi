@@ -31,7 +31,7 @@
                             <div class="w-100 h-100 hover-animate" data-marker-id="{{ $node->id }}">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden gradient-overlay"
-                                        style="background-image: url(''); min-height: 200px;    background-attachment: fixed;
+                                        style="background-image: url('{{ $node->mainMedia }}'); min-height: 200px;    background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;">
@@ -105,7 +105,7 @@
                             <div class="w-100 h-100 hover-animate" data-marker-id="{{ $node->id }}">
                                 <div class="card h-100 border-0 shadow">
                                     <div class="card-img-top overflow-hidden gradient-overlay"
-                                        style="background-image: url(''); min-height: 200px;    background-attachment: fixed;background-repeat: no-repeat;background-size: contain; background-position: center;">
+                                        style="background-image: url('{{ $node->thumbnail_url }}'); min-height: 200px;    background-attachment: fixed;background-repeat: no-repeat;background-size: contain; background-position: center;">
                                         @php
                                             $transactionDetails = $node->getTransactionDetails() ?? [];
                                         @endphp
@@ -171,7 +171,8 @@
                     <div class="col-lg-4 col-sm-6 mb-4 hover-animate">
                         <div class="card shadow border-0 h-100">
                             <a href="{{ route('news.view', $post->slug) }}">
-                                <img class="img-fluid card-img-top" src="" alt="{{ $post->title }}" />
+                                <img src="" alt="{{ $post->title }}">
+
                             </a>
                             <div class="card-body">
                                 <h5 class="my-2">

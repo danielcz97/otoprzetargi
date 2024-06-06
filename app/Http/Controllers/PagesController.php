@@ -20,16 +20,27 @@ class PagesController extends Controller
             ->orderBy('nieruchomosci.created', 'desc')
             ->limit(10)
             ->get();
+        $promotedNodes->each(function ($node) {
+            $media = $node->getFirstMedia('default');
+            $node->thumbnail_url = $media ? $media->getUrl() : null;
+        });
 
         $latestNodes = Property::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->orderBy('created', 'desc')
             ->limit(20)
             ->get();
+        $latestNodes->each(function ($node) {
+            $media = $node->getFirstMedia('default');
+            $node->thumbnail_url = $media ? $media->getUrl() : null;
+        });
 
         $latestPosts = Post::select('id', 'title', 'created', 'slug')
             ->latest()
             ->take(6)
             ->get();
+        // $latestPosts->each(function ($post) {
+        //     $post->mainMedia = $post->getFirstMedia('default');
+        // });
 
         return view('welcome', compact('promotedNodes', 'latestNodes', 'latestPosts'));
     }
