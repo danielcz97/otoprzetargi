@@ -30,6 +30,7 @@ class PropertyResource extends Resource
     protected static ?string $model = Property::class;
     protected static ?int $navigationSort = 1;
 
+    protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -299,24 +300,6 @@ class PropertyResource extends Resource
     public static function getNavigationLabel(): string
     {
         return 'Nieruchomości';
-    }
-
-    public static function getNavigationItems(): array
-    {
-        return [
-            NavigationItem::make('Nieruchomości')
-                ->url(static::getUrl('index'))
-                ->icon(static::$navigationIcon)
-                ->group('Nieruchomości'),
-            NavigationItem::make('Typy obiektów')
-                ->url(ObjectTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Property']))
-                ->icon('heroicon-o-rectangle-stack')
-                ->group('Nieruchomości'),
-            NavigationItem::make('Typy transakcji')
-                ->url(TransactionTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Property']))
-                ->icon('heroicon-o-rectangle-stack')
-                ->group('Nieruchomości'),
-        ];
     }
 
 }

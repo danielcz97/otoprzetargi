@@ -257,21 +257,4 @@ class NoticeResource extends Resource
         ];
     }
 
-    public static function getNavigationItems(): array
-    {
-        return [
-            NavigationItem::make('Komunikaty')
-                ->url(static::getUrl('index'))
-                ->icon(static::$navigationIcon)
-                ->group('Komunikaty'),
-            NavigationItem::make('Typy obiektów')
-                ->url(ObjectTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Comunicats']))
-                ->icon('heroicon-o-rectangle-stack')
-                ->group('Komunikaty'),
-            NavigationItem::make('Typy transakcji')
-                ->url(TransactionTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Comunicats']))
-                ->icon('heroicon-o-rectangle-stack')
-                ->group('Komunikaty'),
-        ];
-    }
 }

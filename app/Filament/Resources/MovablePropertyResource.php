@@ -29,7 +29,8 @@ use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 class MovablePropertyResource extends Resource
 {
     protected static ?string $model = MovableProperty::class;
-    protected static ?int $navigationSort = 2;
+    protected static bool $shouldRegisterNavigation = false;
+
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -298,21 +299,5 @@ class MovablePropertyResource extends Resource
             'edit' => Pages\EditMovableProperty::route('/{record}/edit'),
         ];
     }
-    public static function getNavigationItems(): array
-    {
-        return [
-            NavigationItem::make('Ruchomości')
-                ->url(static::getUrl('index'))
-                ->icon(static::$navigationIcon)
-                ->group('Ruchomości'),
-            NavigationItem::make('Typy obiektów')
-                ->url(ObjectTypeResource::getUrl('index', ['model_type' => 'App\\Models\\MovableProperty']))
-                ->icon('heroicon-o-rectangle-stack')
-                ->group('Ruchomości'),
-            NavigationItem::make('Typy transakcji')
-                ->url(TransactionTypeResource::getUrl('index', ['model_type' => 'App\\Models\\MovableProperty']))
-                ->icon('heroicon-o-rectangle-stack')
-                ->group('Ruchomości'),
-        ];
-    }
+
 }

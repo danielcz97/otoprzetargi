@@ -18,7 +18,7 @@
                         <p class="subtitle text-secondary">Najlepsze oferty</p>
                         <h2 class="mb-md-0">Promowane ogłoszenia</h2>
                     </div>
-                    <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm"
+                    <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-lg"
                             href="nieruchomosci">
                             Zobacz wszystkie<i class="fas fa-angle-double-right ms-2"></i></a></div>
                 </div>
@@ -92,7 +92,7 @@
                     <p class="subtitle text-secondary">Najnowsze przetargi</p>
                     <h2 class="mb-md-0">Ostatnio dodane</h2>
                 </div>
-                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm"
+                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-lg"
                         href="/nieruchomosci">
                         Zobacz wszystkie<i class="fas fa-angle-double-right ms-2"></i></a></div>
             </div>
@@ -173,7 +173,7 @@
                     <h2>Aktualności</h2>
                 </div>
                 <div class="col-md-4 d-md-flex align-items-center justify-content-end">
-                    <a class="text-muted text-sm" href="/news">
+                    <a class="text-muted text-lg" href="/news">
                         Zobacz wszystkie<i class="fas fa-angle-double-right ms-2"></i>
                     </a>
                 </div>

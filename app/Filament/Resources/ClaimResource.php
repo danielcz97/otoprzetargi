@@ -298,11 +298,9 @@ class ClaimResource extends Resource
                 ->group('Wierzytelności'),
             NavigationItem::make('Typy obiektów')
                 ->url(ObjectTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Claim']))
-                ->icon('heroicon-o-rectangle-stack')
                 ->group('Wierzytelności'),
             NavigationItem::make('Typy transakcji')
                 ->url(TransactionTypeResource::getUrl('index', ['model_type' => 'App\\Models\\Claim']))
-                ->icon('heroicon-o-rectangle-stack')
                 ->group('Wierzytelności'),
         ];
     }
