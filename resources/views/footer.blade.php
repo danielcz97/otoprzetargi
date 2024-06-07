@@ -46,7 +46,9 @@
                 </div>
                 <div class="col-md-6 text-end">
                     <p>Portal wykonał:
-                        Daniel Czerepak</p>
+                        Daniel Czerepak
+                        <a href="mailto:firma.dcode@gmail.com">firma.dcode@gmail.com</a>
+                    </p>
                 </div>
             </div>
         </div>

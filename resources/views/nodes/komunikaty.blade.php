@@ -31,11 +31,11 @@
     <div class="container-fluid py-5 px-lg-5">
         <div class="row border-bottom mb-4">
             <div class="col-12">
-                <h1 class="display-4 fw-bold text-serif mb-4">Komunikaty</h1>
+                <h1 class="display-4 fw-bold text-serif mb-4 text-xxl">Komunikaty</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 pt-3 d-none d-sm-block">
+            <div class="col-lg-3 pt-3 d-none d-lg-block">
                 <form class="pe-xl-3" action="{{ route('search.komunikaty') }}" method="GET">
 
                     <div class="mb-4">
@@ -132,7 +132,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}
+                                        <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 50) }}
                                         </h2>
                                         @if ($property->powierzchnia)
                                             <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:

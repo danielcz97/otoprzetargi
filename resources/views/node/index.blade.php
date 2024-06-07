@@ -244,7 +244,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <h2 class="text-sm text-muted mb-3">
-                                                        {{ Str::limit($property->title, 100) }}
+                                                        {{ Str::limit($property->title, 50) }}
                                                     </h2>
                                                     @if ($property->powierzchnia)
                                                         <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
@@ -310,7 +310,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <h2 class="text-sm text-muted mb-3">
-                                                        {{ Str::limit($property->title, 100) }}
+                                                        {{ Str::limit($property->title, 50) }}
                                                     </h2>
 
                                                     <p class="text-sm text-muted text-uppercase mb-1">Data:
@@ -356,7 +356,7 @@
 
                                     </div>
                                     <div class="card-body">
-                                        <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 100) }}
+                                        <h2 class="text-sm text-muted mb-3">{{ Str::limit($property->title, 50) }}
                                         </h2>
                                         @if ($property->powierzchnia)
                                             <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:

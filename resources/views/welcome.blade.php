@@ -48,7 +48,7 @@
                                         <div class="card-body d-flex align-items-start">
                                             <div class="w-100">
                                                 <h6 class="card-title"><a class="text-decoration-none text-dark"
-                                                        href="{{ route('properties.index', ['slug' => $node->slug]) }}">{{ $node->title }}</a>
+                                                        href="{{ route('properties.index', ['slug' => $node->slug]) }}">{{ Str::limit($node->title, 50) }}</a>
                                                 </h6>
 
                                                 <p class="text-sm text-muted text-uppercase">{{ $node->type }}</p>
@@ -114,7 +114,7 @@
                                     <div class="card-body d-flex align-items-start">
                                         <div class="w-100">
                                             <h6 class="card-title"><a class="text-decoration-none text-dark"
-                                                    href="{{ route('properties.index', ['slug' => $node->slug]) }}">{{ $node->title }}</a>
+                                                    href="{{ route('properties.index', ['slug' => $node->slug]) }}">{{ Str::limit($node->title, 50) }}</a>
                                             </h6>
 
                                             <p class="text-sm text-muted text-uppercase">{{ $node->type }}</p>
