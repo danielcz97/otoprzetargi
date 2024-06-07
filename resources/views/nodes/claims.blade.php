@@ -31,7 +31,7 @@
     <div class="container-fluid py-5 px-lg-5">
         <div class="row border-bottom mb-4">
             <div class="col-12">
-                <h1 class="display-4 fw-bold text-serif mb-4 text-xxl">Wierzytelności</h1>
+                <h1 class="display-4 fw-bold text-serif mb-4 text-lg-xxl text-md">Wierzytelności</h1>
             </div>
         </div>
         <div class="row">
