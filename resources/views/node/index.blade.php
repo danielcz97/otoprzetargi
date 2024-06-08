@@ -83,7 +83,7 @@
                             <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
                         </a>
                     </div>
-                    <img style="max-width:250px" src="{{ $firstMediaUrl }}">
+                    <img style="max-width:250px" src="{{ $mainMediaUrl }}">
                 </div>
             </div>
         </div>
