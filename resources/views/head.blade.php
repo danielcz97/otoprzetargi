@@ -9,7 +9,7 @@
 <title>Otoprzetargi</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="all,follow">
+<meta name="robots" content="index, follow">
 <link rel="stylesheet" href="{{ asset('vendor/nouislider/nouislider.css') }}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,700">
