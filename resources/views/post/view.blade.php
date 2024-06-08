@@ -8,7 +8,7 @@
 <body>
 
     @include('header')
-    <section class="hero-home dark-overlay mb-5"><img class="bg-image" src="{{ $post->mainMediaUrl }}" alt="">
+    <section class="hero-home dark-overlay mb-5"><img class="bg-image" src="{{ $mainMediaUrl }}" alt="">
         <div class="container py-7">
             <div class="overlay-content text-center text-white">
                 <h1 class="display-3 text-serif fw-bold text-shadow mb-0">{{ $post->title }}</h1>
