@@ -83,7 +83,7 @@
                             <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
                         </a>
                     </div>
-                    <img style="max-width:250px" src="{{ $property->firstMediaUrl }}">
+                    <img style="max-width:250px" src="{{ $firstMediaUrl }}">
                 </div>
             </div>
         </div>
@@ -231,10 +231,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;">
+                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;background-repeat: no-repeat;background-size: contain;background-position: center;">
                                                     <a class="tile-link"
                                                         href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
                                                     <div class="card-img-overlay-bottom z-index-20">
