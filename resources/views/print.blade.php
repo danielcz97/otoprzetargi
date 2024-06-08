@@ -50,7 +50,7 @@
     <table class="header-table">
         <tr>
             <td style="width: 50%;">
-                <img width="125px" src="https://otoprzetargi.pl/otoprzetargi_theme/img/logo.png" alt="Oto Przetargi logo">
+                <img width="125px" src="{{ asset('images/logo.png') }}" alt="Oto Przetargi logo">
             </td>
             <td style="width: 50%; text-align: right;">
                 <p class="publication-info">Wydanie nr <strong>{{ $formattedDateNumeric }}</strong> z dnia
