@@ -22,7 +22,9 @@ class PropertiesController extends Controller
         $mainMedia = $property->getFirstMedia('default');
         $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
 
-        $galleryMedia = $property->getMedia('default');
+        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
+            return $media->id === $mainMedia->id;
+        });
 
         $properties = Property::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
@@ -30,19 +32,21 @@ class PropertiesController extends Controller
         $properties->each(function ($property) {
             $property->mainMediaUrl = $property->getFirstMediaUrl('default');
         });
+
         $comunicats = Post::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(5);
         $comunicats->each(function ($comunicat) {
             $comunicat->mainMediaUrl = $comunicat->getFirstMediaUrl('default');
         });
+
         $createdDate = Carbon::parse($property->created);
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');
-        $herb = $property->getFirstMedia('herb');
 
-        return view('node.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia', 'herb'));
+        return view('node.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia'));
     }
+
 
     public function printPage($slug)
     {
