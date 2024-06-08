@@ -47,7 +47,6 @@ class Property extends Model implements HasMedia
         'hits',
         'weight',
         'weightold',
-        'pierwotna waga przed zmianą na standard',
         'portal',
         'views',
         'cyclic',

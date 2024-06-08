@@ -19,7 +19,7 @@
                     <div class="col-lg-4 col-sm-6 mb-4 hover-animate">
                         <div class="card shadow border-0 h-100">
                             <a href="{{ route('news.view', $post->slug) }}"><img class="img-fluid card-img-top"
-                                    src="{{ $post->getFirstImage() }}" alt="{{ $post->title }}" /></a>
+                                    src="{{ $post->mainMediaUrl }}" alt="{{ $post->title }}" /></a>
                             <div class="card-body">
 
                                 <h5 class="my-2"><a class="text-dark"
