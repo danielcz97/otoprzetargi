@@ -325,6 +325,7 @@
           inputIds.forEach(id => {
               const input = document.getElementById(id);
               const autocomplete = new google.maps.places.Autocomplete(input, {
+                  types: ['geocode'],
                   componentRestrictions: {
                       country: 'pl'
                   } // Restrict to Poland
