@@ -325,7 +325,6 @@
           inputIds.forEach(id => {
               const input = document.getElementById(id);
               const autocomplete = new google.maps.places.Autocomplete(input, {
-                  types: ['geocode'],
                   componentRestrictions: {
                       country: 'pl'
                   } // Restrict to Poland
@@ -357,6 +356,15 @@
                                   if (types.includes('locality')) {
                                       city = addressComponents[i].long_name;
                                       break; // If city is found, no need to check further
+                                  } else if (types.includes('administrative_area_level_3')) {
+                                      city = addressComponents[i].long_name;
+                                      break; // If a locality is not found, check for a level 3 administrative area
+                                  } else if (types.includes('administrative_area_level_2')) {
+                                      city = addressComponents[i].long_name;
+                                      break; // If a level 3 administrative area is not found, check for a level 2 administrative area
+                                  } else if (types.includes('administrative_area_level_1')) {
+                                      city = addressComponents[i].long_name;
+                                      break; // If a level 2 administrative area is not found, check for a level 1 administrative area
                                   }
                               }
 
