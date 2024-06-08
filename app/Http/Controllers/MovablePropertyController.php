@@ -20,9 +20,13 @@ class MovablePropertyController extends Controller
 
         $property = MovableProperty::where('slug', $slug)->firstOrFail();
         $mainMedia = $property->getFirstMedia('default');
+
         $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
 
-        $galleryMedia = $property->getMedia('default');
+        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
+            return $media->id === $mainMedia->id;
+        });
+        
         $properties = MovableProperty::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);

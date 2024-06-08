@@ -21,7 +21,9 @@ class ComunicatsController extends Controller
         $mainMedia = $property->getFirstMedia('default');
         $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
 
-        $galleryMedia = $property->getMedia('default');
+        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
+            return $media->id === $mainMedia->id;
+        });
         $properties = Comunicats::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);

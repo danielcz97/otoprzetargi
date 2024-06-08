@@ -50,7 +50,7 @@
                     </a>
                 </div>
                 <div class="col-md-3 col-12">
-                    <img src="{{ $mainMediaUrl }}">
+                    <img style="max-width:150px" src="{{ $mainMediaUrl }}">
                 </div>
             </div>
         </div>

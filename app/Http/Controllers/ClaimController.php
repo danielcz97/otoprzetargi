@@ -17,9 +17,9 @@ class ClaimController extends Controller
         $mainMedia = $property->getFirstMedia('default');
         $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
 
-        $galleryMedia = $property->getMedia('default');
-
-        // Pobieranie mediów dla properties
+        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
+            return $media->id === $mainMedia->id;
+        });
         $properties = Claim::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
@@ -27,7 +27,6 @@ class ClaimController extends Controller
             $property->mainMediaUrl = $property->getFirstMediaUrl('default');
         });
 
-        // Pobieranie mediów dla comunicats
         $comunicats = Post::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(5);
