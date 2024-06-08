@@ -120,7 +120,7 @@
       });
   </script>
   <section class="d-flex align-items-center dark-overlay bg-cover"
-      style="background-image: url(https://otoprzetargi.pl/otoprzetargi_theme/img/bg-banner.jpeg);">
+      style="background-image: url({{ asset('img/hero.jpg') }});">
       <div class="container py-6 py-lg-7 text-white overlay-content">
           <div class="row">
               <div class="col-xl-8">
