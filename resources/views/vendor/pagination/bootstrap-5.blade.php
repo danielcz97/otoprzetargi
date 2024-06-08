@@ -10,7 +10,7 @@
                 @else
                     <li class="page-item">
                         <a class="page-link"
-                            href="{{ $paginator->previousPageUrl() }}{{ request()->getQueryString() ? '&' . request()->getQueryString() : '' }}"
+                            href="{{ $paginator->previousPageUrl() }}&{{ http_build_query(request()->except('page')) }}"
                             rel="prev">Poprzednia</a>
                     </li>
                 @endif
@@ -19,7 +19,7 @@
                 @if ($paginator->hasMorePages())
                     <li class="page-item">
                         <a class="page-link"
-                            href="{{ $paginator->nextPageUrl() }}{{ request()->getQueryString() ? '&' . request()->getQueryString() : '' }}"
+                            href="{{ $paginator->nextPageUrl() }}&{{ http_build_query(request()->except('page')) }}"
                             rel="next">Następna</a>
                     </li>
                 @else
@@ -55,7 +55,6 @@
                                 rel="prev" aria-label="Poprzednia">&lsaquo;</a>
                         </li>
                     @endif
-
                     {{-- Pagination Elements --}}
                     @foreach ($elements as $element)
                         {{-- "Three Dots" Separator --}}
@@ -72,7 +71,7 @@
                                             class="page-link">{{ $page }}</span></li>
                                 @else
                                     <li class="page-item"><a class="page-link"
-                                            href="{{ $url }}{{ request()->getQueryString() ? '&' . request()->getQueryString() : '' }}">{{ $page }}</a>
+                                            href="{{ $url }}&{{ http_build_query(request()->except('page')) }}">{{ $page }}</a>
                                     </li>
                                 @endif
                             @endforeach
