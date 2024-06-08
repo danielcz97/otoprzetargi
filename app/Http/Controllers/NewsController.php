@@ -22,6 +22,6 @@ class NewsController extends Controller
         $mainMedia = $post->getFirstMedia('default');
         $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
 
-        return view('post.view', compact('post'));
+        return view('post.view', compact('post', 'mainMediaUrl'));
     }
 }
