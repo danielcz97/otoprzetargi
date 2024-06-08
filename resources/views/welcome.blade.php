@@ -183,7 +183,7 @@
                     <div class="col-lg-4 col-sm-6 mb-4 hover-animate">
                         <div class="card shadow border-0 h-100">
                             <a href="{{ route('news.view', $post->slug) }}">
-                                <img src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}">
+                                <img class="w-100" src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}">
 
                             </a>
                             <div class="card-body">
