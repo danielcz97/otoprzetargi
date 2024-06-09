@@ -217,47 +217,15 @@
                                 </div>
                             </div>
                         @endif
-
-
-                        <!-- Additional required wrapper-->
-                        <div class="swiper-wrapper pb-5">
-                            <!-- Slides-->
-
-                            @foreach ($comunicats as $property)
-                                <div class="swiper-slide h-auto px-2">
-                                    <!-- venue item-->
-                                    <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
-                                        <div class="card h-100 border-0 shadow">
-                                            <div class="card-img-top overflow-hidden bg-cover"
-                                                style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;">
-                                                <a class="tile-link"
-                                                    href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
-                                                <div class="card-img-overlay-bottom z-index-20">
-                                                    <!-- Card Title -->
-                                                </div>
-
-                                            </div>
-                                            <div class="card-body">
-                                                <h2 class="text-sm text-muted mb-3">
-                                                    {{ Str::limit($property->title, 50) }}
-                                                </h2>
-
-                                                <p class="text-sm text-muted text-uppercase mb-1">Data:
-                                                    {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
                     </div>
-
                 </div>
             </div>
+            @endforeach
+        </div>
+        </div>
+
+        </div>
+        </div>
         </div>
         </div>
     </section>
