@@ -143,10 +143,10 @@
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:
                                             {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }} </p>
 
-                                        @if (!is_null($property->getFullLocationFront()))
+                                        @if (!is_null($property->getFullLocationFrontListing()))
                                             <div class="pt-4">
                                                 <p>
-                                                    {{ $property->getFullLocationFront() }}
+                                                    {{ $property->getFullLocationFrontListing() }}
                                                 <p>
                                             </div>
                                         @endif

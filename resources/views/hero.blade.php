@@ -153,8 +153,8 @@
                                   <option value="">Typ transakcji</option>
                                   <option value="10">Sprzedaż</option>
                                   <option value="11">Kupno</option>
-                                  <option value="12">Wynajem</option>
-                                  <option value="13">Dzierżawa</option>
+                                  <option value="13">Wynajem</option>
+                                  <option value="12">Dzierżawa</option>
                                   <option value="5">Inne</option>
                               </select>
                           </div>

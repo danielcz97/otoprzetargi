@@ -226,6 +226,39 @@ class MovableProperty extends Model implements HasMedia
         return 'Lokalizacja nieznana';
     }
 
+    public function getFullLocationFrontListing()
+    {
+        if ($this->teryt) {
+            $latitude = $this->teryt->latitude;
+            $longitude = $this->teryt->longitude;
+        } else {
+            $latitude = 52.2297; // domyślna szerokość geograficzna
+            $longitude = 21.0122; // domyślna długość geograficzna
+        }
+
+        $apiKey = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk';
+        $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
+            'latlng' => "$latitude,$longitude",
+            'key' => $apiKey
+        ]);
+
+        if ($response->successful() && $response['status'] === 'OK') {
+            $results = $response['results'][0]['address_components'];
+            $city = null;
+
+            foreach ($results as $component) {
+                if (in_array('locality', $component['types'])) {
+                    $city = $component['long_name'];
+                    break;
+                }
+            }
+
+            return $city;
+        }
+
+        return null;
+    }
+
     public function objectType()
     {
         return $this->belongsTo(ObjectType::class);

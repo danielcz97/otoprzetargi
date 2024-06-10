@@ -189,10 +189,10 @@
                                                     {{ $transactionDetails['property_type'] }}</div>
                                             </div>
                                         @endif
-                                        @if (!is_null($property->getFullLocationFront()))
+                                        @if (!is_null($property->getFullLocationFrontListing()))
                                             <div class="pt-4">
                                                 <p>
-                                                    {{ $property->getFullLocationFront() }}
+                                                    {{ $property->getFullLocationFrontListing() }}
                                                 <p>
                                             </div>
                                         @endif
