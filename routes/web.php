@@ -12,7 +12,7 @@ Route::middleware([CountViews::class])->group(function () {
 Route::get('/print/{slug}', [App\Http\Controllers\PropertiesController::class, 'printPage'])->name('properties.printPage');
 Route::get('/print-movable/{slug}', [App\Http\Controllers\MovablePropertyController::class, 'printPage'])->name('movable.printPage');
 Route::get('/print-comunicats/{slug}', [App\Http\Controllers\ComunicatsController::class, 'printPage'])->name('comunicats.printPage');
-Route::get('/print-claims/{slug}', [App\Http\Controllers\ClaimController::class, 'printPage'])->name('claims.printPage');
+Route::get('/print-claim/{slug}', [App\Http\Controllers\ClaimController::class, 'printPage'])->name('claim.printPage');
 
 Route::get('/komunikaty', [App\Http\Controllers\SearchController::class, 'komunikaty'])->name('search.komunikaty');
 Route::get('/nieruchomosci', [App\Http\Controllers\SearchController::class, 'propertiesList'])->name('search.nieruchomosci');
