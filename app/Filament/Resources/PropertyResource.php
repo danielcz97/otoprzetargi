@@ -86,7 +86,35 @@ class PropertyResource extends Resource
                     }),
 
                 Hidden::make('terms')
-                    ->default(fn($record) => $record ? json_encode($record->terms) : null),
+                    ->default(function ($record) {
+                        if (!$record) {
+                            return json_encode([]);
+                        }
+
+                        $termsArray = [];
+
+                        if ($record->transaction_type) {
+                            $transactionTypeName = TransactionType::find($record->transaction_type)?->name;
+                            if ($transactionTypeName) {
+                                $termsArray['transaction_type'] = [
+                                    'id' => $record->transaction_type,
+                                    'name' => $transactionTypeName
+                                ];
+                            }
+                        }
+
+                        if ($record->object_type) {
+                            $objectTypeName = ObjectType::find($record->object_type)?->name;
+                            if ($objectTypeName) {
+                                $termsArray['object_type'] = [
+                                    'id' => $record->object_type,
+                                    'name' => $objectTypeName
+                                ];
+                            }
+                        }
+
+                        return json_encode($termsArray);
+                    }),
 
 
                 TextInput::make('title')
@@ -101,12 +129,19 @@ class PropertyResource extends Resource
                                 $state
                             )
                         );
+
+                        $originalSlug = $slug;
+                        $i = 1;
+                        while (Property::where('slug', $slug)->exists()) {
+                            $slug = $originalSlug . '-' . $i++;
+                        }
+
                         $set('slug', $slug);
                     }),
                 TextInput::make('slug')
                     ->label('URL')
                     ->required()
-                    ->afterStateUpdated(function (Forms\Set $set, $state, $record) {
+                    ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $slug = Str::slug($state);
                         $originalSlug = $slug;
                         $i = 1;

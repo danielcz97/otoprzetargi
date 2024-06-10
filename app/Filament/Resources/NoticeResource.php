@@ -48,16 +48,23 @@ class NoticeResource extends Resource
                                 $state
                             )
                         );
+
+                        $originalSlug = $slug;
+                        $i = 1;
+                        while (Notice::where('slug', $slug)->exists()) {
+                            $slug = $originalSlug . '-' . $i++;
+                        }
+
                         $set('slug', $slug);
                     }),
                 TextInput::make('slug')
                     ->label('URL')
                     ->required()
-                    ->afterStateUpdated(function (Forms\Set $set, $state, $record) {
+                    ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $slug = Str::slug($state);
                         $originalSlug = $slug;
                         $i = 1;
-                        while (Property::where('slug', $slug)->exists()) {
+                        while (Notice::where('slug', $slug)->exists()) {
                             $slug = $originalSlug . '-' . $i++;
                         }
                         $set('slug', $slug);

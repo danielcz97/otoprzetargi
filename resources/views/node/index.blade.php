@@ -5,7 +5,7 @@
     @include('head')
     <meta property="og:title" content="{{ $property->title }}">
     <meta property="og:description" content="{{ Str::limit(strip_tags($property->body), 150) }}">
-    <meta property="og:image" content="">
+    <meta property="og:image" content="{{ $mainMediaUrl }}">
     <meta property="og:url" content="{{ route('properties.index', ['slug' => $property->slug]) }}">
     <meta property="og:type" content="website">
 </head>
@@ -16,6 +16,12 @@
 
     table td {
         border: 1px solid #333;
+    }
+
+    .card-img-top img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
     }
 </style>
 
