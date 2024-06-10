@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="pb-2">
-                    <a href="{{ route('properties.printPage', ['slug' => $property->slug]) }}" target="_blank">
+                    <a href="{{ route('comunicats.printPage', ['slug' => $property->slug]) }}" target="_blank">
                         <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
                     </a>
                 </div>
