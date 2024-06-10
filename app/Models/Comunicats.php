@@ -216,6 +216,19 @@ class Comunicats extends Model implements HasMedia
 
     public function getTransactionDetails()
     {
-        return [];
+        if (!$this->terms) {
+            return [];
+        }
+        if (is_array($this->terms)) {
+            $values = array_values($this->terms);
+
+            $transactionType = $values[0] ?? 'Nieznany';
+            $propertyType = $values[1] ?? 'Nieznany';
+
+            return [
+                'transaction_type' => $transactionType,
+                'property_type' => $propertyType,
+            ];
+        }
     }
 }
