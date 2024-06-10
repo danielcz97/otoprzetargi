@@ -52,19 +52,8 @@ class ClaimController extends Controller
         );
     }
 
-    public function printPage($slug)
+    public function getTransactionDetails()
     {
-        $property = Claim::where('slug', $slug)->firstOrFail();
-        $createdDate = Carbon::parse($property->created);
-        $formattedDateNumeric = $createdDate->format('d/m/Y');
-        $formattedDateText = $createdDate->translatedFormat('j F Y');
-        $fullLocation = $property->getFullLocation();
-        $transactionDetails = $property->getTransactionDetails();
-
-        PDF::setOptions(['defaultFont' => 'DejaVu Sans']);
-
-        $pdf = PDF::loadView('print', compact('property', 'formattedDateNumeric', 'formattedDateText', 'fullLocation', 'transactionDetails'));
-
-        return $pdf->stream('property.pdf');
+        return [];
     }
 }

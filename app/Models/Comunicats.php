@@ -213,4 +213,9 @@ class Comunicats extends Model implements HasMedia
 
         return null;
     }
+
+    public function getTransactionDetails()
+    {
+        return [];
+    }
 }
