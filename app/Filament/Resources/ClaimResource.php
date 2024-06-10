@@ -135,7 +135,7 @@ class ClaimResource extends Resource
                             ->defaultZoom(10)
                             ->autocomplete(
                                 fieldName: 'miejscowosc',
-                                types: ['address'],
+                                types: ['geocode'],
                                 countries: ['PL']
                             )
                             ->autocompleteReverse(true)

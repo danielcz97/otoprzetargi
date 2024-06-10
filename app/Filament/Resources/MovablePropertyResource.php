@@ -39,10 +39,10 @@ class MovablePropertyResource extends Resource
         return $form
             ->schema([
                 Select::make('transaction_type')
-                    ->label('Przedmiot ogłoszenia')
+                    ->label('Typ transakcji')
                     ->options(fn() => TransactionType::where('model_type', 'App\\Models\\MovableProperty')->pluck('name', 'id')->toArray())
                     ->required()
-                    ->default(fn($record) => $record->transaction_type)
+                    ->default(fn($record) => $record?->transaction_type)
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                         $terms = $get('terms');
@@ -140,7 +140,7 @@ class MovablePropertyResource extends Resource
                             ->defaultZoom(10)
                             ->autocomplete(
                                 fieldName: 'miejscowosc',
-                                types: ['address'],
+                                types: ['geocode'],
                                 countries: ['PL']
                             )
                             ->autocompleteReverse(true)

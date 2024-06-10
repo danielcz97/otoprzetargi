@@ -48,7 +48,7 @@ class PropertyResource extends Resource
         return $form
             ->schema([
                 Select::make('transaction_type')
-                    ->label('Przedmiot ogłoszenia')
+                    ->label('Typ transakcji')
                     ->options(fn() => TransactionType::where('model_type', 'App\\Models\\Property')->pluck('name', 'id')->toArray())
                     ->required()
                     ->default(fn($record) => $record?->transaction_type)
@@ -148,7 +148,7 @@ class PropertyResource extends Resource
                             ->defaultZoom(10)
                             ->autocomplete(
                                 fieldName: 'miejscowosc',
-                                types: ['address'],
+                                types: ['geocode'],
                                 countries: ['PL']
                             )
                             ->autocompleteReverse(true)
