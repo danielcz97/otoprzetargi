@@ -5,6 +5,8 @@ namespace App\Filament\Resources\PropertyResource\Pages;
 use App\Filament\Resources\PropertyResource;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Actions;
+use App\Models\ObjectType;
+use App\Models\TransactionType;
 
 class EditProperty extends EditRecord
 {
@@ -23,9 +25,13 @@ class EditProperty extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if (isset($data['terms']) && is_array($data['terms'])) {
-            $data['terms'] = json_encode($data['terms']);
-        }
+        $data['terms'] = json_encode([
+            $data['transaction_type'] => $this->getTransactionTypeLabel($data['transaction_type']),
+            $data['object_type'] => $this->getObjectTypeLabel($data['object_type']),
+        ]);
+
+        unset($data['transaction_type']);
+        unset($data['object_type']);
 
         return $data;
     }
@@ -37,5 +43,17 @@ class EditProperty extends EditRecord
         parent::mount($record);
 
         $this->autocomplete = $this->record->miejscowosc ?? '';
+    }
+
+    private function getTransactionTypeLabel($id): ?string
+    {
+        $transactionType = TransactionType::find($id);
+        return $transactionType ? $transactionType->name : null;
+    }
+
+    private function getObjectTypeLabel($id): ?string
+    {
+        $objectType = ObjectType::find($id);
+        return $objectType ? $objectType->name : null;
     }
 }

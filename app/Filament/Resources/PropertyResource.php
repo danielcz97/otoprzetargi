@@ -58,7 +58,10 @@ class PropertyResource extends Resource
                         $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
                         $transactionTypeName = TransactionType::find($state)?->name;
                         if ($transactionTypeName) {
-                            $termsArray[$state] = $transactionTypeName;
+                            $termsArray['transaction_type'] = [
+                                'id' => $state,
+                                'name' => $transactionTypeName
+                            ];
                         }
                         $set('terms', json_encode($termsArray));
                     }),
@@ -74,13 +77,17 @@ class PropertyResource extends Resource
                         $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
                         $objectTypeName = ObjectType::find($state)?->name;
                         if ($objectTypeName) {
-                            $termsArray[$state] = $objectTypeName;
+                            $termsArray['object_type'] = [
+                                'id' => $state,
+                                'name' => $objectTypeName
+                            ];
                         }
                         $set('terms', json_encode($termsArray));
                     }),
 
                 Hidden::make('terms')
                     ->default(fn($record) => $record ? json_encode($record->terms) : null),
+
 
                 TextInput::make('title')
                     ->label('Title')

@@ -224,6 +224,7 @@ class Property extends Model implements HasMedia
         );
     }
 
+
     public function setTermsAttribute($value)
     {
         if (is_string($value)) {
@@ -251,23 +252,21 @@ class Property extends Model implements HasMedia
             $this->attributes['terms'] = json_encode([]);
         }
     }
-
     public function getTransactionDetails()
     {
         if (!$this->terms) {
             return [];
         }
-        if (is_array($this->terms)) {
-            $values = array_values($this->terms);
+        // $terms = json_decode($this->terms, true);
+        $values = array_values($this->terms);
 
-            $transactionType = $values[0] ?? 'Nieznany';
-            $propertyType = $values[1] ?? 'Nieznany';
+        $transactionType = $values[0] ?? 'Nieznany';
+        $propertyType = $values[1] ?? 'Nieznany';
 
-            return [
-                'transaction_type' => $transactionType,
-                'property_type' => $propertyType,
-            ];
-        }
+        return [
+            'transaction_type' => $transactionType,
+            'property_type' => $propertyType,
+        ];
     }
 
     public function objectType()
