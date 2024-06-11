@@ -6,6 +6,7 @@ use App\Models\Comunicats;
 use App\Models\Post;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Notice;
 
 /**
  * Class ComunicatsController
@@ -17,14 +18,14 @@ class ComunicatsController extends Controller
     {
         $today = Carbon::today();
 
-        $property = Comunicats::where('slug', $slug)->firstOrFail();
+        $property = Notice::where('slug', $slug)->firstOrFail();
         $mainMedia = $property->getFirstMedia('default');
         $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
 
         $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
             return $media->id === $mainMedia->id;
         });
-        $properties = Comunicats::whereDate('created', '<=', $today)
+        $properties = Notice::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
 
