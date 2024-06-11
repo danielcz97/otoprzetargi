@@ -180,6 +180,7 @@ class PropertyResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('miejscowosc')
                             ->label('Miejscowość')
+                            ->lazy()
                             ->id('autocomplete'),
 
                         Map::make('location')
@@ -213,6 +214,9 @@ class PropertyResource extends Resource
                             ])
                             ->draggable()
                             ->clickable(false)
+                            ->lazy()
+                            ->live()
+                            ->debounce(600)
                             ->reactive()
                             ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                 $set('latitude', $state['lat']);
@@ -220,23 +224,10 @@ class PropertyResource extends Resource
                             }),
                         Forms\Components\TextInput::make('latitude')
                             ->reactive()
-                            ->default(fn($record) => $record->teryt->latitude ?? null)
-
-                            ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                                $set('location', [
-                                    'lat' => floatVal($state),
-                                    'lng' => floatVal($get('longitude')),
-                                ]);
-                            }),
+                            ->default(fn($record) => $record->teryt->latitude ?? null),
                         Forms\Components\TextInput::make('longitude')
                             ->reactive()
-                            ->default(fn($record) => $record->teryt->longitude ?? null)
-                            ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                                $set('location', [
-                                    'lat' => floatval($get('latitude')),
-                                    'lng' => floatVal($state),
-                                ]);
-                            }),
+                            ->default(fn($record) => $record->teryt->longitude ?? null),
                         Forms\Components\TextInput::make('wojewodztwo')
                             ->label('Województwo')
                             ->default(fn($record) => $record->teryt->wojewodztwo ?? ''),
