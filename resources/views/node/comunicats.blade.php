@@ -41,15 +41,26 @@
                             <p> Wydanie nr <strong>{{ $formattedDateNumeric }}</strong> z dnia {{ $formattedDateText }}
                                 roku,
                                 ISSN 2392-215X </p>
+                            @if ($property->getFullLocationFront())
+                                <div><strong>Miejscowość ogłoszenia:</strong>
+                                    {{ $property->getFullLocationFront() }}</div>
+                            @endif
+                            @if ($property->cena)
+                                <div><strong>Cena:</strong>
+                                    <div>Cena: {{ number_format($property->cena, 2, ',', '.') }} zł</div>
+                                </div>
+                            @endif
                         </div>
+
                     </div>
                 </div>
-                <div class="pb-2">
-                    <a href="{{ route('comunicats.printPage', ['slug' => $property->slug]) }}" target="_blank">
-                        <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
-                    </a>
-                </div>
+
                 <div class="col-md-3 col-12">
+                    <div class="pb-2">
+                        <a href="{{ route('comunicats.printPage', ['slug' => $property->slug]) }}" target="_blank">
+                            <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
+                        </a>
+                    </div>
                     <img style="max-width:150px" src="{{ $mainMediaUrl }}">
                 </div>
             </div>
@@ -185,7 +196,7 @@
                                                     <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
                                                         {{ $property->powierzchnia }}</p>
                                                     <p class="text-sm text-muted text-uppercase mb-1">Cena:
-                                                        {{ $property->cena }}
+                                                        {{ number_format($property->cena, 2, ',', '.') }}
                                                     </p>
                                                     <p class="text-sm text-muted text-uppercase mb-1">Data:
                                                         {{ \Carbon\Carbon::parse($property->created)->format('d.m.Y') }}

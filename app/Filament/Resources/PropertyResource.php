@@ -51,39 +51,46 @@ class PropertyResource extends Resource
                     ->label('Typ transakcji')
                     ->options(fn() => TransactionType::where('model_type', 'App\\Models\\Property')->pluck('name', 'id')->toArray())
                     ->required()
-                    ->default(fn($record) => $record?->transaction_type)
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                         $terms = $get('terms');
                         $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
                         $transactionTypeName = TransactionType::find($state)?->name;
                         if ($transactionTypeName) {
-                            $termsArray['transaction_type'] = [
-                                'id' => $state,
-                                'name' => $transactionTypeName
-                            ];
+                            $termsArray[$state] = $transactionTypeName;
                         }
                         $set('terms', json_encode($termsArray));
+                    })
+                    ->afterStateHydrated(function ($state, callable $get, callable $set, $record) {
+                        if ($record) {
+                            $terms = is_array($record->terms) ? $record->terms : json_decode($record->terms, true);
+                            $transactionTypeId = array_key_first($terms);
+                            $set('transaction_type', $transactionTypeId);
+                        }
                     }),
 
                 Select::make('object_type')
                     ->label('Rodzaj obiektu')
                     ->options(fn() => ObjectType::where('model_type', 'App\\Models\\Property')->pluck('name', 'id')->toArray())
                     ->required()
-                    ->default(fn($record) => $record?->object_type)
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                         $terms = $get('terms');
                         $termsArray = is_array($terms) ? $terms : (is_string($terms) ? json_decode($terms, true) : []);
                         $objectTypeName = ObjectType::find($state)?->name;
                         if ($objectTypeName) {
-                            $termsArray['object_type'] = [
-                                'id' => $state,
-                                'name' => $objectTypeName
-                            ];
+                            $termsArray[$state] = $objectTypeName;
                         }
                         $set('terms', json_encode($termsArray));
+                    })
+                    ->afterStateHydrated(function ($state, callable $get, callable $set, $record) {
+                        if ($record) {
+                            $terms = is_array($record->terms) ? $record->terms : json_decode($record->terms, true);
+                            $objectTypeId = array_keys($terms)[1] ?? null;
+                            $set('object_type', $objectTypeId);
+                        }
                     }),
+
 
                 Hidden::make('terms')
                     ->default(function ($record) {

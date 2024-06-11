@@ -57,10 +57,34 @@ class PropertiesController extends Controller
         $fullLocation = $property->getFullLocation();
         $transactionDetails = $property->getTransactionDetails();
 
-        PDF::setOptions(['defaultFont' => 'DejaVu Sans']);
+        // Update image paths to full URLs
+        $property->body = $this->updateImagePaths($property->body);
+
+        PDF::setOptions([
+            'defaultFont' => 'DejaVu Sans',
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ]);
 
         $pdf = PDF::loadView('print', compact('property', 'formattedDateNumeric', 'formattedDateText', 'fullLocation', 'transactionDetails'));
 
         return $pdf->stream('property.pdf');
     }
+
+    private function updateImagePaths($body)
+    {
+        $dom = new \DOMDocument();
+        @$dom->loadHTML($body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+        $images = $dom->getElementsByTagName('img');
+        foreach ($images as $img) {
+            $src = $img->getAttribute('src');
+            if (strpos($src, 'http') === false) {
+                $img->setAttribute('src', url($src));
+            }
+        }
+
+        return $dom->saveHTML();
+    }
+
 }

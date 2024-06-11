@@ -137,7 +137,7 @@
                                         @endif
                                         @if ($property->cena)
                                             <p class="text-sm text-muted text-uppercase mb-1">Cena:
-                                                {{ $property->cena }}
+                                                {{ number_format($property->cena, 2, ',', '.') }}
                                             </p>
                                         @endif
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:

@@ -26,9 +26,11 @@ class PagesController extends Controller
         });
 
         $latestNodes = Property::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+            ->whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->limit(20)
             ->get();
+
         $latestNodes->each(function ($node) {
             $media = $node->getFirstMedia('default');
             $node->thumbnail_url = $media ? $media->getUrl() : null;

@@ -44,7 +44,7 @@
 
                             @if ($property->cena)
                                 <div class="badge badge-pill badge-transparent px-3 py-2 mb-4">Cena:
-                                    {{ $property->cena }} zł
+                                    {{ number_format($property->cena, 2, ',', '.') }} zł
                                 </div>
                             @endif
                             @if ($property->powierzchnia)
@@ -58,7 +58,7 @@
                                 ISSN 2392-215X </p>
                             @if ($property->cena)
                                 <div><strong>Cena:</strong>
-                                    {{ $property->cena }} zł
+                                    {{ number_format($property->cena, 2, ',', '.') }} zł
                                 </div>
                             @endif
                             @if ($property->powierzchnia)
@@ -267,7 +267,7 @@
                                         @endif
                                         @if ($property->cena)
                                             <p class="text-sm text-muted text-uppercase mb-1">Cena:
-                                                {{ $property->cena }}
+                                                {{ number_format($property->cena, 2, ',', '.') }}
                                             </p>
                                         @endif
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:

@@ -90,7 +90,7 @@
 
         <div class="property-details">
             @if ($property->cena)
-                <div>Cena: {{ $property->cena }}</div>
+                <div>Cena: {{ number_format($property->cena, 2, ',', '.') }}</div>
             @endif
             @if ($property->powierzchnia)
                 <div>Powierzchnia: {{ $property->powierzchnia }}</div>
