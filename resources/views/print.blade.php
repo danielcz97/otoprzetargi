@@ -25,9 +25,15 @@
             font-size: 10px;
         }
 
+        img {
+            width: 100%;
+            max-width: 100%;
+        }
+
         .header-table {
             width: 100%;
             margin-bottom: 20px;
+            font-size: 10px !important;
         }
 
         .property-details {
@@ -61,6 +67,7 @@
             word-wrap: break-word;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 10px !important;
         }
 
         .table-container {

@@ -106,7 +106,6 @@
                 </form>
             </div>
 
-            <script src="{{ $maps }}"></script>
             <script>
                 function initAutocomplete() {
                     var input = document.getElementById('address-input');

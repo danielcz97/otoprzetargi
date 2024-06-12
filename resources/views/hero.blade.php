@@ -70,6 +70,24 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            function saveFormData() {
+                const formElements = document.querySelectorAll('form input, form select');
+                formElements.forEach(element => {
+                    element.addEventListener('change', function() {
+                        localStorage.setItem(element.name, element.value);
+                    });
+                });
+            }
+
+            function loadFormData() {
+                const formElements = document.querySelectorAll('form input, form select');
+                formElements.forEach(element => {
+                    const value = localStorage.getItem(element.name);
+                    if (value) {
+                        element.value = value;
+                    }
+                });
+            }
             const button = document.querySelector('.nier-button');
             const elementsToToggle = [
                 '.nier-trans',
@@ -178,33 +196,19 @@
                                 document.getElementById(`city-${id.split('-')[2]}`).value =
                                     city ||
                                     '';
+                                localStorage.setItem(input.name, place.formatted_address);
+                                console.log(localStorage)
                             }
                         });
                     }
                 });
             });
 
-            function saveFormData() {
-                const formElements = document.querySelectorAll('form input, form select');
-                formElements.forEach(element => {
-                    element.addEventListener('change', function() {
-                        localStorage.setItem(element.name, element.value);
-                    });
-                });
-            }
 
-            function loadFormData() {
-                const formElements = document.querySelectorAll('form input, form select');
-                formElements.forEach(element => {
-                    const value = localStorage.getItem(element.name);
-                    if (value) {
-                        element.value = value;
-                    }
-                });
-            }
 
             saveFormData();
             loadFormData();
+            initAutocomplete();
         });
 
         function initAutocomplete() {
@@ -324,7 +328,7 @@
 
                             <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
                                 <input id="address-input-buy" class="form-control" name="address" type="text"
-                                    placeholder="Wprowadź adres" autocomplete="off">
+                                    placeholder="Wprowadź adres" autocomplete="on">
                             </div>
 
                             <div class="col-md-2 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
