@@ -89,7 +89,7 @@
                                         <br> Województwo: {{ $property->teryt->wojewodztwo }}
                                     @endif
                                 </div>
-                            @elseif($property->getFullLocationFront())
+                            @else
                                 <div><strong>Miejscowość ogłoszenia:</strong>
                                     {{ $property->getFullLocationFront() }}</div>
                             @endif
