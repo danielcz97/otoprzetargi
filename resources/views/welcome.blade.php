@@ -65,7 +65,7 @@
                                                 @endif
                                                 @if ($node->cena)
                                                     <span><i
-                                                            class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($node->cena) }}zł</span>
+                                                            class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($property->cena, 2, ',', '.') }}zł</span>
                                                     </p>
                                                 @endif
                                             </div>
@@ -129,8 +129,9 @@
                                                         m<sup>2</sup></span>
                                             @endif
                                             @if ($node->cena)
-                                                <span><i
-                                                        class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>{{ number_format($node->cena) }}zł</span>
+                                                <span><i class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>
+                                                    {{ number_format($property->cena, 2, ',', '.') }}zł
+                                                </span>
                                                 </p>
                                             @endif
                                             @php
