@@ -42,6 +42,23 @@
                                 roku,
                                 ISSN 2392-215X </p>
                         </div>
+                        @if ($property->teryt->miasto)
+                            <div><strong>Miejscowość ogłoszenia:</strong>
+                                {{ $property->teryt->miasto }}, {{ $property->teryt->ulica }}
+                                @if ($property->teryt->powiat)
+                                    <br>Powiat: {{ $property->teryt->powiat }},
+                                @endif
+                                @if ($property->teryt->gmina)
+                                    <br>Gmina:{{ $property->teryt->gmina }},
+                                @endif
+                                @if ($property->teryt->wojewodztwo)
+                                    <br> Województwo: {{ $property->teryt->wojewodztwo }}
+                                @endif
+                            </div>
+                        @elseif ($property->getFullLocationFront())
+                            <div><strong>Miejscowość ogłoszenia:</strong>
+                                {{ $property->getFullLocationFront() }}</div>
+                        @endif
                     </div>
                 </div>
                 <div class="pb-2">

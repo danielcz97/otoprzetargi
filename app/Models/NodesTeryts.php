@@ -10,8 +10,17 @@ class NodesTeryts extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'node_id', 'wojewodztwo', 'powiat', 'gmina', 'rodz', 'sym', 
-        'latitude', 'longitude', 'zoom', 'ulica'
+        'node_id',
+        'wojewodztwo',
+        'powiat',
+        'gmina',
+        'rodz',
+        'sym',
+        'latitude',
+        'longitude',
+        'zoom',
+        'ulica',
+        'miasto'
     ];
 
     public function property()

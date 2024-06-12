@@ -200,7 +200,7 @@ class MovableProperty extends Model implements HasMedia
             return "położonej w $region, $city";
         }
 
-        return 'Lokalizacja nieznana';
+        return '';
     }
 
     public function getFullLocationFront()
@@ -223,7 +223,7 @@ class MovableProperty extends Model implements HasMedia
             return $response['results'][0]['formatted_address'];
         }
 
-        return 'Lokalizacja nieznana';
+        return '';
     }
 
     public function getFullLocationFrontListing()
