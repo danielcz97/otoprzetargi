@@ -1,530 +1,530 @@
-  <style>
-      .ru-button {
-          display: none;
-      }
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&libraries=places">
+    </script>
 
-      .nier-button {
-          display: none;
-      }
+    <style>
+        .ru-button {
+            display: none;
+        }
 
-      @media(max-width:576px) {
-          .search-bar-nav-tabs {
-              display: block;
+        .nier-button {
+            display: none;
+        }
 
-          }
+        @media(max-width:576px) {
+            .search-bar-nav-tabs {
+                display: block;
 
-          .search-bar-nav-tabs li {
-              text-align: center;
-              border-bottom: 1px solid black;
-              padding-bottom: 10px;
-              background: white;
-          }
+            }
 
-          .nier-trans {
-              display: none;
-          }
+            .search-bar-nav-tabs li {
+                text-align: center;
+                border-bottom: 1px solid black;
+                padding-bottom: 10px;
+                background: white;
+            }
 
-          .nier-sub {
-              display: none;
-          }
+            .nier-trans {
+                display: none;
+            }
 
-          .nier-cen-od {
-              display: none;
-          }
+            .nier-sub {
+                display: none;
+            }
 
-          .nier-cen-do {
-              display: none;
-          }
+            .nier-cen-od {
+                display: none;
+            }
 
-          .nier-od {
-              display: none;
-          }
+            .nier-cen-do {
+                display: none;
+            }
 
-          .nier-do {
-              display: none;
-          }
+            .nier-od {
+                display: none;
+            }
 
-          .ru-sub {
-              display: none;
-          }
+            .nier-do {
+                display: none;
+            }
 
-          .ru-od {
-              display: none;
-          }
+            .ru-sub {
+                display: none;
+            }
 
-          .ru-do {
-              display: none;
-          }
+            .ru-od {
+                display: none;
+            }
 
-          .ru-button {
-              display: block;
-          }
+            .ru-do {
+                display: none;
+            }
 
-          .nier-button {
-              display: block;
-          }
-      }
-  </style>
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const button = document.querySelector('.nier-button');
-          const elementsToToggle = [
-              '.nier-trans',
-              '.nier-sub',
-              '.nier-cen-od',
-              '.nier-cen-do',
-              '.nier-od',
-              '.nier-do'
-          ];
+            .ru-button {
+                display: block;
+            }
 
-          button.addEventListener('click', function() {
-              elementsToToggle.forEach(selector => {
-                  const element = document.querySelector(selector);
-                  if (element.style.display === 'none') {
-                      element.style.display = 'flex';
-                  } else {
-                      element.style.display = 'none';
-                  }
-              });
+            .nier-button {
+                display: block;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.querySelector('.nier-button');
+            const elementsToToggle = [
+                '.nier-trans',
+                '.nier-sub',
+                '.nier-cen-od',
+                '.nier-cen-do',
+                '.nier-od',
+                '.nier-do'
+            ];
 
-              if (button.textContent === 'Filtry Zaawansowane') {
-                  button.textContent = 'Ukryj Filtry';
-              } else {
-                  button.textContent = 'Filtry Zaawansowane';
-              }
-          });
+            button.addEventListener('click', function() {
+                elementsToToggle.forEach(selector => {
+                    const element = document.querySelector(selector);
+                    if (element.style.display === 'none') {
+                        element.style.display = 'flex';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                });
 
-          const button2 = document.querySelector('.ru-button');
-          const elementsToToggle2 = [
-              '.ru-sub',
-              '.ru-od',
-              '.ru-do'
-          ];
+                if (button.textContent === 'Filtry Zaawansowane') {
+                    button.textContent = 'Ukryj Filtry';
+                } else {
+                    button.textContent = 'Filtry Zaawansowane';
+                }
+            });
 
-          button2.addEventListener('click', function() {
-              elementsToToggle2.forEach(selector => {
-                  const element = document.querySelector(selector);
-                  if (element.style.display === 'none') {
-                      element.style.display = 'flex';
-                  } else {
-                      element.style.display = 'none';
-                  }
-              });
+            const button2 = document.querySelector('.ru-button');
+            const elementsToToggle2 = [
+                '.ru-sub',
+                '.ru-od',
+                '.ru-do'
+            ];
 
-              if (button2.textContent === 'Filtry Zaawansowane') {
-                  button2.textContent = 'Ukryj Filtry';
-              } else {
-                  button2.textContent = 'Filtry Zaawansowane';
-              }
-          });
+            button2.addEventListener('click', function() {
+                elementsToToggle2.forEach(selector => {
+                    const element = document.querySelector(selector);
+                    if (element.style.display === 'none') {
+                        element.style.display = 'flex';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                });
 
-          const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell',
-              'address-input-wierz'
-          ];
-          const autocompleteObjects = {};
+                if (button2.textContent === 'Filtry Zaawansowane') {
+                    button2.textContent = 'Ukryj Filtry';
+                } else {
+                    button2.textContent = 'Filtry Zaawansowane';
+                }
+            });
 
-          inputIds.forEach(id => {
-              const input = document.getElementById(id);
-              const autocomplete = new google.maps.places.Autocomplete(input, {
-                  componentRestrictions: {
-                      country: 'pl'
-                  } // Restrict to Poland
-              });
-              autocompleteObjects[id] = autocomplete;
+            const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell',
+                'address-input-wierz'
+            ];
+            const autocompleteObjects = {};
 
-              autocomplete.addListener('place_changed', function() {
-                  const place = autocomplete.getPlace();
-                  if (place.geometry) {
-                      const latitude = place.geometry.location.lat();
-                      const longitude = place.geometry.location.lng();
-                      document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
-                      document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
+            inputIds.forEach(id => {
+                const input = document.getElementById(id);
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    componentRestrictions: {
+                        country: 'pl'
+                    } // Restrict to Poland
+                });
+                autocompleteObjects[id] = autocomplete;
 
-                      const geocoder = new google.maps.Geocoder();
-                      geocoder.geocode({
-                          'location': {
-                              lat: latitude,
-                              lng: longitude
-                          }
-                      }, function(results, status) {
-                          if (status === 'OK' && results[0]) {
-                              const addressComponents = results[0].address_components;
-                              let city;
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        const latitude = place.geometry.location.lat();
+                        const longitude = place.geometry.location.lng();
+                        document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
+                        document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
 
-                              for (let i = 0; i < addressComponents.length; i++) {
-                                  const types = addressComponents[i].types;
+                        const geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({
+                            'location': {
+                                lat: latitude,
+                                lng: longitude
+                            }
+                        }, function(results, status) {
+                            if (status === 'OK' && results[0]) {
+                                const addressComponents = results[0].address_components;
+                                let city;
 
-                                  if (types.includes('locality')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If city is found, no need to check further
-                                  } else if (types.includes(
-                                          'administrative_area_level_3')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a locality is not found, check for a level 3 administrative area
-                                  } else if (types.includes(
-                                          'administrative_area_level_2')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a level 3 administrative area is not found, check for a level 2 administrative area
-                                  } else if (types.includes(
-                                          'administrative_area_level_1')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a level 2 administrative area is not found, check for a level 1 administrative area
-                                  }
-                              }
+                                for (let i = 0; i < addressComponents.length; i++) {
+                                    const types = addressComponents[i].types;
 
-                              document.getElementById(`city-${id.split('-')[2]}`).value =
-                                  city ||
-                                  '';
-                          }
-                      });
-                  }
-              });
-          });
+                                    if (types.includes('locality')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If city is found, no need to check further
+                                    } else if (types.includes(
+                                            'administrative_area_level_3')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a locality is not found, check for a level 3 administrative area
+                                    } else if (types.includes(
+                                            'administrative_area_level_2')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a level 3 administrative area is not found, check for a level 2 administrative area
+                                    } else if (types.includes(
+                                            'administrative_area_level_1')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a level 2 administrative area is not found, check for a level 1 administrative area
+                                    }
+                                }
 
-          function saveFormData() {
-              const formElements = document.querySelectorAll('form input, form select');
-              formElements.forEach(element => {
-                  element.addEventListener('change', function() {
-                      localStorage.setItem(element.name, element.value);
-                  });
-              });
-          }
+                                document.getElementById(`city-${id.split('-')[2]}`).value =
+                                    city ||
+                                    '';
+                            }
+                        });
+                    }
+                });
+            });
 
-          function loadFormData() {
-              const formElements = document.querySelectorAll('form input, form select');
-              formElements.forEach(element => {
-                  const value = localStorage.getItem(element.name);
-                  if (value) {
-                      element.value = value;
-                  }
-              });
-          }
+            function saveFormData() {
+                const formElements = document.querySelectorAll('form input, form select');
+                formElements.forEach(element => {
+                    element.addEventListener('change', function() {
+                        localStorage.setItem(element.name, element.value);
+                    });
+                });
+            }
 
-          saveFormData();
-          loadFormData();
-      });
+            function loadFormData() {
+                const formElements = document.querySelectorAll('form input, form select');
+                formElements.forEach(element => {
+                    const value = localStorage.getItem(element.name);
+                    if (value) {
+                        element.value = value;
+                    }
+                });
+            }
 
-      function initAutocomplete() {
-          const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell', 'address-input-wierz'];
-          const autocompleteObjects = {};
+            saveFormData();
+            loadFormData();
+        });
 
-          inputIds.forEach(id => {
-              const input = document.getElementById(id);
-              const autocomplete = new google.maps.places.Autocomplete(input, {
-                  componentRestrictions: {
-                      country: 'pl'
-                  } // Restrict to Poland
-              });
-              autocompleteObjects[id] = autocomplete;
+        function initAutocomplete() {
+            const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell', 'address-input-wierz'];
+            const autocompleteObjects = {};
 
-              autocomplete.addListener('place_changed', function() {
-                  const place = autocomplete.getPlace();
-                  if (place.geometry) {
-                      const latitude = place.geometry.location.lat();
-                      const longitude = place.geometry.location.lng();
-                      document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
-                      document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
+            inputIds.forEach(id => {
+                const input = document.getElementById(id);
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    componentRestrictions: {
+                        country: 'pl'
+                    } // Restrict to Poland
+                });
+                autocompleteObjects[id] = autocomplete;
 
-                      const geocoder = new google.maps.Geocoder();
-                      geocoder.geocode({
-                          'location': {
-                              lat: latitude,
-                              lng: longitude
-                          }
-                      }, function(results, status) {
-                          if (status === 'OK' && results[0]) {
-                              const addressComponents = results[0].address_components;
-                              let city;
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        const latitude = place.geometry.location.lat();
+                        const longitude = place.geometry.location.lng();
+                        document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
+                        document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
 
-                              for (let i = 0; i < addressComponents.length; i++) {
-                                  const types = addressComponents[i].types;
+                        const geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({
+                            'location': {
+                                lat: latitude,
+                                lng: longitude
+                            }
+                        }, function(results, status) {
+                            if (status === 'OK' && results[0]) {
+                                const addressComponents = results[0].address_components;
+                                let city;
 
-                                  if (types.includes('locality')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If city is found, no need to check further
-                                  } else if (types.includes('administrative_area_level_3')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a locality is not found, check for a level 3 administrative area
-                                  } else if (types.includes('administrative_area_level_2')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a level 3 administrative area is not found, check for a level 2 administrative area
-                                  } else if (types.includes('administrative_area_level_1')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a level 2 administrative area is not found, check for a level 1 administrative area
-                                  }
-                              }
+                                for (let i = 0; i < addressComponents.length; i++) {
+                                    const types = addressComponents[i].types;
 
-                              document.getElementById(`city-${id.split('-')[2]}`).value = city ||
-                                  '';
-                          }
-                      });
-                  }
-              });
-          });
-      }
-      google.maps.event.addDomListener(window, 'load', initAutocomplete);
-  </script>
-  <section class="d-flex align-items-center dark-overlay bg-cover"
-      style="background-image: url({{ asset('img/hero.jpg') }});">
-      <div class="container py-6 py-lg-7 text-white overlay-content">
-          <div class="row">
-              <div class="col-xl-8">
-                  <h1 class="display-3 fw-bold text-shadow d-none d-sm-block">Otoprzetargi</h1>
-                  <p class="text-lg text-shadow mb-6 d-none d-sm-block">GC Trader z siedzibą w Warszawie.</p>
-              </div>
-          </div>
-      </div>
-  </section>
-  <div class="container position-relative mt-n6 z-index-20 " style="margin-top: -56px">
-      <ul class="nav nav-tabs search-bar-nav-tabs" role="tablist">
-          <li class="nav-item me-2"><a class="nav-link active" href="#buy" data-bs-toggle="tab"
-                  role="tab">Nieruchomości</a></li>
-          <li class="nav-item me-2"><a class="nav-link" href="#rent" data-bs-toggle="tab"
-                  role="tab">Ruchomości</a></li>
-          <li class="nav-item me-2"><a class="nav-link" href="#sell" data-bs-toggle="tab"
-                  role="tab">Komunikaty</a>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#wierz" data-bs-toggle="tab" role="tab">Wierzytelności</a>
-          </li>
-      </ul>
-      <div class="search-bar search-bar-with-tabs p-3 p-lg-4">
-          <div class="tab-content">
-              <div class="tab-pane fade show active" id="buy" role="tabpanel">
-                  <form action="{{ route('search.nieruchomosci') }}" method="GET">
-                      <div class="row">
+                                    if (types.includes('locality')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If city is found, no need to check further
+                                    } else if (types.includes('administrative_area_level_3')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a locality is not found, check for a level 3 administrative area
+                                    } else if (types.includes('administrative_area_level_2')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a level 3 administrative area is not found, check for a level 2 administrative area
+                                    } else if (types.includes('administrative_area_level_1')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a level 2 administrative area is not found, check for a level 1 administrative area
+                                    }
+                                }
 
-                          <div class="col-md-3 col-lg-3 align-items-center form-group no-divider pb-2">
-                              <select name="transaction_type" class="form-control nier-trans">
-                                  <option value="">Typ transakcji</option>
-                                  <option value="10">Sprzedaż</option>
-                                  <option value="11">Kupno</option>
-                                  <option value="13">Wynajem</option>
-                                  <option value="12">Dzierżawa</option>
-                                  <option value="5">Inne</option>
-                              </select>
-                          </div>
-                          <div class="col-md-3 col-lg-3 align-items-center form-group no-divider pb-2 nier-sub">
-                              <select name="subject" class="form-control ">
-                                  <option value="">Przedmiot ogłoszenia</option>
-                                  <option value="22">Biuro/Obiekt biurowy</option>
-                                  <option value="23">Dom</option>
-                                  <option value="25">Dworek/Pałac</option>
-                                  <option value="26">Działka</option>
-                                  <option value="27">Hotel/Pensjonat</option>
-                                  <option value="28">Lokal użytkowy</option>
-                                  <option value="29">Magazyn</option>
-                                  <option value="30">Mieszkanie</option>
-                                  <option value="31">Obiekt użytkowy</option>
-                              </select>
-                          </div>
+                                document.getElementById(`city-${id.split('-')[2]}`).value = city ||
+                                    '';
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+    </script>
+    <section class="d-flex align-items-center dark-overlay bg-cover"
+        style="background-image: url({{ asset('img/hero.jpg') }});">
+        <div class="container py-6 py-lg-7 text-white overlay-content">
+            <div class="row">
+                <div class="col-xl-8">
+                    <h1 class="display-3 fw-bold text-shadow d-none d-sm-block">Otoprzetargi</h1>
+                    <p class="text-lg text-shadow mb-6 d-none d-sm-block">GC Trader z siedzibą w Warszawie.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container position-relative mt-n6 z-index-20 " style="margin-top: -56px">
+        <ul class="nav nav-tabs search-bar-nav-tabs" role="tablist">
+            <li class="nav-item me-2"><a class="nav-link active" href="#buy" data-bs-toggle="tab"
+                    role="tab">Nieruchomości</a></li>
+            <li class="nav-item me-2"><a class="nav-link" href="#rent" data-bs-toggle="tab"
+                    role="tab">Ruchomości</a></li>
+            <li class="nav-item me-2"><a class="nav-link" href="#sell" data-bs-toggle="tab"
+                    role="tab">Komunikaty</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#wierz" data-bs-toggle="tab"
+                    role="tab">Wierzytelności</a>
+            </li>
+        </ul>
+        <div class="search-bar search-bar-with-tabs p-3 p-lg-4">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="buy" role="tabpanel">
+                    <form action="{{ route('search.nieruchomosci') }}" method="GET">
+                        <div class="row">
 
-                          <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
-                              <input id="address-input-buy" class="form-control" name="address" type="text"
-                                  placeholder="Wprowadź adres" autocomplete="off">
-                          </div>
+                            <div class="col-md-3 col-lg-3 align-items-center form-group no-divider pb-2">
+                                <select name="transaction_type" class="form-control nier-trans">
+                                    <option value="">Typ transakcji</option>
+                                    <option value="10">Sprzedaż</option>
+                                    <option value="11">Kupno</option>
+                                    <option value="13">Wynajem</option>
+                                    <option value="12">Dzierżawa</option>
+                                    <option value="5">Inne</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-lg-3 align-items-center form-group no-divider pb-2 nier-sub">
+                                <select name="subject" class="form-control ">
+                                    <option value="">Przedmiot ogłoszenia</option>
+                                    <option value="22">Biuro/Obiekt biurowy</option>
+                                    <option value="23">Dom</option>
+                                    <option value="25">Dworek/Pałac</option>
+                                    <option value="26">Działka</option>
+                                    <option value="27">Hotel/Pensjonat</option>
+                                    <option value="28">Lokal użytkowy</option>
+                                    <option value="29">Magazyn</option>
+                                    <option value="30">Mieszkanie</option>
+                                    <option value="31">Obiekt użytkowy</option>
+                                </select>
+                            </div>
 
-                          <div class="col-md-2 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
-                              <select name="radius" class="form-control">
-                                  <option value="25">+25 km</option>
-                                  <option value="15">+15 km</option>
-                                  <option value="0">0 km</option>
-                                  <option value="50">+50 km</option>
-                                  <option value="75">+75 km</option>
-                              </select>
-                          </div>
+                            <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
+                                <input id="address-input-buy" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
+                            </div>
 
-                          <div class="col-md-6 col-lg-2  align-items-center form-group no-divider pb-2 nier-od">
-                              <input type="number" name="powierzchnia_od" class="form-control"
-                                  placeholder="Powierzchnia od">
-                          </div>
-                          <div class="col-md-6 col-lg-2  align-items-center form-group no-divider pb-2 nier-do">
-                              <input type="number" name="powierzchnia_do" class="form-control"
-                                  placeholder="Powierzchnia do">
-                          </div>
-                          <div class="col-md-6 col-lg-2  align-items-center form-group no-divider pb-2 nier-cen-od">
-                              <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
-                          </div>
-                          <div class="col-md-6 col-lg-2 align-items-center form-group no-divider pb-2 nier-cen-do">
-                              <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
-                          </div>
+                            <div class="col-md-2 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
+                                <select name="radius" class="form-control">
+                                    <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
+                                    <option value="0">0 km</option>
+                                    <option value="50">+50 km</option>
+                                    <option value="75">+75 km</option>
+                                </select>
+                            </div>
 
-                          <input type="hidden" id="city-buy" name="city">
-                          <input type="hidden" id="latitude-buy" name="latitude">
-                          <input type="hidden" id="longitude-buy" name="longitude">
-                          <button class="btn btn-primary mb-4 nier-button" type="button">Filtry zaawansowane</button>
+                            <div class="col-md-6 col-lg-2  align-items-center form-group no-divider pb-2 nier-od">
+                                <input type="number" name="powierzchnia_od" class="form-control"
+                                    placeholder="Powierzchnia od">
+                            </div>
+                            <div class="col-md-6 col-lg-2  align-items-center form-group no-divider pb-2 nier-do">
+                                <input type="number" name="powierzchnia_do" class="form-control"
+                                    placeholder="Powierzchnia do">
+                            </div>
+                            <div class="col-md-6 col-lg-2  align-items-center form-group no-divider pb-2 nier-cen-od">
+                                <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
+                            </div>
+                            <div class="col-md-6 col-lg-2 align-items-center form-group no-divider pb-2 nier-cen-do">
+                                <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
+                            </div>
 
-                          <div class="col-lg-4 d-grid form-group mb-0">
-                              <button class="btn btn-primary h-100" type="submit">Szukaj</button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-              <div class="tab-pane fade" id="rent" role="tabpanel">
-                  <form action="{{ route('search.ruchomosci') }}" method="GET">
-                      <div class="row">
-                          <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
-                              <input id="address-input-rent" class="form-control" name="address" type="text"
-                                  placeholder="Wprowadź adres" autocomplete="off">
-                          </div>
-                          <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no- pb-2">
-                              <select name="radius" class="form-control">
-                                  <option value="25">+25 km</option>
-                                  <option value="15">+15 km</option>
-                                  <option value="0">0 km</option>
-                                  <option value="50">+50 km</option>
-                                  <option value="75">+75 km</option>
-                              </select>
-                          </div>
-                          <div class="col-md-6 col-lg-6 align-items-center form-group no-divider pb-2 ru-sub">
-                              <select name="subject" class="form-control">
-                                  <option value="">Przedmiot ogłoszenia</option>
-                                  <option value="32">samochody osobowe</option>
-                                  <option value="33">samochody ciężarowe</option>
-                                  <option value="34">pojazdy specjalistyczne</option>
-                                  <option value="35">maszyny, urządzenia</option>
-                                  <option value="47">łodzie</option>
-                                  <option value="48">maszyny przemysłowe</option>
-                                  <option value="49">maszyny rolnicze</option>
-                                  <option value="50">przyczepy/naczepy</option>
-                                  <option value="51">motocykle/skutery</option>
-                              </select>
-                          </div>
-                          <div class="col-md-6 col-lg-4 align-items-center form-group no-divider ru-od">
-                              <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
-                          </div>
-                          <div class="col-md-6 col-lg-4 align-items-center form-group no-divide ru-do">
-                              <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
-                          </div>
-                          <input type="hidden" id="city-rent" name="city">
-                          <input type="hidden" id="latitude-rent" name="latitude">
-                          <input type="hidden" id="longitude-rent" name="longitude">
+                            <input type="hidden" id="city-buy" name="city">
+                            <input type="hidden" id="latitude-buy" name="latitude">
+                            <input type="hidden" id="longitude-buy" name="longitude">
+                            <button class="btn btn-primary mb-4 nier-button" type="button">Filtry
+                                zaawansowane</button>
 
-                          <button class="btn btn-primary mb-4 ru-button" type="button">Filtry zaawansowane</button>
+                            <div class="col-lg-4 d-grid form-group mb-0">
+                                <button class="btn btn-primary h-100" type="submit">Szukaj</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="rent" role="tabpanel">
+                    <form action="{{ route('search.ruchomosci') }}" method="GET">
+                        <div class="row">
+                            <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
+                                <input id="address-input-rent" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
+                            </div>
+                            <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no- pb-2">
+                                <select name="radius" class="form-control">
+                                    <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
+                                    <option value="0">0 km</option>
+                                    <option value="50">+50 km</option>
+                                    <option value="75">+75 km</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-lg-6 align-items-center form-group no-divider pb-2 ru-sub">
+                                <select name="subject" class="form-control">
+                                    <option value="">Przedmiot ogłoszenia</option>
+                                    <option value="32">samochody osobowe</option>
+                                    <option value="33">samochody ciężarowe</option>
+                                    <option value="34">pojazdy specjalistyczne</option>
+                                    <option value="35">maszyny, urządzenia</option>
+                                    <option value="47">łodzie</option>
+                                    <option value="48">maszyny przemysłowe</option>
+                                    <option value="49">maszyny rolnicze</option>
+                                    <option value="50">przyczepy/naczepy</option>
+                                    <option value="51">motocykle/skutery</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-lg-4 align-items-center form-group no-divider ru-od">
+                                <input type="number" name="cena_od" class="form-control" placeholder="Cena od">
+                            </div>
+                            <div class="col-md-6 col-lg-4 align-items-center form-group no-divide ru-do">
+                                <input type="number" name="cena_do" class="form-control" placeholder="Cena do">
+                            </div>
+                            <input type="hidden" id="city-rent" name="city">
+                            <input type="hidden" id="latitude-rent" name="latitude">
+                            <input type="hidden" id="longitude-rent" name="longitude">
 
-                          <div class="col-lg-4 d-grid form-group mb-0">
-                              <button class="btn btn-primary h-100" type="submit">Szukaj</button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-              <div class="tab-pane fade" id="sell" role="tabpanel">
-                  <form action="{{ route('search.komunikaty') }}" method="GET">
-                      <div class="row">
-                          <div class="col-lg-6 d-flex align-items-center form-group no-divider">
-                              <input id="address-input-sell" class="form-control" name="address" type="text"
-                                  placeholder="Wprowadź adres" autocomplete="off">
-                          </div>
-                          <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
-                              <select name="radius" class="form-control">
-                                  <option value="25">+25 km</option>
-                                  <option value="15">+15 km</option>
-                                  <option value="0">0 km</option>
-                                  <option value="50">+50 km</option>
-                                  <option value="75">+75 km</option>
-                              </select>
-                          </div>
-                          <input type="hidden" id="city-sell" name="city">
-                          <input type="hidden" id="latitude-sell" name="latitude">
-                          <input type="hidden" id="longitude-sell" name="longitude">
-                          <div class="col-lg-2 d-grid form-group mb-0">
-                              <button class="btn btn-primary h-100" type="submit">Szukaj</button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-              <div class="tab-pane fade" id="wierz" role="tabpanel">
-                  <form action="{{ route('search.wierzytelnosci') }}" method="GET">
-                      <div class="row">
-                          <div class="col-lg-6 d-flex align-items-center form-group no-divider">
-                              <input id="address-input-wierz" class="form-control" name="address" type="text"
-                                  placeholder="Wprowadź adres" autocomplete="off">
-                          </div>
-                          <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
-                              <select name="radius" class="form-control">
-                                  <option value="25">+25 km</option>
-                                  <option value="15">+15 km</option>
-                                  <option value="0">0 km</option>
-                                  <option value="50">+50 km</option>
-                                  <option value="75">+75 km</option>
-                              </select>
-                          </div>
-                          <input type="hidden" id="city-wierz" name="city">
-                          <input type="hidden" id="latitude-wierz" name="latitude">
-                          <input type="hidden" id="longitude-wierz" name="longitude">
-                          <div class="col-lg-2 d-grid form-group mb-0">
-                              <button class="btn btn-primary h-100" type="submit">Szukaj</button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
-  <script>
-      const googleMapsApiKey = '{{ config('services.google_maps.api_key') }}';
-      console.log(googleMapsApiKey);
-      // Możesz teraz użyć klucza API w swoim kodzie JavaScript
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=" + {{ config('services.google_maps.api_key') }}
-      + "&libraries=places"></script>
-  <script>
-      function initAutocomplete() {
-          const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell', 'address-input-wierz'];
-          const autocompleteObjects = {};
+                            <button class="btn btn-primary mb-4 ru-button" type="button">Filtry zaawansowane</button>
 
-          inputIds.forEach(id => {
-              const input = document.getElementById(id);
-              const autocomplete = new google.maps.places.Autocomplete(input, {
-                  componentRestrictions: {
-                      country: 'pl'
-                  } // Restrict to Poland
-              });
-              autocompleteObjects[id] = autocomplete;
+                            <div class="col-lg-4 d-grid form-group mb-0">
+                                <button class="btn btn-primary h-100" type="submit">Szukaj</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="sell" role="tabpanel">
+                    <form action="{{ route('search.komunikaty') }}" method="GET">
+                        <div class="row">
+                            <div class="col-lg-6 d-flex align-items-center form-group no-divider">
+                                <input id="address-input-sell" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
+                            </div>
+                            <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
+                                <select name="radius" class="form-control">
+                                    <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
+                                    <option value="0">0 km</option>
+                                    <option value="50">+50 km</option>
+                                    <option value="75">+75 km</option>
+                                </select>
+                            </div>
+                            <input type="hidden" id="city-sell" name="city">
+                            <input type="hidden" id="latitude-sell" name="latitude">
+                            <input type="hidden" id="longitude-sell" name="longitude">
+                            <div class="col-lg-2 d-grid form-group mb-0">
+                                <button class="btn btn-primary h-100" type="submit">Szukaj</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="wierz" role="tabpanel">
+                    <form action="{{ route('search.wierzytelnosci') }}" method="GET">
+                        <div class="row">
+                            <div class="col-lg-6 d-flex align-items-center form-group no-divider">
+                                <input id="address-input-wierz" class="form-control" name="address" type="text"
+                                    placeholder="Wprowadź adres" autocomplete="off">
+                            </div>
+                            <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
+                                <select name="radius" class="form-control">
+                                    <option value="25">+25 km</option>
+                                    <option value="15">+15 km</option>
+                                    <option value="0">0 km</option>
+                                    <option value="50">+50 km</option>
+                                    <option value="75">+75 km</option>
+                                </select>
+                            </div>
+                            <input type="hidden" id="city-wierz" name="city">
+                            <input type="hidden" id="latitude-wierz" name="latitude">
+                            <input type="hidden" id="longitude-wierz" name="longitude">
+                            <div class="col-lg-2 d-grid form-group mb-0">
+                                <button class="btn btn-primary h-100" type="submit">Szukaj</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-              autocomplete.addListener('place_changed', function() {
-                  const place = autocomplete.getPlace();
-                  if (place.geometry) {
-                      const latitude = place.geometry.location.lat();
-                      const longitude = place.geometry.location.lng();
-                      document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
-                      document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
 
-                      const geocoder = new google.maps.Geocoder();
-                      geocoder.geocode({
-                          'location': {
-                              lat: latitude,
-                              lng: longitude
-                          }
-                      }, function(results, status) {
-                          if (status === 'OK' && results[0]) {
-                              const addressComponents = results[0].address_components;
-                              let city;
+    <script>
+        function initAutocomplete() {
+            const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell', 'address-input-wierz'];
+            const autocompleteObjects = {};
 
-                              for (let i = 0; i < addressComponents.length; i++) {
-                                  const types = addressComponents[i].types;
+            inputIds.forEach(id => {
+                const input = document.getElementById(id);
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    componentRestrictions: {
+                        country: 'pl'
+                    } // Restrict to Poland
+                });
+                autocompleteObjects[id] = autocomplete;
 
-                                  if (types.includes('locality')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If city is found, no need to check further
-                                  } else if (types.includes('administrative_area_level_3')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a locality is not found, check for a level 3 administrative area
-                                  } else if (types.includes('administrative_area_level_2')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a level 3 administrative area is not found, check for a level 2 administrative area
-                                  } else if (types.includes('administrative_area_level_1')) {
-                                      city = addressComponents[i].long_name;
-                                      break; // If a level 2 administrative area is not found, check for a level 1 administrative area
-                                  }
-                              }
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        const latitude = place.geometry.location.lat();
+                        const longitude = place.geometry.location.lng();
+                        document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
+                        document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
 
-                              document.getElementById(`city-${id.split('-')[2]}`).value = city ||
-                                  '';
-                          }
-                      });
-                  }
-              });
-          });
-      }
-      google.maps.event.addDomListener(window, 'load', initAutocomplete);
-  </script>
+                        const geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({
+                            'location': {
+                                lat: latitude,
+                                lng: longitude
+                            }
+                        }, function(results, status) {
+                            if (status === 'OK' && results[0]) {
+                                const addressComponents = results[0].address_components;
+                                let city;
+
+                                for (let i = 0; i < addressComponents.length; i++) {
+                                    const types = addressComponents[i].types;
+
+                                    if (types.includes('locality')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If city is found, no need to check further
+                                    } else if (types.includes('administrative_area_level_3')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a locality is not found, check for a level 3 administrative area
+                                    } else if (types.includes('administrative_area_level_2')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a level 3 administrative area is not found, check for a level 2 administrative area
+                                    } else if (types.includes('administrative_area_level_1')) {
+                                        city = addressComponents[i].long_name;
+                                        break; // If a level 2 administrative area is not found, check for a level 1 administrative area
+                                    }
+                                }
+
+                                document.getElementById(`city-${id.split('-')[2]}`).value = city ||
+                                    '';
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+    </script>
