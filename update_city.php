@@ -7,13 +7,13 @@ use GuzzleHttp\Client;
 
 function getCityNameByLatitudeLongitude($latitude, $longitude)
 {
-    $APIKEY = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk'; // Replace this with your Google Maps API key
+    $APIKEY = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc'; // Replace this with your Google Maps API key
     $client = new Client();
     $googleMapsUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$latitude},{$longitude}&key={$APIKEY}";
 
     $response = $client->get($googleMapsUrl);
     $data = json_decode($response->getBody(), true);
-    
+
     if ($data['status'] === 'OK') {
         $addressComponents = $data['results'][0]['address_components'];
         foreach ($addressComponents as $component) {
@@ -23,21 +23,21 @@ function getCityNameByLatitudeLongitude($latitude, $longitude)
             }
         }
     }
-    
+
     return null;
 }
 
 // Configure the database connection
 $db = new DB();
 $db->addConnection([
-    'driver'    => 'mysql',
-    'host'      => '127.0.0.1',
-    'database'  => 'testing',
-    'username'  => 'sail',
-    'password'  => 'password',
-    'charset'   => 'utf8',
+    'driver' => 'mysql',
+    'host' => '127.0.0.1',
+    'database' => 'testing',
+    'username' => 'sail',
+    'password' => 'password',
+    'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
+    'prefix' => '',
 ]);
 
 $db->setAsGlobal();

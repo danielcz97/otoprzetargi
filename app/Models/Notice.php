@@ -160,7 +160,7 @@ class Notice extends Model implements HasMedia
     {
         $latitude = $this->teryt->latitude ?? 52.2297;
         $longitude = $this->teryt->longitude ?? 21.0122;
-        $apiKey = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk';
+        $apiKey = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc';
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
             'latlng' => "$latitude,$longitude",
             'key' => $apiKey
@@ -197,7 +197,7 @@ class Notice extends Model implements HasMedia
             $longitude = 21.0122; // domyślna długość geograficzna
         }
 
-        $apiKey = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk';
+        $apiKey = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc';
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
             'latlng' => "$latitude,$longitude",
             'key' => $apiKey
@@ -223,7 +223,7 @@ class Notice extends Model implements HasMedia
             $longitude = 21.0122; // domyślna długość geograficzna
         }
 
-        $apiKey = 'AIzaSyAUkqOT1W28YXPzewCoOI70b-LfunSPldk';
+        $apiKey = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc';
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
             'latlng' => "$latitude,$longitude",
             'key' => $apiKey
