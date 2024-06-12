@@ -43,8 +43,9 @@ class PropertiesController extends Controller
         $createdDate = Carbon::parse($property->created);
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');
+        $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
 
-        return view('node.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia'));
+        return view('node.index', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia', 'maps'));
     }
 
 

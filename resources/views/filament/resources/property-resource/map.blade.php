@@ -7,8 +7,8 @@
 
 <div id="map"></div>
 @dump($latitude)
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc&libraries=places">
-</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=" + {{ config('services.google_maps.api_key') }}
+    + "&libraries=places"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var defaultLat = {{ $latitude }};

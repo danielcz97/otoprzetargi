@@ -161,7 +161,7 @@ class Comunicats extends Model implements HasMedia
     {
         $latitude = $this->teryt->latitude ?? 52.2297;
         $longitude = $this->teryt->longitude ?? 21.0122;
-        $apiKey = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc';
+        $apiKey = env('GOOGLE_MAPS_API_KEY');
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
             'latlng' => "$latitude,$longitude",
             'key' => $apiKey
@@ -198,7 +198,7 @@ class Comunicats extends Model implements HasMedia
             $longitude = 21.0122; // domyślna długość geograficzna
         }
 
-        $apiKey = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc';
+        $apiKey = env('GOOGLE_MAPS_API_KEY');
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
             'latlng' => "$latitude,$longitude",
             'key' => $apiKey
@@ -224,7 +224,7 @@ class Comunicats extends Model implements HasMedia
             $longitude = 21.0122; // domyślna długość geograficzna
         }
 
-        $apiKey = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc';
+        $apiKey = env('GOOGLE_MAPS_API_KEY');
         $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
             'latlng' => "$latitude,$longitude",
             'key' => $apiKey

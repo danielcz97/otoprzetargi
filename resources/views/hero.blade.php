@@ -460,8 +460,13 @@
           </div>
       </div>
   </div>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc&libraries=places">
+  <script>
+      const googleMapsApiKey = '{{ config('services.google_maps.api_key') }}';
+      console.log(googleMapsApiKey);
+      // Możesz teraz użyć klucza API w swoim kodzie JavaScript
   </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=" + {{ config('services.google_maps.api_key') }}
+      + "&libraries=places"></script>
   <script>
       function initAutocomplete() {
           const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell', 'address-input-wierz'];

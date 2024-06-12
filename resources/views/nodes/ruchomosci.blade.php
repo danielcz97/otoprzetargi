@@ -87,9 +87,8 @@
                 </form>
 
             </div>
+            <script src="{{ $maps }}"></script>
 
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc&libraries=places">
-            </script>
             <script>
                 function initAutocomplete() {
                     var input = document.getElementById('address-input');

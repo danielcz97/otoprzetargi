@@ -66,7 +66,9 @@ class SearchController extends Controller
             $media = $property->getFirstMedia('default');
             $property->thumbnail_url = $media ? $media->getUrl() : null;
         }
-        return view('nodes.nieruchomosci', compact('properties'));
+        $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
+
+        return view('nodes.nieruchomosci', compact('properties', 'maps'));
     }
 
 
@@ -125,7 +127,9 @@ class SearchController extends Controller
             $media = $property->getFirstMedia('default');
             $property->thumbnail_url = $media ? $media->getUrl() : null;
         }
-        return view('nodes.ruchomosci', compact('properties'));
+        $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
+
+        return view('nodes.ruchomosci', compact('properties', 'maps'));
     }
 
     public function komunikaty(Request $request)
@@ -158,7 +162,9 @@ class SearchController extends Controller
             $media = $property->getFirstMedia('default');
             $property->thumbnail_url = $media ? $media->getUrl() : null;
         }
-        return view('nodes.komunikaty', compact('properties'));
+        $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
+
+        return view('nodes.komunikaty', compact('properties', 'maps'));
     }
 
     public function wierzytelnosci(Request $request)
@@ -191,6 +197,8 @@ class SearchController extends Controller
             $media = $property->getFirstMedia('default');
             $property->thumbnail_url = $media ? $media->getUrl() : null;
         }
-        return view('nodes.claims', compact('properties'));
+        $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
+
+        return view('nodes.claims', compact('properties', 'maps'));
     }
 }

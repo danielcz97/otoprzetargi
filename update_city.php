@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 
 function getCityNameByLatitudeLongitude($latitude, $longitude)
 {
-    $APIKEY = 'AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc'; // Replace this with your Google Maps API key
+    $APIKEY = ''; // Replace this with your Google Maps API key
     $client = new Client();
     $googleMapsUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$latitude},{$longitude}&key={$APIKEY}";
 

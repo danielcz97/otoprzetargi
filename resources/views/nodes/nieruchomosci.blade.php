@@ -106,8 +106,7 @@
                 </form>
             </div>
 
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc&libraries=places">
-            </script>
+            <script src="{{ $maps }}"></script>
             <script>
                 function initAutocomplete() {
                     var input = document.getElementById('address-input');

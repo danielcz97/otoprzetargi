@@ -127,8 +127,8 @@
                         <div class="map-wrapper-300 mb-3">
                             <div style="height:300px" id="map"></div>
 
-                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkRMkhOIogwDHbOqqjyp5zjw5vjFK-Lhc&libraries=places">
-                            </script>
+                            <script src="{{ $maps }}"></script>
+
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     var defaultLat = {{ $property->teryt->latitude ?? 52.2297 }};

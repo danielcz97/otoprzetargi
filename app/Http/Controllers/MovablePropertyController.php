@@ -26,7 +26,7 @@ class MovablePropertyController extends Controller
         $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
             return $media->id === $mainMedia->id;
         });
-        
+
         $properties = MovableProperty::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
@@ -42,8 +42,9 @@ class MovablePropertyController extends Controller
         $createdDate = Carbon::parse($property->created);
         $formattedDateNumeric = $createdDate->format('d/m/Y');
         $formattedDateText = $createdDate->translatedFormat('j F Y');
+        $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
 
-        return view('node.movable', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia'));
+        return view('node.movable', compact('property', 'properties', 'comunicats', 'formattedDateNumeric', 'formattedDateText', 'mainMediaUrl', 'galleryMedia', 'maps'));
     }
 
     public function printPage($slug)
