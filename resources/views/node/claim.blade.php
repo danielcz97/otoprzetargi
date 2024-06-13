@@ -49,7 +49,7 @@
                                     <br>Powiat: {{ $property->teryt->powiat }},
                                 @endif
                                 @if ($property->teryt->gmina)
-                                    <br>Gmina:{{ $property->teryt->gmina }},
+                                    <br>Gmina: {{ ucfirst($property->teryt->gmina) }},
                                 @endif
                                 @if ($property->teryt->wojewodztwo)
                                     <br> Województwo: {{ $property->teryt->wojewodztwo }}

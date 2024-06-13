@@ -155,60 +155,25 @@ class Property extends Model implements HasMedia
     public function getFullLocationFront()
     {
         if ($this->teryt) {
-            $latitude = $this->teryt->latitude;
-            $longitude = $this->teryt->longitude;
-        } else {
-            $latitude = 52.2297; // domyślna szerokość geograficzna
-            $longitude = 21.0122; // domyślna długość geograficzna
+            $city = $this->teryt->miasto;
+            $wojew = $this->teryt->wojewodztwo;
+
+            return $city . ', ' . $wojew;
         }
 
-        $apiKey = env('GOOGLE_MAPS_API_KEY');
-        $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
-            'latlng' => "$latitude,$longitude",
-            'key' => $apiKey
-        ]);
-
-        if ($response->successful() && $response['status'] === 'OK') {
-            $formattedAddress = $response['results'][0]['formatted_address'];
-            // Remove the country name "Poland" from the formatted address
-            $addressWithoutCountry = preg_replace('/, Poland$/', '', $formattedAddress);
-            return $addressWithoutCountry;
-        }
-
-        return null;
+        return '';
     }
 
     public function getFullLocationFrontListing()
     {
         if ($this->teryt) {
-            $latitude = $this->teryt->latitude;
-            $longitude = $this->teryt->longitude;
-        } else {
-            $latitude = 52.2297; // domyślna szerokość geograficzna
-            $longitude = 21.0122; // domyślna długość geograficzna
+            $city = $this->teryt->miasto;
+            $wojew = $this->teryt->wojewodztwo;
+
+            return $city . ', ' . $wojew;
         }
 
-        $apiKey = env('GOOGLE_MAPS_API_KEY');
-        $response = Http::get("https://maps.googleapis.com/maps/api/geocode/json", [
-            'latlng' => "$latitude,$longitude",
-            'key' => $apiKey
-        ]);
-
-        if ($response->successful() && $response['status'] === 'OK') {
-            $results = $response['results'][0]['address_components'];
-            $city = null;
-
-            foreach ($results as $component) {
-                if (in_array('locality', $component['types'])) {
-                    $city = $component['long_name'];
-                    break;
-                }
-            }
-
-            return $city;
-        }
-
-        return null;
+        return '';
     }
     public function registerMediaCollections(): void
     {
