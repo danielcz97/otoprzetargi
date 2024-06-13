@@ -63,14 +63,12 @@ class SearchController extends Controller
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {
-            $media = $property->getFirstMedia('default');
-            $property->thumbnail_url = $media ? $media->getUrl() : null;
+            $property->thumbnail_url = $property->getMediaUrl();
         }
         $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
 
         return view('nodes.nieruchomosci', compact('properties', 'maps'));
     }
-
 
     public function ruchomosci(Request $request)
     {
@@ -124,8 +122,7 @@ class SearchController extends Controller
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {
-            $media = $property->getFirstMedia('default');
-            $property->thumbnail_url = $media ? $media->getUrl() : null;
+            $property->thumbnail_url = $property->getMediaUrl();
         }
         $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
 
@@ -159,8 +156,7 @@ class SearchController extends Controller
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {
-            $media = $property->getFirstMedia('default');
-            $property->thumbnail_url = $media ? $media->getUrl() : null;
+            $property->thumbnail_url = $property->getMediaUrl();
         }
         $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
 
@@ -194,8 +190,7 @@ class SearchController extends Controller
         $query = $query->whereDate('created', '<=', $today);
         $properties = $query->orderBy('created', 'desc')->paginate(15);
         foreach ($properties as $property) {
-            $media = $property->getFirstMedia('default');
-            $property->thumbnail_url = $media ? $media->getUrl() : null;
+            $property->thumbnail_url = $property->getMediaUrl();
         }
         $maps = 'https://maps.googleapis.com/maps/api/js?key=' . env('GOOGLE_MAPS_API_KEY') . '&libraries=places';
 

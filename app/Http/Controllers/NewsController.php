@@ -11,7 +11,7 @@ class NewsController extends Controller
     {
         $posts = Post::latest()->paginate(15);
         $posts->each(function ($post) {
-            $post->mainMediaUrl = $post->getFirstMediaUrl('default');
+            $post->mainMediaUrl = $post->getMediaUrl();
         });
         return view('post.index', compact('posts'));
     }
@@ -19,8 +19,7 @@ class NewsController extends Controller
     public function view($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
-        $mainMedia = $post->getFirstMedia('default');
-        $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
+        $mainMediaUrl = $post->getMediaUrl();
 
         return view('post.view', compact('post', 'mainMediaUrl'));
     }

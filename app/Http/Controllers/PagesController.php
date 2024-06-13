@@ -21,8 +21,7 @@ class PagesController extends Controller
             ->limit(10)
             ->get();
         $promotedNodes->each(function ($node) {
-            $media = $node->getFirstMedia('default');
-            $node->thumbnail_url = $media ? $media->getUrl() : null;
+            $node->thumbnail_url = $node->getMediaUrl();
         });
 
         $latestNodes = Property::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
@@ -30,10 +29,8 @@ class PagesController extends Controller
             ->orderBy('created', 'desc')
             ->limit(20)
             ->get();
-
         $latestNodes->each(function ($node) {
-            $media = $node->getFirstMedia('default');
-            $node->thumbnail_url = $media ? $media->getUrl() : null;
+            $node->thumbnail_url = $node->getMediaUrl();
         });
 
         $latestPosts = Post::select('id', 'title', 'created', 'slug')
@@ -41,11 +38,9 @@ class PagesController extends Controller
             ->take(6)
             ->get();
         $latestPosts->each(function ($post) {
-            $media = $post->getFirstMedia('default');
-            $post->thumbnail_url = $media ? $media->getUrl() : null;
+            $post->thumbnail_url = $post->getMediaUrl();
         });
 
         return view('welcome', compact('promotedNodes', 'latestNodes', 'latestPosts'));
     }
 }
-

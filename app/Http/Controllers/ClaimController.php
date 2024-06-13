@@ -14,22 +14,24 @@ class ClaimController extends Controller
         $today = Carbon::today();
 
         $property = Claim::where('slug', $slug)->firstOrFail();
-        $mainMedia = $property->getFirstMedia('default');
-        $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
+        $mainMediaUrl = $property->getMediaUrl();
 
-        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
-            return $media->id === $mainMedia->id;
+        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($property) {
+            return $media->id === $property->getFirstMedia('default')->id;
         });
+
         $properties = Claim::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
+
         $properties->each(function ($property) {
-            $property->mainMediaUrl = $property->getFirstMediaUrl('default');
+            $property->mainMediaUrl = $property->getMediaUrl();
         });
 
         $comunicats = Post::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(5);
+
         $comunicats->each(function ($comunicat) {
             $comunicat->mainMediaUrl = $comunicat->getFirstMediaUrl('default');
         });
@@ -69,6 +71,7 @@ class ClaimController extends Controller
 
         return $pdf->stream('property.pdf');
     }
+
     public function getTransactionDetails()
     {
         return [];

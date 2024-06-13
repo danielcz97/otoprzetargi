@@ -56,4 +56,13 @@ class Post extends Model implements HasMedia
     {
         return $this->hasMany(NodeFile::class, 'node_id', 'id');
     }
+
+        public function getMediaUrl()
+    {
+        $media = $this->getFirstMedia('default');
+        if ($media && $media->id <= 72910) {
+            return url("storage/{$media->file_name}");
+        }
+        return $media ? $media->getUrl() : null;
+    }
 }
