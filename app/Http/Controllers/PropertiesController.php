@@ -19,18 +19,17 @@ class PropertiesController extends Controller
 
         $property = Property::where('slug', $slug)->firstOrFail();
 
-        $mainMedia = $property->getFirstMedia('default');
-        $mainMediaUrl = $mainMedia ? $mainMedia->getUrl() : null;
+        $mainMediaUrl = $property->getMediaUrl();
 
-        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($mainMedia) {
-            return $media->id === $mainMedia->id;
+        $galleryMedia = $property->getMedia('default')->reject(function ($media) use ($property) {
+            return $media->id === $property->getFirstMedia('default')->id;
         });
 
         $properties = Property::whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
             ->paginate(15);
         $properties->each(function ($property) {
-            $property->mainMediaUrl = $property->getFirstMediaUrl('default');
+            $property->mainMediaUrl = $property->getMediaUrl();
         });
 
         $comunicats = Post::whereDate('created', '<=', $today)
