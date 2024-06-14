@@ -62,6 +62,15 @@ class Notice extends Model implements HasMedia
         return self::query()->select('type')->distinct()->pluck('type');
     }
 
+    public function getMediaUrl()
+    {
+        $media = $this->getFirstMedia('default');
+        if ($media && $media->id <= 72910) {
+            return url("storage/{$media->file_name}");
+        }
+        return $media ? $media->getUrl() : null;
+    }
+
     public function nodeFiles()
     {
         return $this->hasMany(NodeFile::class, 'node_id', 'id');
