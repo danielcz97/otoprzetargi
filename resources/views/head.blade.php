@@ -17,8 +17,13 @@
 <link rel="stylesheet" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-@vite(['resources/css/app.css', 'resources/js/app.js', 'resources/scss/_core.scss'])
+
+<link rel="stylesheet" href="{{ asset('build/assets/_core-6Gn0oM4g.css') }}">
+<link rel="stylesheet" href="{{ asset('build/assets/app-Cw3EdePw.css') }}">
+<link rel="stylesheet" href="{{ asset('build/assets/app-BmpvLLh0.js') }}">
+
 <link rel="stylesheet" href="{{ asset('vendor/my/style.default.css') }}">
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-42401954-1"></script>
 <script>
