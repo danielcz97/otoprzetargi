@@ -27,7 +27,7 @@ class PagesController extends Controller
         $latestNodes = Property::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->whereDate('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->limit(20)
+            ->limit(50)
             ->get();
         $latestNodes->each(function ($node) {
             $node->thumbnail_url = $node->getMediaUrl();
