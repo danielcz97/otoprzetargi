@@ -288,8 +288,8 @@
 
         <ul class="nav nav-tabs search-bar-nav-tabs" role="tablist">
             <li class="nav-item me-2">
-                <a class="nav-link {{ Request::is('nieruchomosci') ? 'active' : '' }}" href="#buy"
-                    data-bs-toggle="tab" role="tab">Nieruchomości</a>
+                <a class="nav-link {{ Request::is('/') || Request::is('nieruchomosci') ? 'active' : '' }}"
+                    href="#buy" data-bs-toggle="tab" role="tab">Nieruchomości</a>
             </li>
             <li class="nav-item me-2">
                 <a class="nav-link {{ Request::is('ruchomosci') ? 'active' : '' }}" href="#rent" data-bs-toggle="tab"
@@ -307,8 +307,8 @@
 
         <div class="search-bar search-bar-with-tabs p-3 p-lg-4">
             <div class="tab-content">
-                <div class="tab-pane fade {{ Request::is('nieruchomosci') ? 'show active' : '' }}" id="buy"
-                    role="tabpanel">
+                <div class="tab-pane fade {{ Request::is('/') || Request::is('nieruchomosci') ? 'show active' : '' }}"
+                    id="buy" role="tabpanel">
                     <form action="{{ route('search.nieruchomosci') }}" method="GET">
                         <div class="row">
 
