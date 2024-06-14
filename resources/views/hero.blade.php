@@ -10,9 +10,7 @@
             display: none;
         }
 
-        ol {
-            list-style: auto !important;
-        }
+
 
         @media(max-width:576px) {
             .search-bar-nav-tabs {
@@ -287,21 +285,30 @@
         </div>
     </section>
     <div class="container position-relative mt-n6 z-index-20 " style="margin-top: -56px">
+
         <ul class="nav nav-tabs search-bar-nav-tabs" role="tablist">
-            <li class="nav-item me-2"><a class="nav-link active" href="#buy" data-bs-toggle="tab"
-                    role="tab">Nieruchomości</a></li>
-            <li class="nav-item me-2"><a class="nav-link" href="#rent" data-bs-toggle="tab"
-                    role="tab">Ruchomości</a></li>
-            <li class="nav-item me-2"><a class="nav-link" href="#sell" data-bs-toggle="tab"
+            <li class="nav-item me-2">
+                <a class="nav-link {{ Request::is('nieruchomosci') ? 'active' : '' }}" href="#buy"
+                    data-bs-toggle="tab" role="tab">Nieruchomości</a>
+            </li>
+            <li class="nav-item me-2">
+                <a class="nav-link {{ Request::is('ruchomosci') ? 'active' : '' }}" href="#rent" data-bs-toggle="tab"
+                    role="tab">Ruchomości</a>
+            </li>
+            <li class="nav-item me-2">
+                <a class="nav-link {{ Request::is('komunikaty') ? 'active' : '' }}" href="#sell" data-bs-toggle="tab"
                     role="tab">Komunikaty</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#wierz" data-bs-toggle="tab"
-                    role="tab">Wierzytelności</a>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('wierzytelnosci') ? 'active' : '' }}" href="#wierz"
+                    data-bs-toggle="tab" role="tab">Wierzytelności</a>
             </li>
         </ul>
+
         <div class="search-bar search-bar-with-tabs p-3 p-lg-4">
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="buy" role="tabpanel">
+                <div class="tab-pane fade {{ Request::is('nieruchomosci') ? 'show active' : '' }}" id="buy"
+                    role="tabpanel">
                     <form action="{{ route('search.nieruchomosci') }}" method="GET">
                         <div class="row">
 
@@ -372,7 +379,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="tab-pane fade" id="rent" role="tabpanel">
+                <div class="tab-pane fade {{ Request::is('ruchomosci') ? 'show active' : '' }}" id="rent"
+                    role="tabpanel">
                     <form action="{{ route('search.ruchomosci') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
@@ -420,7 +428,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="tab-pane fade" id="sell" role="tabpanel">
+                <div class="tab-pane fade {{ Request::is('komunikaty') ? 'show active' : '' }}" id="sell"
+                    role="tabpanel">
                     <form action="{{ route('search.komunikaty') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-6 d-flex align-items-center form-group no-divider">
@@ -445,7 +454,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="tab-pane fade" id="wierz" role="tabpanel">
+                <div class="tab-pane fade {{ Request::is('wierzytelnosci') ? 'show active' : '' }}" id="wierz"
+                    role="tabpanel">
                     <form action="{{ route('search.wierzytelnosci') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-6 d-flex align-items-center form-group no-divider">
