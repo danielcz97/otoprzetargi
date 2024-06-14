@@ -3,12 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
-use App\Models\MovableProperty;
-use App\Models\Notice;
-use App\Models\Claim;
 use App\Models\Post;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 class PagesController extends Controller
 {
@@ -16,7 +12,6 @@ class PagesController extends Controller
     {
         $today = Carbon::now()->format('Y-m-d');
 
-        // Pobieranie promowanych nieruchomości
         $promotedNodes = Property::select('nieruchomosci.id', 'nieruchomosci.title', 'nieruchomosci.created', 'nieruchomosci.slug', 'nieruchomosci.cena', 'nieruchomosci.powierzchnia', 'nieruchomosci.terms')
             ->join('c144_nodes_premiums', 'nieruchomosci.id', '=', 'c144_nodes_premiums.node_id')
             ->where('c144_nodes_premiums.premium_id', '=', 4)
@@ -29,28 +24,15 @@ class PagesController extends Controller
             $node->thumbnail_url = $node->getMediaUrl();
         });
 
-        // Pobieranie ostatnich węzłów z różnych modeli
-        $latestNodes = collect();
+        $latestNodes = Property::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+            ->whereDate('created', '<=', $today)
+            ->orderBy('created', 'desc')
+            ->limit(50)
+            ->get();
+        $latestNodes->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
 
-        $models = [Property::class, MovableProperty::class, Notice::class, Claim::class];
-
-        foreach ($models as $model) {
-            $nodes = $model::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
-                ->whereDate('created', '<=', $today)
-                ->orderBy('created', 'desc')
-                ->get();
-
-            $nodes->each(function ($node) {
-                $node->thumbnail_url = $node->getMediaUrl();
-            });
-
-            $latestNodes = $latestNodes->concat($nodes);
-        }
-
-        // Sortowanie i ograniczenie do 50 elementów
-        $latestNodes = $latestNodes->sortByDesc('created')->take(50);
-
-        // Pobieranie ostatnich postów
         $latestPosts = Post::select('id', 'title', 'created', 'slug')
             ->latest()
             ->take(6)
