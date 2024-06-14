@@ -89,7 +89,7 @@
         <div class="container">
             <div class="row mb-lg-6">
                 <div class="col-md-8">
-                    <p class="subtitle text-secondary">Najnowsze przetargi</p>
+                    <p class="subtitle text-secondary">Najnowsze ogłoszenia</p>
                     <h2 class="mb-md-0">Ostatnio dodane</h2>
                 </div>
                 <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-xl"
@@ -130,7 +130,9 @@
                                             @endif
                                             @if ($node->cena)
                                                 <span><i class="fa fa-tag text-primary opacity-4 text-xs me-1"></i>
-                                                    {{ number_format($node->cena, 2, ',', '.') }}zł
+                                                    @if ($node->cena > 0)
+                                                        {{ number_format($node->cena, 2, ',', '.') }}zł
+                                                    @endif
                                                 </span>
                                                 </p>
                                             @endif

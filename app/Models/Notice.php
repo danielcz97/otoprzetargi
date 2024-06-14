@@ -219,4 +219,21 @@ class Notice extends Model implements HasMedia
 
         return '';
     }
+
+    public function getTransactionDetails()
+    {
+        if (!$this->terms) {
+            return [];
+        }
+        // $terms = json_decode($this->terms, true);
+        $values = array_values($this->terms);
+
+        $transactionType = $values[0] ?? 'Nieznany';
+        $propertyType = $values[1] ?? 'Nieznany';
+
+        return [
+            'transaction_type' => $transactionType,
+            'property_type' => $propertyType,
+        ];
+    }
 }
