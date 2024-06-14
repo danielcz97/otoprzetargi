@@ -10,6 +10,10 @@
             display: none;
         }
 
+        ol {
+            list-style: auto !important;
+        }
+
         @media(max-width:576px) {
             .search-bar-nav-tabs {
                 display: block;
