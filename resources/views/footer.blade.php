@@ -54,3 +54,8 @@
         </div>
     </div>
 </footer>
+<style>
+    ol {
+        list-style: auto !important;
+    }
+</style>
