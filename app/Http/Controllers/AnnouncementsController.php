@@ -15,10 +15,9 @@ class AnnouncementsController extends Controller
     public function index()
     {
         $today = Carbon::now()->format('Y-m-d');
-        $perPage = 12; // Ustaw liczbę elementów na stronę
-        $page = request()->get('page', 1); // Pobierz bieżącą stronę
+        $perPage = 12;
+        $page = request()->get('page', 1);
 
-        // Pobieranie wszystkich rekordów z różnych modeli
         $properties = Property::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
@@ -43,22 +42,29 @@ class AnnouncementsController extends Controller
             ->orderBy('created', 'desc')
             ->get();
 
-        // Połączenie wyników w jedną kolekcję
+        $properties->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
+
+        $movableProperties->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
+
+        $claims->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
+
+        $notices->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
+
         $latestNodes = collect()
             ->merge($properties)
             ->merge($movableProperties)
             ->merge($claims)
             ->merge($notices);
 
-        // Dodanie URL do obrazów dla każdego węzła
-        $latestNodes->each(function ($node) {
-            $node->thumbnail_url = $node->getMediaUrl();
-        });
-
-        // Sortowanie połączonej kolekcji
         $latestNodes = $latestNodes->sortByDesc('created')->values();
-
-        // Paginacja ręczna połączonej kolekcji
         $paginatedNodes = $this->paginate($latestNodes, $perPage, $page, ['path' => request()->url(), 'query' => request()->query()]);
 
         return view('nodes.announcements', compact('paginatedNodes'));
