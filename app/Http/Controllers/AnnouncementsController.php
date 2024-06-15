@@ -15,49 +15,50 @@ class AnnouncementsController extends Controller
     public function index()
     {
         $today = Carbon::now()->format('Y-m-d');
-        $perPage = 12;
-        $page = request()->get('page', 1);
+        $perPage = 12; // Ustaw liczbę elementów na stronę
+        $page = request()->get('page', 1); // Pobierz bieżącą stronę
 
-        // Fetch paginated results from each model
+        // Pobieranie wszystkich rekordów z różnych modeli
         $properties = Property::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage * 4, ['*'], 'property_page', $page);
+            ->get();
 
         $movableProperties = MovableProperty::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage * 4, ['*'], 'movable_page', $page);
+            ->get();
 
         $claims = Claim::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage * 4, ['*'], 'claim_page', $page);
+            ->get();
 
         $notices = Notice::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage * 4, ['*'], 'notice_page', $page);
+            ->get();
 
-        // Merge and sort results
+        // Połączenie wyników w jedną kolekcję
         $latestNodes = collect()
-            ->merge($properties->items())
-            ->merge($movableProperties->items())
-            ->merge($claims->items())
-            ->merge($notices->items())
-            ->sortByDesc('created')
-            ->values();
+            ->merge($properties)
+            ->merge($movableProperties)
+            ->merge($claims)
+            ->merge($notices);
 
-        // Add thumbnail URL for each node
+        // Dodanie URL do obrazów dla każdego węzła
         $latestNodes->each(function ($node) {
             $node->thumbnail_url = $node->getMediaUrl();
         });
 
-        // Paginate merged results
+        // Sortowanie połączonej kolekcji
+        $latestNodes = $latestNodes->sortByDesc('created')->values();
+
+        // Paginacja ręczna połączonej kolekcji
         $paginatedNodes = $this->paginate($latestNodes, $perPage, $page, ['path' => request()->url(), 'query' => request()->query()]);
 
         return view('nodes.announcements', compact('paginatedNodes'));
