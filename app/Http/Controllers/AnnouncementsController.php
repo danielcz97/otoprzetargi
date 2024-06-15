@@ -18,28 +18,54 @@ class AnnouncementsController extends Controller
         $perPage = 12; // Ustaw liczbę elementów na stronę
         $page = request()->get('page', 1); // Pobierz bieżącą stronę
 
-        $properties = Property::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+        // Pobieranie ostatnich węzłów z różnych modeli z paginacją
+        $properties = Property::with('media') // Eager loading
+            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->get();
+            ->paginate($perPage, ['*'], 'property_page', $page);
 
-        $movableProperties = MovableProperty::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+        $movableProperties = MovableProperty::with('media') // Eager loading
+            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->get();
+            ->paginate($perPage, ['*'], 'movable_page', $page);
 
-        $claims = Claim::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+        $claims = Claim::with('media') // Eager loading
+            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->get();
+            ->paginate($perPage, ['*'], 'claim_page', $page);
 
-        $notices = Notice::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+        $notices = Notice::with('media') // Eager loading
+            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->get();
+            ->paginate($perPage, ['*'], 'notice_page', $page);
+
+        // Dodanie URL do obrazów dla każdego węzła
+        $properties->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
+
+        $movableProperties->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
+
+        $claims->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
+
+        $notices->each(function ($node) {
+            $node->thumbnail_url = $node->getMediaUrl();
+        });
 
         // Połączenie wyników w jedną kolekcję
-        $latestNodes = collect()->merge($properties)->merge($movableProperties)->merge($claims)->merge($notices);
+        $latestNodes = collect()
+            ->merge($properties->items())
+            ->merge($movableProperties->items())
+            ->merge($claims->items())
+            ->merge($notices->items());
 
         // Sortowanie połączonej kolekcji
         $latestNodes = $latestNodes->sortByDesc('created')->values();
