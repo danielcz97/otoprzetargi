@@ -22,6 +22,7 @@ Route::get('/wierzytelnosci', [App\Http\Controllers\SearchController::class, 'wi
 // NEWS
 Route::get('/news/{slug}', [App\Http\Controllers\NewsController::class, 'view'])->name('news.view');
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
+Route::get('/ogloszenia', [App\Http\Controllers\AnnouncementsController::class, 'index'])->name('announcements.index');
 
 // PAGES
 Route::get('/p/{slug}', [App\Http\Controllers\PagesController::class, 'view'])->name('pages.view');

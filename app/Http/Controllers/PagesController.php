@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Claim;
+use App\Models\MovableProperty;
+use App\Models\Notice;
 use App\Models\Property;
 use App\Models\Post;
 use Carbon\Carbon;
@@ -24,14 +27,24 @@ class PagesController extends Controller
             $node->thumbnail_url = $node->getMediaUrl();
         });
 
-        $latestNodes = Property::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
-            ->whereDate('created', '<=', $today)
-            ->orderBy('created', 'desc')
-            ->limit(50)
-            ->get();
-        $latestNodes->each(function ($node) {
-            $node->thumbnail_url = $node->getMediaUrl();
-        });
+        $latestNodes = collect();
+        $models = [Property::class, MovableProperty::class, Notice::class, Claim::class];
+
+        foreach ($models as $model) {
+            $nodes = $model::select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+                ->where('created', '<=', $today)
+                ->orderBy('created', 'desc')
+                ->take(50)
+                ->get();
+
+            $nodes->each(function ($node) {
+                $node->thumbnail_url = $node->getMediaUrl();
+            });
+
+            $latestNodes = $latestNodes->concat($nodes);
+        }
+
+        $latestNodes = $latestNodes->sortByDesc('created')->take(50);
 
         $latestPosts = Post::select('id', 'title', 'created', 'slug')
             ->latest()

@@ -288,7 +288,7 @@
 
         <ul class="nav nav-tabs search-bar-nav-tabs" role="tablist">
             <li class="nav-item me-2">
-                <a class="nav-link {{ Request::is('/') || Request::is('nieruchomosci') ? 'active' : '' }}"
+                <a class="nav-link {{ Request::is('ogloszenia') || Request::is('/') || Request::is('nieruchomosci') ? 'active' : '' }}"
                     href="#buy" data-bs-toggle="tab" role="tab">Nieruchomości</a>
             </li>
             <li class="nav-item me-2">
@@ -307,7 +307,7 @@
 
         <div class="search-bar search-bar-with-tabs p-3 p-lg-4">
             <div class="tab-content">
-                <div class="tab-pane fade {{ Request::is('/') || Request::is('nieruchomosci') ? 'show active' : '' }}"
+                <div class="tab-pane fade {{ Request::is('ogloszenia') || Request::is('/') || Request::is('nieruchomosci') ? 'show active' : '' }}"
                     id="buy" role="tabpanel">
                     <form action="{{ route('search.nieruchomosci') }}" method="GET">
                         <div class="row">
