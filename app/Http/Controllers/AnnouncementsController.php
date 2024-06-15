@@ -15,35 +15,33 @@ class AnnouncementsController extends Controller
     public function index()
     {
         $today = Carbon::now()->format('Y-m-d');
-        $perPage = 12; // Ustaw liczbę elementów na stronę
-        $page = request()->get('page', 1); // Pobierz bieżącą stronę
+        $perPage = 12;
+        $page = request()->get('page', 1);
 
-        // Pobieranie ostatnich węzłów z różnych modeli z paginacją
-        $properties = Property::with('media') // Eager loading
+        $properties = Property::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage, ['*'], 'property_page', $page);
+            ->get();
 
-        $movableProperties = MovableProperty::with('media') // Eager loading
+        $movableProperties = MovableProperty::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage, ['*'], 'movable_page', $page);
+            ->get();
 
-        $claims = Claim::with('media') // Eager loading
+        $claims = Claim::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage, ['*'], 'claim_page', $page);
+            ->get();
 
-        $notices = Notice::with('media') // Eager loading
+        $notices = Notice::with('media')
             ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
             ->where('created', '<=', $today)
             ->orderBy('created', 'desc')
-            ->paginate($perPage, ['*'], 'notice_page', $page);
+            ->get();
 
-        // Dodanie URL do obrazów dla każdego węzła
         $properties->each(function ($node) {
             $node->thumbnail_url = $node->getMediaUrl();
         });
@@ -60,17 +58,13 @@ class AnnouncementsController extends Controller
             $node->thumbnail_url = $node->getMediaUrl();
         });
 
-        // Połączenie wyników w jedną kolekcję
         $latestNodes = collect()
-            ->merge($properties->items())
-            ->merge($movableProperties->items())
-            ->merge($claims->items())
-            ->merge($notices->items());
+            ->merge($properties)
+            ->merge($movableProperties)
+            ->merge($claims)
+            ->merge($notices);
 
-        // Sortowanie połączonej kolekcji
         $latestNodes = $latestNodes->sortByDesc('created')->values();
-
-        // Paginacja ręczna połączonej kolekcji
         $paginatedNodes = $this->paginate($latestNodes, $perPage, $page, ['path' => request()->url(), 'query' => request()->query()]);
 
         return view('nodes.announcements', compact('paginatedNodes'));
