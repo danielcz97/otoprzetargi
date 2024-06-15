@@ -9,65 +9,76 @@ use App\Models\Notice;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class AnnouncementsController extends Controller
 {
     public function index()
     {
-        $today = Carbon::now()->format('Y-m-d');
-        $perPage = 12;
-        $page = request()->get('page', 1);
+        Log::debug('AnnouncementsController@index started');
 
-        $properties = Property::with('media')
-            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
-            ->where('created', '<=', $today)
-            ->orderBy('created', 'desc')
-            ->get();
+        try {
+            $today = Carbon::now()->format('Y-m-d');
+            $perPage = 12;
+            $page = request()->get('page', 1);
 
-        $movableProperties = MovableProperty::with('media')
-            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
-            ->where('created', '<=', $today)
-            ->orderBy('created', 'desc')
-            ->get();
+            // Pobieranie wszystkich rekordów z różnych modeli
+            Log::debug('Fetching properties');
+            $properties = Property::with('media')
+                ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+                ->where('created', '<=', $today)
+                ->orderBy('created', 'desc')
+                ->get();
 
-        $claims = Claim::with('media')
-            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
-            ->where('created', '<=', $today)
-            ->orderBy('created', 'desc')
-            ->get();
+            Log::debug('Fetching movableProperties');
+            $movableProperties = MovableProperty::with('media')
+                ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+                ->where('created', '<=', $today)
+                ->orderBy('created', 'desc')
+                ->get();
 
-        $notices = Notice::with('media')
-            ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
-            ->where('created', '<=', $today)
-            ->orderBy('created', 'desc')
-            ->get();
+            Log::debug('Fetching claims');
+            $claims = Claim::with('media')
+                ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+                ->where('created', '<=', $today)
+                ->orderBy('created', 'desc')
+                ->get();
 
-        $properties->each(function ($node) {
-            $node->thumbnail_url = $node->getMediaUrl();
-        });
+            Log::debug('Fetching notices');
+            $notices = Notice::with('media')
+                ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
+                ->where('created', '<=', $today)
+                ->orderBy('created', 'desc')
+                ->get();
 
-        $movableProperties->each(function ($node) {
-            $node->thumbnail_url = $node->getMediaUrl();
-        });
+            // Połączenie wyników w jedną kolekcję
+            Log::debug('Merging collections');
+            $latestNodes = collect()
+                ->merge($properties)
+                ->merge($movableProperties)
+                ->merge($claims)
+                ->merge($notices);
 
-        $claims->each(function ($node) {
-            $node->thumbnail_url = $node->getMediaUrl();
-        });
+            // Dodanie URL do obrazów dla każdego węzła
+            Log::debug('Setting thumbnail URLs');
+            $latestNodes->each(function ($node) {
+                $node->thumbnail_url = $node->getMediaUrl();
+            });
 
-        $notices->each(function ($node) {
-            $node->thumbnail_url = $node->getMediaUrl();
-        });
+            // Sortowanie połączonej kolekcji
+            Log::debug('Sorting collection');
+            $latestNodes = $latestNodes->sortByDesc('created')->values();
 
-        $latestNodes = collect()
-            ->merge($properties)
-            ->merge($movableProperties)
-            ->merge($claims)
-            ->merge($notices);
+            // Paginacja ręczna połączonej kolekcji
+            Log::debug('Paginating collection');
+            $paginatedNodes = $this->paginate($latestNodes, $perPage, $page, ['path' => request()->url(), 'query' => request()->query()]);
 
-        $latestNodes = $latestNodes->sortByDesc('created')->values();
-        $paginatedNodes = $this->paginate($latestNodes, $perPage, $page, ['path' => request()->url(), 'query' => request()->query()]);
-
-        return view('nodes.announcements', compact('paginatedNodes'));
+            Log::debug('Rendering view with paginated nodes');
+            return view('nodes.announcements', compact('paginatedNodes'));
+        } catch (\Exception $e) {
+            Log::error('Error in AnnouncementsController@index: ' . $e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     private function paginate(Collection $items, $perPage, $page, $options)
