@@ -19,15 +19,16 @@ class AnnouncementsController extends Controller
 
         try {
             $today = Carbon::now()->format('Y-m-d');
-            $perPage = 12;
-            $page = request()->get('page', 1);
+            $perPage = 12; // Ustaw liczbę elementów na stronę
+            $page = request()->get('page', 1); // Pobierz bieżącą stronę
 
-            // Pobieranie wszystkich rekordów z różnych modeli
+            // Pobieranie wszystkich rekordów z różnych modeli w mniejszych partiach
             Log::debug('Fetching properties');
             $properties = Property::with('media')
                 ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
                 ->where('created', '<=', $today)
                 ->orderBy('created', 'desc')
+                ->take(1000)
                 ->get();
 
             Log::debug('Fetching movableProperties');
@@ -35,6 +36,7 @@ class AnnouncementsController extends Controller
                 ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
                 ->where('created', '<=', $today)
                 ->orderBy('created', 'desc')
+                ->take(1000)
                 ->get();
 
             Log::debug('Fetching claims');
@@ -42,6 +44,7 @@ class AnnouncementsController extends Controller
                 ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
                 ->where('created', '<=', $today)
                 ->orderBy('created', 'desc')
+                ->take(1000)
                 ->get();
 
             Log::debug('Fetching notices');
@@ -49,6 +52,7 @@ class AnnouncementsController extends Controller
                 ->select('id', 'title', 'created', 'slug', 'cena', 'powierzchnia', 'terms')
                 ->where('created', '<=', $today)
                 ->orderBy('created', 'desc')
+                ->take(1000)
                 ->get();
 
             // Połączenie wyników w jedną kolekcję
