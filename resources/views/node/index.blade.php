@@ -112,28 +112,82 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="text-block">
-                        <!-- Gallery -->
                         <style>
-                            .gallery-image {
+                            .main-gallery-image {
                                 width: 100%;
-                                height: 200px;
+                                max-height: 600px;
                                 object-fit: cover;
                                 object-position: center;
                             }
+
+                            .gallery-thumbnail {
+                                width: 100%;
+                                height: 100px;
+                                object-fit: cover;
+                                object-position: center;
+                                cursor: pointer;
+                                padding: 5px;
+                            }
+
+                            .gallery {
+                                margin-bottom: 15px;
+                            }
+
+                            .gallery .col-lg-12 {
+                                margin-bottom: 15px;
+                            }
+
+                            .thumbnail-wrapper {
+                                overflow-x: auto;
+                                white-space: nowrap;
+                            }
+
+                            .thumbnail-wrapper .col-6 {
+                                display: inline-block;
+                                float: none;
+                            }
                         </style>
+
                         <div class="row gallery ms-n1 me-n1">
                             @if ($galleryMedia->isNotEmpty())
-                                @foreach ($galleryMedia->reverse() as $media)
-                                    <div class="col-lg-4 col-6 px-1 mb-2">
-                                        <a href="{{ $media->getUrl() }}">
-                                            <img class="img-fluid gallery-image" src="{{ $media->getUrl() }}"
-                                                alt="Property Image">
-                                        </a>
-                                    </div>
-                                @endforeach
+                                <div class="col-lg-12 mb-3 text-center">
+                                    <a href="{{ $galleryMedia->first()->getUrl() }}" data-fancybox="gallery">
+                                        <img id="main-gallery-image" class="img-fluid main-gallery-image"
+                                            src="{{ $galleryMedia->first()->getUrl() }}" alt="Property Image">
+                                    </a>
+                                </div>
+                                <div class="row thumbnail-wrapper">
+                                    @foreach ($galleryMedia->reverse() as $media)
+                                        <div class="col-lg-2 col-6 px-1 mb-2">
+                                            <img class="img-fluid gallery-thumbnail" src="{{ $media->getUrl() }}"
+                                                alt="Property Image" data-full="{{ $media->getUrl() }}">
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
 
+                        <script>
+                            $(document).ready(function() {
+                                $('.gallery-thumbnail').on('click', function() {
+                                    var newSrc = $(this).data('full');
+                                    $('#main-gallery-image').attr('src', newSrc).parent().attr('href', newSrc);
+                                });
+
+                                $('[data-fancybox="gallery"]').fancybox({
+                                    loop: true,
+                                    thumbs: {
+                                        autoStart: true
+                                    },
+                                    buttons: [
+                                        "zoom",
+                                        "slideShow",
+                                        "thumbs",
+                                        "close"
+                                    ]
+                                });
+                            });
+                        </script>
                     </div>
                     <!-- About Listing-->
                     <div class="text-block">
