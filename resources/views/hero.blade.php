@@ -141,73 +141,6 @@
                 }
             });
 
-            const inputIds = ['address-input-buy', 'address-input-rent', 'address-input-sell',
-                'address-input-wierz'
-            ];
-            const autocompleteObjects = {};
-
-            inputIds.forEach(id => {
-                const input = document.getElementById(id);
-                const autocomplete = new google.maps.places.Autocomplete(input, {
-                    componentRestrictions: {
-                        country: 'pl'
-                    } // Restrict to Poland
-                });
-                autocompleteObjects[id] = autocomplete;
-
-                autocomplete.addListener('place_changed', function() {
-                    const place = autocomplete.getPlace();
-                    if (place.geometry) {
-                        const latitude = place.geometry.location.lat();
-                        const longitude = place.geometry.location.lng();
-                        document.getElementById(`latitude-${id.split('-')[2]}`).value = latitude;
-                        document.getElementById(`longitude-${id.split('-')[2]}`).value = longitude;
-
-                        const geocoder = new google.maps.Geocoder();
-                        geocoder.geocode({
-                            'location': {
-                                lat: latitude,
-                                lng: longitude
-                            }
-                        }, function(results, status) {
-                            if (status === 'OK' && results[0]) {
-                                const addressComponents = results[0].address_components;
-                                let city;
-
-                                for (let i = 0; i < addressComponents.length; i++) {
-                                    const types = addressComponents[i].types;
-
-                                    if (types.includes('locality')) {
-                                        city = addressComponents[i].long_name;
-                                        break; // If city is found, no need to check further
-                                    } else if (types.includes(
-                                            'administrative_area_level_3')) {
-                                        city = addressComponents[i].long_name;
-                                        break; // If a locality is not found, check for a level 3 administrative area
-                                    } else if (types.includes(
-                                            'administrative_area_level_2')) {
-                                        city = addressComponents[i].long_name;
-                                        break; // If a level 3 administrative area is not found, check for a level 2 administrative area
-                                    } else if (types.includes(
-                                            'administrative_area_level_1')) {
-                                        city = addressComponents[i].long_name;
-                                        break; // If a level 2 administrative area is not found, check for a level 1 administrative area
-                                    }
-                                }
-
-                                document.getElementById(`city-${id.split('-')[2]}`).value =
-                                    city ||
-                                    '';
-                                localStorage.setItem(input.name, place.formatted_address);
-                                console.log(localStorage)
-                            }
-                        });
-                    }
-                });
-            });
-
-
-
             saveFormData();
             loadFormData();
             initAutocomplete();
@@ -339,7 +272,7 @@
 
                             <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
                                 <input id="address-input-buy" class="form-control" name="address" type="text"
-                                    placeholder="Wprowadź adres" autocomplete="on">
+                                    value="{{ request()->address }}" placeholder="Wprowadź adres" autocomplete="on">
                             </div>
 
                             <div class="col-md-2 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
@@ -385,7 +318,8 @@
                         <div class="row">
                             <div class="col-lg-4 d-flex align-items-center form-group no-divider pb-2">
                                 <input id="address-input-rent" class="form-control" name="address" type="text"
-                                    placeholder="Wprowadź adres" autocomplete="off">
+                                    value="{{ request()->address }}" placeholder="Wprowadź adres"
+                                    autocomplete="off">
                             </div>
                             <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no- pb-2">
                                 <select name="radius" class="form-control">
@@ -434,7 +368,8 @@
                         <div class="row">
                             <div class="col-lg-6 d-flex align-items-center form-group no-divider">
                                 <input id="address-input-sell" class="form-control" name="address" type="text"
-                                    placeholder="Wprowadź adres" autocomplete="off">
+                                    value="{{ request()->address }}" placeholder="Wprowadź adres"
+                                    autocomplete="off">
                             </div>
                             <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <select name="radius" class="form-control">
@@ -461,13 +396,13 @@
                         <div class="row">
                             <div class="col-lg-6 d-flex align-items-center form-group no-divider">
                                 <input id="address-input-wierz" class="form-control" name="address" type="text"
-                                    placeholder="Wprowadź adres" autocomplete="off">
+                                    value="{{ request()->address }}" placeholder="Wprowadź adres"
+                                    autocomplete="off">
                             </div>
                             <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <select name="radius" class="form-control">
                                     <option value="25">+25 km</option>
                                     <option value="0">0 km</option>
-
                                     <option value="15">+15 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
