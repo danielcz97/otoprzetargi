@@ -13,7 +13,7 @@ class PagesController extends Controller
 {
     public function index()
     {
-        $today = Carbon::now()->format('Y-m-d');
+        $today = Carbon::now();
 
         $promotedNodes = Property::select('nieruchomosci.id', 'nieruchomosci.title', 'nieruchomosci.created', 'nieruchomosci.slug', 'nieruchomosci.cena', 'nieruchomosci.powierzchnia', 'nieruchomosci.terms')
             ->join('c144_nodes_premiums', 'nieruchomosci.id', '=', 'c144_nodes_premiums.node_id')

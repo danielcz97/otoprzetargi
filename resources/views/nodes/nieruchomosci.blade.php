@@ -75,8 +75,9 @@
                         <label class="form-label" for="radius">Radius</label>
                         <select name="radius" class="form-control">
                             <option value="25">+25 km</option>
-                            <option value="15">+15 km</option>
                             <option value="0">0 km</option>
+
+                            <option value="15">+15 km</option>
                             <option value="50">+50 km</option>
                             <option value="75">+75 km</option>
                         </select>
@@ -167,11 +168,11 @@
                                         </h2>
                                         @if ($property->powierzchnia)
                                             <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
-                                                {{ $property->powierzchnia }} </p>
+                                                {{ $property->powierzchnia }} </p> m<sup>2</sup>
                                         @endif
                                         @if ($property->cena)
                                             <p class="text-sm text-muted text-uppercase mb-1">Cena:
-                                                {{ number_format($property->cena, 2, ',', '.') }}
+                                                {{ number_format($property->cena, 2, ',', '.') }} zł
                                             </p>
                                         @endif
                                         <p class="text-sm text-muted text-uppercase mb-1">Data:

@@ -80,8 +80,18 @@
 
             <div class="row">
                 @foreach ($paginatedNodes as $property)
+                    @php
+                        $tableToRouteMap = [
+                            'nieruchomosci' => 'properties.index',
+                            'ruchomosci' => 'movable.index',
+                            'komunikaty' => 'comunicats.index',
+                            'wierzytelnosci' => 'wierzytelnosci.index',
+                        ];
+
+                        $routeName = $tableToRouteMap[$property->getTable()] ?? 'home';
+                    @endphp
                     <div class="col-sm-6 col-xl-3 mb-5">
-                        <a href="{{ route('properties.index', ['slug' => $property->slug]) }}">
+                        <a href="{{ route($routeName, ['slug' => $property->slug]) }}">
 
                             <div class="card h-100 border-0 shadow">
                                 <div class="card-img-top overflow-hidden  bg-cover"
@@ -92,11 +102,11 @@
                                     </h2>
                                     @if ($property->powierzchnia)
                                         <p class="text-sm text-muted text-uppercase mb-1">Powierzchnia:
-                                            {{ $property->powierzchnia }} </p>
+                                            {{ $property->powierzchnia }} m<sup>2</sup> </p>
                                     @endif
                                     @if ($property->cena)
                                         <p class="text-sm text-muted text-uppercase mb-1">Cena:
-                                            {{ number_format($property->cena, 2, ',', '.') }}
+                                            {{ number_format($property->cena, 2, ',', '.') }} zł
                                         </p>
                                     @endif
                                     <p class="text-sm text-muted text-uppercase mb-1">Data:

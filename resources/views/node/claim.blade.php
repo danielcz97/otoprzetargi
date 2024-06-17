@@ -88,16 +88,47 @@
                         </style>
                         <div class="row gallery ms-n1 me-n1">
                             @if ($galleryMedia->isNotEmpty())
-                                @foreach ($galleryMedia->reverse() as $media)
-                                    <div class="col-lg-4 col-6 px-1 mb-2">
-                                        <a href="{{ $media->getUrl() }}">
-                                            <img class="img-fluid gallery-image" src="{{ $media->getUrl() }}"
-                                                alt="Property Image">
-                                        </a>
-                                    </div>
-                                @endforeach
+                                <div class="col-lg-12 mb-3 text-center">
+                                    <a href="{{ $galleryMedia->first()->getUrl() }}" data-fancybox="gallery">
+                                        <img id="main-gallery-image" class="img-fluid main-gallery-image"
+                                            src="{{ $galleryMedia->first()->getUrl() }}" alt="Property Image" />
+                                    </a>
+                                </div>
+                                <div class="row thumbnail-wrapper">
+                                    @foreach ($galleryMedia->reverse() as $media)
+                                        <div class="col-lg-2 col-6 px-1 mb-2">
+                                            <a href="{{ $media->getUrl() }}" data-fancybox="gallery">
+                                                <img class="img-fluid gallery-thumbnail" src="{{ $media->getUrl() }}"
+                                                    alt="Property Image" data-full="{{ $media->getUrl() }}" />
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                // Log to console to confirm script execution
+                                console.log("Fancybox binding script is executing");
+
+                                // Enable Fancybox for any element with the `data-fancybox` attribute
+                                Fancybox.bind("[data-fancybox]", {
+                                    // Custom options
+                                });
+
+                                // Set custom options for elements with the `data-fancybox='gallery'` attribute
+                                Fancybox.bind("[data-fancybox='gallery']", {
+                                    loop: true,
+                                    thumbs: {
+                                        autoStart: true,
+                                    },
+                                    buttons: ["zoom", "slideShow", "thumbs", "close", "arrowLeft", "arrowRight"],
+                                });
+
+                                // Log to console to confirm Fancybox initialization
+                                console.log("Fancybox initialized for gallery");
+                            });
+                        </script>
 
                     </div>
                     <div class="text-block">

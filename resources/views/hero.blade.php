@@ -345,8 +345,8 @@
                             <div class="col-md-2 col-lg-2 d-flex align-items-center form-group no-divider pb-2">
                                 <select name="radius" class="form-control">
                                     <option value="25">+25 km</option>
-                                    <option value="15">+15 km</option>
                                     <option value="0">0 km</option>
+                                    <option value="15">+15 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>
@@ -390,8 +390,8 @@
                             <div class="col-md-6 col-lg-2 d-flex align-items-center form-group no- pb-2">
                                 <select name="radius" class="form-control">
                                     <option value="25">+25 km</option>
-                                    <option value="15">+15 km</option>
                                     <option value="0">0 km</option>
+                                    <option value="15">+15 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>
@@ -439,8 +439,9 @@
                             <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <select name="radius" class="form-control">
                                     <option value="25">+25 km</option>
-                                    <option value="15">+15 km</option>
                                     <option value="0">0 km</option>
+
+                                    <option value="15">+15 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>
@@ -465,8 +466,9 @@
                             <div class="col-md-4 col-lg-4 d-flex align-items-center form-group no-divider">
                                 <select name="radius" class="form-control">
                                     <option value="25">+25 km</option>
-                                    <option value="15">+15 km</option>
                                     <option value="0">0 km</option>
+
+                                    <option value="15">+15 km</option>
                                     <option value="50">+50 km</option>
                                     <option value="75">+75 km</option>
                                 </select>
