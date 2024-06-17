@@ -72,21 +72,27 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            function saveFormData() {
+            function saveFormData(excludedElementIds) {
                 const formElements = document.querySelectorAll('form input, form select');
+
                 formElements.forEach(element => {
-                    element.addEventListener('change', function() {
-                        localStorage.setItem(element.name, element.value);
-                    });
+                    if (!excludedElementIds.includes(element.id)) { // Check if ID is in the exclusion list
+                        element.addEventListener('change', function() {
+                            localStorage.setItem(element.name, element.value);
+                        });
+                    }
                 });
             }
 
-            function loadFormData() {
+            function loadFormData(excludedElementIds) {
                 const formElements = document.querySelectorAll('form input, form select');
+
                 formElements.forEach(element => {
-                    const value = localStorage.getItem(element.name);
-                    if (value) {
-                        element.value = value;
+                    if (!excludedElementIds.includes(element.id)) { // Check if ID is in the exclusion list
+                        const value = localStorage.getItem(element.name);
+                        if (value) {
+                            element.value = value;
+                        }
                     }
                 });
             }
@@ -141,8 +147,12 @@
                 }
             });
 
-            saveFormData();
-            loadFormData();
+            const excludedIds = ['address-input-buy', 'address-input-rent', 'address-input-sell',
+                'address-input-wierz'
+            ];
+
+            saveFormData(excludedIds);
+            loadFormData(excludedIds);
             initAutocomplete();
         });
 
