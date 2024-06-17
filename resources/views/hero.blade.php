@@ -162,10 +162,18 @@
 
             inputIds.forEach(id => {
                 const input = document.getElementById(id);
+                const localStorageKey = `address-${id.split('-')[2]}`; // Create a specific key for each input
+
+                // Check localStorage for a previously saved address
+                const storedAddress = localStorage.getItem(localStorageKey);
+                if (storedAddress) {
+                    input.value = storedAddress; // Pre-populate the input field
+                }
+
                 const autocomplete = new google.maps.places.Autocomplete(input, {
                     componentRestrictions: {
                         country: 'pl'
-                    } // Restrict to Poland
+                    }
                 });
                 autocompleteObjects[id] = autocomplete;
 
@@ -211,6 +219,8 @@
                             }
                         });
                     }
+                    localStorage.setItem(localStorageKey, input.value);
+
                 });
             });
         }
