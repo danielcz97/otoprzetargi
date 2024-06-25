@@ -43,7 +43,7 @@
                                 ISSN 2392-215X </p>
                         </div>
                         @if ($property->teryt->miasto)
-                            <div><strong>Miejscowość ogłoszenia:</strong>
+                            <div class="text-white"><strong>Miejscowość ogłoszenia:</strong>
                                 {{ $property->teryt->miasto }}, {{ $property->teryt->ulica }}
                                 @if ($property->teryt->powiat)
                                     <br>Powiat: {{ $property->teryt->powiat }},
@@ -62,9 +62,10 @@
                     </div>
                 </div>
                 <div class="pb-2">
-                    <a href="{{ route('claim.printPage', ['slug' => $property->slug]) }}" target="_blank">
-                        <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
-                    </a>
+                    <button onclick="window.print()"
+                        style="font-size:25px; color:red; background:none; border:none; cursor:pointer;">
+                        <i class="fas fa-print">Drukuj</i>
+                    </button>
                 </div>
                 <div class="col-md-3 col-12">
                     <img style="max-width:150px" src="{{ $mainMediaUrl }}">
@@ -135,7 +136,7 @@
                         <h3 class="mb-3">Szczegóły</h3>
                         <p class="text-sm text-muted">{!! $property->body !!}</p>
                     </div>
-                    <div class="text-block">
+                    <div class="text-block d-print-none no-print">
                         <!-- Listing Location-->
                         <h3 class="mb-4">Lokalizacja</h3>
                         <div class="map-wrapper-300 mb-3">
@@ -253,7 +254,7 @@
                                 </div>
                             </div>
                         @endif
-                        <h5 class="pb-2 text-primary">Ostatnie wierzytelności</h5>
+                        {{-- <h5 class="pb-2 text-primary">Ostatnie wierzytelności</h5>
 
                         <div class="swiper-container swiper-container-mx-negative items-slider-custom">
                             <!-- Additional required wrapper-->
@@ -266,10 +267,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;">
+                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;background-repeat: no-repeat;background-size: contain;background-position: center;">
                                                     <a class="tile-link"
                                                         href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
                                                     <div class="card-img-overlay-bottom z-index-20">
@@ -332,10 +330,7 @@
                                         <div class="w-100 h-100" data-marker-id="59c0c8e33b1527bfe2abaf92">
                                             <div class="card h-100 border-0 shadow">
                                                 <div class="card-img-top overflow-hidden bg-cover"
-                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;">
+                                                    style="background-image: url('{{ $property->mainMediaUrl }}'); min-height: 200px;background-attachment: fixed;background-repeat: no-repeat;background-size: contain;background-position: center;">
                                                     <a class="tile-link"
                                                         href="{{ route('properties.index', ['slug' => $property->slug]) }}"></a>
                                                     <div class="card-img-overlay-bottom z-index-20">
@@ -357,14 +352,14 @@
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="py-6 bg-gray-100">
+    <div class="py-6 bg-gray-100 d-print-none no-print">
         <div class="container">
             <h5 class="mb-0">Wierzytelności</h5>
             <p class="subtitle text-sm text-primary mb-4"> Proponowane dla Ciebie</p>

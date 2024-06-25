@@ -1,4 +1,4 @@
-<footer class="position-relative z-index-10 d-print-none">
+<footer class="position-relative z-index-10 d-print-none no-print">
     <!-- Main block - menus, subscribe form-->
     <div class="py-6 bg-gray-200 text-muted">
         <div class="container">

@@ -15,7 +15,7 @@
         }
     }
 </style>
-<header class="header">
+<header class="header no-print">
     <?php use Carbon\Carbon;
     
     $today = Carbon::today();

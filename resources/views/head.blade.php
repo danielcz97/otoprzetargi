@@ -37,3 +37,14 @@
 
     gtag('config', 'UA-42401954-1');
 </script>
+<style>
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+
+        .printable {
+            display: block !important;
+        }
+    }
+</style>

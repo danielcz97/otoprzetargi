@@ -70,9 +70,10 @@
 
                 <div class="col-md-3 col-12">
                     <div class="pb-2">
-                        <a href="{{ route('comunicats.printPage', ['slug' => $property->slug]) }}" target="_blank">
-                            <i style="font-size:25px; color:red" class="fas fa-print">Drukuj</i>
-                        </a>
+                        <button onclick="window.print()"
+                            style="font-size:25px; color:red; background:none; border:none; cursor:pointer;">
+                            <i class="fas fa-print">Drukuj</i>
+                        </button>
                     </div>
                     <img style="max-width:150px" src="{{ $mainMediaUrl }}">
                 </div>
@@ -142,7 +143,7 @@
                         <h3 class="mb-3">Szczegóły</h3>
                         <p class="text-sm text-muted">{!! $property->body !!}</p>
                     </div>
-                    <div class="text-block">
+                    <div class="text-block d-print-none no-print">
                         <!-- Listing Location-->
                         <h3 class="mb-4">Lokalizacja</h3>
                         <div class="map-wrapper-300 mb-3">
@@ -347,7 +348,7 @@
             </div>
         </div>
     </section>
-    <div class="py-6 bg-gray-100">
+    <div class="py-6 bg-gray-100 d-print-none no-print">
         <div class="container">
             <h5 class="mb-0">Komunikaty</h5>
             <p class="subtitle text-sm text-primary mb-4">Proponowane dla Ciebie</p>
