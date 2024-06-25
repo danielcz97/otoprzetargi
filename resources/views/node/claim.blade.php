@@ -41,24 +41,25 @@
                             <p> Wydanie nr <strong>{{ $formattedDateNumeric }}</strong> z dnia {{ $formattedDateText }}
                                 roku,
                                 ISSN 2392-215X </p>
+                            @if ($property->teryt->miasto)
+                                <div class="text-white"><strong>Miejscowość ogłoszenia:</strong>
+                                    {{ $property->teryt->miasto }}, {{ $property->teryt->ulica }}
+                                    @if ($property->teryt->powiat)
+                                        <br>Powiat: {{ $property->teryt->powiat }},
+                                    @endif
+                                    @if ($property->teryt->gmina)
+                                        <br>Gmina: {{ str_replace('_', ' ', ucfirst($property->teryt->gmina)) }},
+                                    @endif
+                                    @if ($property->teryt->wojewodztwo)
+                                        <br> Województwo: {{ $property->teryt->wojewodztwo }}
+                                    @endif
+                                </div>
+                            @else
+                                <div><strong>Miejscowość ogłoszenia:</strong>
+                                    {{ $property->getFullLocationFront() }}</div>
+                            @endif
                         </div>
-                        @if ($property->teryt->miasto)
-                            <div class="text-white"><strong>Miejscowość ogłoszenia:</strong>
-                                {{ $property->teryt->miasto }}, {{ $property->teryt->ulica }}
-                                @if ($property->teryt->powiat)
-                                    <br>Powiat: {{ $property->teryt->powiat }},
-                                @endif
-                                @if ($property->teryt->gmina)
-                                    <br>Gmina: {{ str_replace('_', ' ', ucfirst($property->teryt->gmina)) }},
-                                @endif
-                                @if ($property->teryt->wojewodztwo)
-                                    <br> Województwo: {{ $property->teryt->wojewodztwo }}
-                                @endif
-                            </div>
-                        @else
-                            <div><strong>Miejscowość ogłoszenia:</strong>
-                                {{ $property->getFullLocationFront() }}</div>
-                        @endif
+
                     </div>
                 </div>
                 <div class="pb-2">
